@@ -53,3 +53,5 @@ C:\Users\nanye\Documents\GitHub\BugTracker_V2\BugTracker_V2\BugTracker_V2\bin\Mi
 C:\Users\nanye\Documents\GitHub\BugTracker_V2\BugTracker_V2\BugTracker_V2\obj\Debug\BugTracker_V2.csprojResolveAssemblyReference.cache
 C:\Users\nanye\Documents\GitHub\BugTracker_V2\BugTracker_V2\BugTracker_V2\obj\Debug\BugTracker_V2.dll
 C:\Users\nanye\Documents\GitHub\BugTracker_V2\BugTracker_V2\BugTracker_V2\obj\Debug\BugTracker_V2.pdb
+C:\Users\nanye\Documents\GitHub\BugTracker_V2\BugTracker_V2\BugTracker_V2\bin\SendGrid.SmtpApi.dll
+C:\Users\nanye\Documents\GitHub\BugTracker_V2\BugTracker_V2\BugTracker_V2\bin\SendGridMail.dll

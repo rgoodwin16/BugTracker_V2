@@ -11,6 +11,7 @@ using BugTracker_V2.Models;
 namespace BugTracker_V2.Controllers
 {
     [Authorize]
+    [RequireHttps]
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;

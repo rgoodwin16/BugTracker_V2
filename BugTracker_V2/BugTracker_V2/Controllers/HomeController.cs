@@ -8,6 +8,7 @@ namespace BugTracker_V2.Controllers
 {
     public class HomeController : Controller
     {
+        [RequireHttps]
         public ActionResult Index()
         {
             return View();

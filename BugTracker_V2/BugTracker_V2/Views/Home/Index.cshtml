@@ -1,31 +1,293 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@using BugTracker_V2.Models
+@model LoginViewModel
+
+
+@{
+    Layout = null;
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Pratt - Free Bootstrap 3 Theme">
+    <meta name="author" content="Alvarez.is - BlackTie.co">
+    <link rel="shortcut icon" href="assets/ico/favicon.png">
+    <title>BugTracker - by Ray Goodwin</title>
+    <!-- Bootstrap core CSS -->
+    <link href="~/Landing Page/css/bootstrap.css" rel="stylesheet" />
+    <!-- Custom styles for this template -->
+    <link href="~/Landing Page/css/main.css" rel="stylesheet" />
+
+    <link href='//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Raleway:400,300,700' rel='stylesheet' type='text/css'>
+
+    <script src="~/Landing Page/js/jquery.min.js"></script>
+    <script src="~/Landing Page/js/smoothscroll.js"></script>
+    
+
+</head>
+<body data-spy="scroll" data-offset="0" data-target="#navigation">
+        
+    <!-- ==============================================
+     HEADER
+     ============================================== -->
+        
+    <!-- Fixed navbar -->
+    <div id="navigation" class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="@Url.Action("Index","Home")"><i class=""></i>Bug<b>Tracker</b></a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#home" class="smothscroll">Home</a></li>
+                    <li><a href="#desc" class="smothscroll">Description</a></li>
+                    <li><a href="#tryit" class="smothScroll">Try It!</a></li>
+                    
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+
+    <section id="home" name="home"></section>
+    <div id="headerwrap">
+        <div class="container">
+            <div class="row centered">
+                <div class="col-lg-12">
+                    <h1>Welcome To Bug<b>Tracker</b></h1>
+                    <h3>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h3>
+                    <br>
+                </div>
+
+                <div class="col-lg-2">
+                    <h5>Amazing Results</h5>
+                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                    <img class="hidden-xs hidden-sm hidden-md" src="~/Landing Page/img/arrow1.png">
+                </div>
+                <div class="col-lg-8">
+                    <img class="img-responsive" src="~/Landing Page/img/bt_placeholder.png" alt="">
+                </div>
+                <div class="col-lg-2">
+                    <br>
+                    <img class="hidden-xs hidden-sm hidden-md" src="~/Landing Page/img/arrow2.png">
+                    <h5>Awesome Design</h5>
+                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                </div>
+            </div>
+        </div> <!--/ .container -->
+    </div><!--/ #headerwrap -->
+
+    <section id="desc" name="desc"></section>
+    <!-- INTRO WRAP -->
+    <div id="intro">
+        <div class="container">
+            <div class="row centered">
+                <h1>Designed To Excel</h1>
+                <br>
+                <br>
+                <div class="col-lg-4">
+                    <img src="~/Landing Page/img/intro01.png" alt="">
+                    <h3>Community</h3>
+                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                </div>
+                <div class="col-lg-4">
+                    <img src="~/Landing Page/img/intro02.png" alt="">
+                    <h3>Schedule</h3>
+                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                </div>
+                <div class="col-lg-4">
+                    <img src="~/Landing Page/img/intro03.png" alt="">
+                    <h3>Monitoring</h3>
+                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                </div>
+            </div>
+            <br>
+            <hr>
+        </div> <!--/ .container -->
+    </div><!--/ #introwrap -->
+    <!-- FEATURES WRAP -->
+    <div id="features">
+        <div class="container">
+            <div class="row">
+                <h1 class="centered">What's New?</h1>
+                <br>
+                <br>
+                <div class="col-lg-6 centered">
+                    <img class="centered" src="~/Landing Page/img/mobile_placeholder.png" alt="">
+                </div>
+
+                <div class="col-lg-6">
+                    <h3>Some Features</h3>
+                    <br>
+                    <!-- ACCORDION -->
+                    <div class="accordion ac" id="accordion2">
+                        <div class="accordion-group">
+                            <div class="accordion-heading">
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                                    First Class Design
+                                </a>
+                            </div><!-- /accordion-heading -->
+                            <div id="collapseOne" class="accordion-body collapse in">
+                                <div class="accordion-inner">
+                                    <p>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                                </div><!-- /accordion-inner -->
+                            </div><!-- /collapse -->
+                        </div><!-- /accordion-group -->
+                        <br>
+
+                        <div class="accordion-group">
+                            <div class="accordion-heading">
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+                                    Retina Ready Theme
+                                </a>
+                            </div>
+                            <div id="collapseTwo" class="accordion-body collapse">
+                                <div class="accordion-inner">
+                                    <p>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                                </div><!-- /accordion-inner -->
+                            </div><!-- /collapse -->
+                        </div><!-- /accordion-group -->
+                        <br>
+
+                        <div class="accordion-group">
+                            <div class="accordion-heading">
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
+                                    Awesome Support
+                                </a>
+                            </div>
+                            <div id="collapseThree" class="accordion-body collapse">
+                                <div class="accordion-inner">
+                                    <p>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                                </div><!-- /accordion-inner -->
+                            </div><!-- /collapse -->
+                        </div><!-- /accordion-group -->
+                        <br>
+
+                        <div class="accordion-group">
+                            <div class="accordion-heading">
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseFour">
+                                    Responsive Design
+                                </a>
+                            </div>
+                            <div id="collapseFour" class="accordion-body collapse">
+                                <div class="accordion-inner">
+                                    <p>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                                </div><!-- /accordion-inner -->
+                            </div><!-- /collapse -->
+                        </div><!-- /accordion-group -->
+                        <br>
+                    </div><!-- Accordion -->
+                </div>
+            </div>
+        </div><!--/ .container -->
+    </div><!--/ #features -->
+
+
+    <section id="showcase" name="showcase"></section>
+    <div id="tryit">
+        <div class="container">
+            <div class="row">
+                <h1 class="centered">Why not take it for a test drive?</h1>
+                <h4 class="centered">It's easy to use, and better yet, it's free.</h4>
+                <br>
+                <div class="col-lg-4">
+                    
+                    <h3 class="centered"><i class="glyphicon glyphicon-user"></i> Create an account.</h3>
+                    
+                    <hr />
+                    
+                    <div class="btn-group-lg centered">
+                        <button class="btn btn-default" type="button" onclick="location.href='@Url.Action("Register","Account")'">Register</button>
+                    </div>
+                    
+                </div>
+
+                <div class="col-lg-4">
+                    <h3 class="centered"><i class="glyphicon glyphicon-log-in"></i> Use existing account.</h3>
+                    
+                    <hr />
+                    
+                    <div class="btn-group-lg centered">
+                        <button class="btn btn-default" type="button" onclick="location.href='@Url.Action("Login","Account")'">Login</button>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                                      
+
+                    <div class="btn-group-lg centered" role="group">
+                       @Html.Partial("~/Views/Account/_LandingPageExternalLogin.cshtml", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+                    </div>
+                    
+                </div>
+            </div>
+            <br>
+            <br>
+            <br>
+        </div><!-- /container -->
     </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+
+    <section id="contact" name="contact"></section>
+    <div id="footerwrap">
+        <div class="container">
+            <div class="col-lg-5">
+                <h3>Address</h3>
+                <p>
+                    Av. Greenville 987,<br />
+                    New York,<br />
+                    90873<br />
+                    United States
+                </p>
+            </div>
+
+            <div class="col-lg-7">
+                <h3>Drop Us A Line</h3>
+                <br>
+                <form role="form" action="#" method="post" enctype="plain">
+                    <div class="form-group">
+                        <label for="name1">Your Name</label>
+                        <input type="name" name="Name" class="form-control" id="name1" placeholder="Your Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email1">Email address</label>
+                        <input type="email" name="Mail" class="form-control" id="email1" placeholder="Enter email">
+                    </div>
+                    <div class="form-group">
+                        <label>Your Text</label>
+                        <textarea class="form-control" name="Message" rows="3"></textarea>
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-large btn-success">SUBMIT</button>
+                </form>
+            </div>
+        </div>
     </div>
-</div>
+    <div id="c">
+        <div class="container">
+            <p>Created by <a href="http://www.blacktie.co">BLACKTIE.CO</a></p>
+
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+
+    <script src="~/Landing Page/js/bootstrap.js"></script> 
+    <script>
+	$('.carousel').carousel({
+	  interval: 3500
+	})
+    </script>
+</body>
+</html>
+
