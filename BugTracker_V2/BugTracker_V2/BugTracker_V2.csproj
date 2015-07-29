@@ -175,6 +175,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\TicketHistories.cs" />
     <Compile Include="Models\TicketType.cs" />
     <Compile Include="Models\TicketStatus.cs" />
     <Compile Include="Models\TicketPriority.cs" />
@@ -272,6 +273,7 @@
     <Content Include="Views\Account\ConfirmationSent.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Account\_LandingPageExternalLogin.cshtml" />
+    <Content Include="Views\Manage\ChangeDisplayName.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

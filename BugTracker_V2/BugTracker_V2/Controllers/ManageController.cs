@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using BugTracker_V2.Models;
+using System.Data.Entity;
 
 namespace BugTracker_V2.Controllers
 {
@@ -16,6 +17,7 @@ namespace BugTracker_V2.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         public ManageController()
         {
@@ -67,6 +69,8 @@ namespace BugTracker_V2.Controllers
             var userId = User.Identity.GetUserId();
             var model = new IndexViewModel
             {
+                DisplayName = db.Users.Find(userId).DisplayName,
+                HasDisplayName = HasDisplayName(),
                 HasPassword = HasPassword(),
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
@@ -75,6 +79,8 @@ namespace BugTracker_V2.Controllers
             };
             return View(model);
         }
+
+        
 
         //
         // POST: /Manage/RemoveLogin
@@ -100,6 +106,7 @@ namespace BugTracker_V2.Controllers
             return RedirectToAction("ManageLogins", new { Message = message });
         }
 
+        
         //
         // GET: /Manage/AddPhoneNumber
         public ActionResult AddPhoneNumber()
@@ -211,6 +218,37 @@ namespace BugTracker_V2.Controllers
             }
             return RedirectToAction("Index", new { Message = ManageMessageId.RemovePhoneSuccess });
         }
+
+        //
+        //GET: /Manage/ChangeDisplayName
+        public ActionResult ChangeDisplayName()
+        {
+            return View();
+        }
+
+        //
+        //POST: /Manage/ChangeDisplayName
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public  ActionResult ChangeDisplayName(ChangeDisplayNameViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = db.Users.Find(User.Identity.GetUserId());
+            
+            user.DisplayName = model.NewDisplayName;
+            
+            db.Entry(user).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return RedirectToAction("Index", "Manage");
+
+            
+        }
+
 
         //
         // GET: /Manage/ChangePassword
@@ -350,6 +388,16 @@ namespace BugTracker_V2.Controllers
             {
                 ModelState.AddModelError("", error);
             }
+        }
+
+        private bool HasDisplayName()
+        {
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            if (user != null)
+            {
+                return user.DisplayName != null;
+            }
+            return false;
         }
 
         private bool HasPassword()
