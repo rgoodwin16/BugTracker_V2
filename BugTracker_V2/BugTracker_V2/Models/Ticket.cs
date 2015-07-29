@@ -12,7 +12,7 @@ namespace BugTracker_V2.Models
         public Ticket()
         {
             this.Comments = new HashSet<TicketComment>();
-            this.Attatchments = new HashSet<Attachment>();
+            this.Attachments = new HashSet<TicketAttachment>();
         }
 
         public int Id { get; set; }
@@ -24,16 +24,19 @@ namespace BugTracker_V2.Models
         public string Description { get; set; }
         public System.DateTimeOffset Created { get; set; }
         public Nullable<System.DateTimeOffset> Updated { get; set; }
-        public int Status { get; set; }
-        public int Priority { get; set; }
-        public int Type { get; set; }
-        public string CreatedBy { get; set; }
+        public int TicketPriorityId { get; set; }
+        public int TicketStatusId { get; set; }
+        public int TicketTypeId { get; set; }
+        public string OwnedById { get; set; }
 
-
+        public virtual ApplicationUser OwnedBy { get; set; }
         public virtual Project Project { get; set; }
+        public virtual TicketPriority TicketPriority { get; set; }
+        public virtual TicketStatus TicketStatus { get; set; }
+        public virtual TicketType TicketType { get; set; }
 
         public virtual ICollection<TicketComment> Comments { get; set; }
-        public virtual ICollection<Attachment> Attachments { get; set; }
+        public virtual ICollection<TicketAttachment> Attachments { get; set; }
 
 
     }
