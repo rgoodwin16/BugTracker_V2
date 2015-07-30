@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections.Generic;
 
 namespace BugTracker_V2.Models
 {
@@ -18,22 +19,37 @@ namespace BugTracker_V2.Models
         }
 
         public string FirstName { get; set; }
-
         public string LastName { get; set; }
-
         public string DisplayName { get; set; }
+
+        public ApplicationUser()
+        {
+            this.Projects = new HashSet<Project>();
+            this.Tickets = new HashSet<Ticket>();
+        }
+
+        public virtual ICollection<Project> Projects { get; set; }
+        public virtual ICollection<Ticket> Tickets { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
-        {
-        }
+            : base("DefaultConnection", throwIfV1Schema: false) {  }
 
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
         }
+
+        public DbSet<Project> Projects { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<TicketAttachment> TicketAttchment { get; set; }
+        public DbSet<TicketComment> TicketComment { get; set; }
+        public DbSet<TicketHistories> TicketHistories { get; set; }
+        public DbSet<TicketPriority> TicketPriority { get; set; }
+        public DbSet<TicketStatus> TicketStatus { get; set; }
+        public DbSet<TicketType> TicketType { get; set; }
+
     }
 }

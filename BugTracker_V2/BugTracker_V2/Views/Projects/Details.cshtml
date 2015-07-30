@@ -1,0 +1,84 @@
+﻿@model BugTracker_V2.Models.Project
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<!-- ==============================================
+     SINGLE PROJECT
+=============================================== -->
+
+<section class="content-wrap">
+
+    
+        
+        <div class="row">
+
+            <div class="col-lg-8"><!-- Begin Project Column -->
+
+                <!-- Title -->
+                <h1>@Html.DisplayFor(model => model.Title)</h1>
+
+                <!-- Project Manager -->
+                <p>
+                    @Html.DisplayFor(model=> model.ProjectManager)
+                </p>
+
+                <!-- Date/Time -->
+                <p><span class="glyphicon glyphicon-time"></span> Posted on @Html.DisplayFor(model => model.Created)</p>
+
+                <hr>
+
+                <!-- Project Content -->
+
+                <p class="card-panel">@Html.Raw(Model.Description)</p>
+
+                <hr />
+
+
+                <p>
+                    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+                    @Html.ActionLink("Back to List", "Index")
+                </p>
+
+            </div><!-- End Project Column -->
+
+            <div class="col-lg-4"><!-- Begin TicketList Column -->
+                
+            <h2>Project Tickets</h2>
+
+            @foreach(var item in Model.Tickets.OrderByDescending(c=> c.Created))
+            {
+                <div>
+                    <h4><a href="@Url.Action("Details", "Tickets" ,new { id = item.Id })">@Html.DisplayFor(modelItem => item.Title)</a></h4>
+                    <p><span class="glyphicon glyphicon-time"></span> Created on :@Html.DisplayFor(modelItem => item.Created)</p>
+                    <ul class="card-panel">
+                        <li>Ticket Status: @Html.DisplayFor(modelItem => item.TicketStatus.Name)</li>
+                        <li>Ticket Type: @Html.DisplayFor(modelItem => item.TicketType.Name)</li>
+                        <li>Ticket Priority: @Html.DisplayFor(modelItem => item.TicketPriority.Name)</li>
+                    </ul>
+                    
+
+                    
+
+                    <br />
+
+                    
+                        
+                    
+
+                    <hr />
+
+                </div>
+            }
+                
+            </div><!-- End TicketList Column -->
+            
+        </div><!-- End Row -->
+
+
+
+
+</section>
+
+

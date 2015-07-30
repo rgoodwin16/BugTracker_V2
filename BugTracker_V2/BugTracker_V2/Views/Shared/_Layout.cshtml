@@ -1,4 +1,4 @@
-﻿@model BugTracker_V2.Models.IndexViewModel
+﻿
 
 <!DOCTYPE html>
 <!--[if lt IE 7]>  <html class="lt-ie7"> <![endif]-->
@@ -66,7 +66,7 @@
             </a>
             <!-- Sidebar toggle -->
             <!-- Logo -->
-            <a href="#!" class="brand-logo">
+            <a href="@Url.Action("Index","Admin")" class="brand-logo">
                 <img src="~/images/logo.png" alt="BugTracker">
             </a>
             <!-- /Logo -->
@@ -130,7 +130,7 @@
                 </a>
                 <!-- Sidebar toggle -->
                 <!-- Logo -->
-                <a href="#!" class="brand-logo">
+                <a href="@Url.Action("Index","Admin")" class="brand-logo">
                     <img src="assets/_con/images/logo-white.png" alt="Con">
                 </a>
                 <!-- /Logo -->
@@ -140,65 +140,60 @@
         <div class="nano">
             <div class="nano-content">
                 <ul>
-                    <li>
-                        <a href="angularjs/" class="waves-effect waves-blue"><i class="ion ion-social-angular"></i> Open Angular Version <span class="badge new"></span></a>
-                    </li>
+                    
                     <li class="label">Menu</li>
-                    <li class="open">
-                        <a class="yay-sub-toggle waves-effect waves-blue"><i class="fa fa-dashboard"></i> Dashboards<span class="yay-collapse-icon mdi-navigation-expand-more"></span></a>
+                    
+                    <!-- Dashboard -->
+
+                    <li>
+                        <a href="@Url.Action("Index","Admin")"><i class="fa fa-dashboard"></i> Dashboard</a>
+                        
+                    </li>
+                   
+                    <!-- Projects -->
+
+                    <li>
+                        <a class="yay-sub-toggle waves-effect waves-blue"><i class="fa fa-indent"></i> Projects<span class="yay-collapse-icon mdi-navigation-expand-more"></span></a>
                         <ul>
-                            <li class="active">
-                                <a href="dashboard.html" class="waves-effect waves-blue"> Dashboard</a>
+                           
+                            <li>
+                                <a href="@Url.Action("Index","Projects")" class="waves-effect waves-blue">All</a>
+                            </li>
+                            
+                            <li>
+                                <a href="@Url.Action("Create","Projects")" class="waves-effect waves-blue">Create</a>
+                           </li>
+                           <li>
+                               <a href="@Url.Action("Edit","Projects")" class="waves-effect waves-blue">Edit</a>
+                           </li>
+                           <li>
+                               <a href="@Url.Action("Delete","Projects")" class="waves-effect waves-blue">Delete</a>
+                           </li>
+                       </ul>
+                    </li>
+
+                    <!-- Tickets -->
+
+                    <li>
+                        <a class="yay-sub-toggle waves-effect waves-blue"><i class="fa fa-indent"></i> Tickets<span class="yay-collapse-icon mdi-navigation-expand-more"></span></a>
+                        <ul>
+
+                            <li>
+                                <a href="@Url.Action("Index","Tickets")" class="waves-effect waves-blue">All</a>
+                            </li>
+
+                            <li>
+                                <a href="@Url.Action("Create","Tickets")" class="waves-effect waves-blue">Create</a>
                             </li>
                             <li>
-                                <a href="dashboard-v1.html" class="waves-effect waves-blue"> Dashboard v1</a>
+                                <a href="@Url.Action("Edit","Tickets")" class="waves-effect waves-blue">Edit</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Delete","Tickets")" class="waves-effect waves-blue">Delete</a>
                             </li>
                         </ul>
                     </li>
-                    <li>
-                        <a href="widgets.html" class="waves-effect waves-blue"><i class="fa fa-magic"></i> Widgets</a>
-                    </li>
-                    <li>
-                        <a href="layouts.html" class="waves-effect waves-blue"><i class="mdi mdi-av-web"></i> Layouts</a>
-                    </li>
-                    <li>
-                        <a class="yay-sub-toggle waves-effect waves-blue"><i class="fa fa-indent"></i> Menu Levels<span class="yay-collapse-icon mdi-navigation-expand-more"></span></a>
-                        <ul>
-                            <li>
-                                <a class="yay-sub-toggle waves-effect waves-blue" href="#!">Second Level<span class="yay-collapse-icon mdi-navigation-expand-more"></span></a>
-                                <ul>
-                                    <li>
-                                        <a class="yay-sub-toggle waves-effect waves-blue" href="#!">Third Level<span class="yay-collapse-icon mdi-navigation-expand-more"></span></a>
-                                        <ul>
-                                            <li>
-                                                <a href="#!" class="waves-effect waves-blue">Fourth Level</a>
-                                            </li>
-                                            <li>
-                                                <a href="#!" class="waves-effect waves-blue">Fourth Level</a>
-                                            </li>
-                                            <li>
-                                                <a href="#!" class="waves-effect waves-blue">Fourth Level</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a class="yay-sub-toggle waves-effect waves-blue" href="#!">Third Level<span class="yay-collapse-icon mdi-navigation-expand-more"></span></a>
-                                        <ul>
-                                            <li>
-                                                <a href="#!" class="waves-effect waves-blue">Fourth Level</a>
-                                            </li>
-                                            <li>
-                                                <a href="#!" class="waves-effect waves-blue">Fourth Level</a>
-                                            </li>
-                                            <li>
-                                                <a href="#!" class="waves-effect waves-blue">Fourth Level</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
+
                     <li class="label">Elements</li>
                     <li>
                         <a class="yay-sub-toggle waves-effect waves-blue"><i class="fa fa-css3"></i> CSS<span class="yay-collapse-icon mdi-navigation-expand-more"></span></a>
