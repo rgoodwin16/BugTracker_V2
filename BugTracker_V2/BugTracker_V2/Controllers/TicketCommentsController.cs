@@ -7,118 +7,123 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
 using BugTracker_V2.Models;
+using Microsoft.AspNet.Identity;
 
 namespace BugTracker_V2.Controllers
 {
-    public class ProjectsController : Controller
+    public class TicketCommentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Projects
+        // GET: TicketComments
         public async Task<ActionResult> Index()
         {
-            return View(await db.Projects.ToListAsync());
+            var ticketComment = db.TicketComment.Include(t => t.Author).Include(t => t.Ticket);
+            return View(await ticketComment.ToListAsync());
         }
 
-        // GET: Projects/Details/5
+        // GET: TicketComments/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Project project = await db.Projects.FindAsync(id);
-            if (project == null)
+            TicketComment ticketComment = await db.TicketComment.FindAsync(id);
+            if (ticketComment == null)
             {
                 return HttpNotFound();
             }
-            return View(project);
+            return View(ticketComment);
         }
 
-        // GET: Projects/Create
+        // GET: TicketComments/Create
         public ActionResult Create()
         {
+            ViewBag.AuthorId = new SelectList(db.Users, "Id", "FirstName");
+            ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title");
             return View();
         }
 
-        // POST: Projects/Create
+        // POST: TicketComments/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Title,Description,Created,Updated,ProjectManagerId")] Project project)
+        public async Task<ActionResult> Create([Bind(Include = "Id,TicketId,Body")] TicketComment ticketComment)
         {
             if (ModelState.IsValid)
             {
-                project.ProjectManagerId = User.Identity.GetUserId();
-                project.Created = DateTimeOffset.Now;
-
-                db.Projects.Add(project);
+                ticketComment.Created = System.DateTimeOffset.Now;
+                ticketComment.AuthorId = User.Identity.GetUserId();
+                db.TicketComment.Add(ticketComment);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            return View(project);
+            ViewBag.AuthorId = new SelectList(db.Users, "Id", "FirstName", ticketComment.AuthorId);
+            ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", ticketComment.TicketId);
+            return View(ticketComment);
         }
 
-        // GET: Projects/Edit/5
+        // GET: TicketComments/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Project project = await db.Projects.FindAsync(id);
-            if (project == null)
+            TicketComment ticketComment = await db.TicketComment.FindAsync(id);
+            if (ticketComment == null)
             {
                 return HttpNotFound();
             }
-            return View(project);
+            ViewBag.AuthorId = new SelectList(db.Users, "Id", "FirstName", ticketComment.AuthorId);
+            ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", ticketComment.TicketId);
+            return View(ticketComment);
         }
 
-        // POST: Projects/Edit/5
+        // POST: TicketComments/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Description,Created,Updated,ProjectManagerId")] Project project)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,TicketId,AuthorId,Body,Created,Updated,UpdateReason")] TicketComment ticketComment)
         {
             if (ModelState.IsValid)
             {
-
-                project.Updated = DateTimeOffset.Now;
-
-                db.Entry(project).State = EntityState.Modified;
+                db.Entry(ticketComment).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(project);
+            ViewBag.AuthorId = new SelectList(db.Users, "Id", "FirstName", ticketComment.AuthorId);
+            ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", ticketComment.TicketId);
+            return View(ticketComment);
         }
 
-        // GET: Projects/Delete/5
+        // GET: TicketComments/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Project project = await db.Projects.FindAsync(id);
-            if (project == null)
+            TicketComment ticketComment = await db.TicketComment.FindAsync(id);
+            if (ticketComment == null)
             {
                 return HttpNotFound();
             }
-            return View(project);
+            return View(ticketComment);
         }
 
-        // POST: Projects/Delete/5
+        // POST: TicketComments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Project project = await db.Projects.FindAsync(id);
-            db.Projects.Remove(project);
+            TicketComment ticketComment = await db.TicketComment.FindAsync(id);
+            db.TicketComment.Remove(ticketComment);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

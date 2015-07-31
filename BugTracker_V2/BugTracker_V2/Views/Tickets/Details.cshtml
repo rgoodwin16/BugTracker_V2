@@ -4,84 +4,117 @@
      SINGLE TICKET
 =============================================== -->
 <section class="content-wrap">
-    <div>
-        <h4>Ticket</h4>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.OwnedBy.FirstName)
-            </dt>
     
-            <dd>
-                @Html.DisplayFor(model => model.OwnedBy.FirstName)
-            </dd>
+    <div class="container">
+        
+        <div class="col-lg-8">
+
+            <!-- Title -->
+            <h1>@Html.DisplayFor(model => model.Title)</h1>
+
+            <!-- Ticket Creator -->
+            <p>
+                Owened by : @Html.DisplayFor(model => model.OwnedBy.UserName)
+            </p>
+
+            <!-- Date/Time -->
+            <p><span class="glyphicon glyphicon-time"></span> Posted on @Html.DisplayFor(model => model.Created)</p>
+
+            <hr>
+
+            <!-- Ticket Content -->
+
+            <p class="card-panel">@Html.Raw(Model.Description)</p>
+
+            <hr />
+
+            <ul class="card-panel">
+                <li>Ticket Status: @Html.DisplayFor(model => model.TicketStatus.Name)</li>
+                <li>Ticket Type: @Html.DisplayFor(model => model.TicketType.Name)</li>
+                <li>Ticket Priority: @Html.DisplayFor(model => model.TicketPriority.Name)</li>
+            </ul>
+
+            <!-- End Ticket Content -->
+
+            <!-- Begin Ticket Comments -->
+
+            <br />
+
+            <!-- Comments Form | Attachment Form -->
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="row">
+
+                    <div class="col s12"><!-- Begin Comment/Attachment Label Tabs -->
+                        <ul class="tabs">
+                            <li class="tab col s3"><a href="#comment_form">Comment Form</a></li>
+                            <li class="tab col s3"><a href="#attachment_form">Attachments</a></li>
+                        </ul>
+                    </div><!-- End Comment/Attachment Label Tabs -->
+
+                    <div class="col s12" id="comment_form"><!-- Begin Comment Form Tab -->
+                        <form id="contactForm" method="post" action="@Url.Action("Create", "TicketComments")">
+                            @Html.AntiForgeryToken()
+                            <h3>Leave a Comment</h3>
+                            <input type="hidden" name="TicketId" value="@Model.Id" />
+
+                            <div class="form-group">
+                                <div>
+                                    <textarea name="Body" class="form-control" rows="6"></textarea>
+                                </div>
+                            </div><!-- End Comment Box -->
+
+                            <input type="submit" value="Submit" class="btn btn-default" /><br />
+
+                        </form><!-- End Comment Form -->
+                    </div><!-- End Comment Form Tab -->
+
+                    <div class="col s12" id="attachment_form"><!-- Begin Attachemnt Form Tab -->
+                        <input type="file" />
+                    </div><!-- End Attachment Form Tab -->
+
+                </div><!-- End Row -->
+             
+
+            }
+            else
+            {
+                <h4>Please <a href="@Url.Action("Login","Account")">Login</a> to Post a Comment</h4>
+            }
+
+
+            <hr />
+
+            <!-- End Comment Form -->
+
+            <!-- Begin Comment List -->
+
+            @foreach (var item in Model.Comments.OrderByDescending(c => c.Created))
+            {
+                <div>
+                    <h4>@Html.DisplayFor(modelItem => item.Author.UserName)</h4>
+                    <p>@Html.DisplayFor(modelItem => item.Created)</p>
+
+                    <div class="well">
+                        <p>@Html.Raw(item.Body)</p>
+                    </div><!-- End Comment Body -->
+
+                    <br />
+
+                    <hr />
+
+                </div>
+            }
+
+            <!-- End Comment List -->
+
+            <!-- End Ticket Comments -->
+
+
+        </div><!-- end ticket column -->
+
+    </div><!-- end container -->
     
-            <dt>
-                @Html.DisplayNameFor(model => model.Project.Title)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Project.Title)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.TicketPriority.Name)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.TicketPriority.Name)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.TicketStatus.Name)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.TicketStatus.Name)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.TicketType.Name)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.TicketType.Name)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Title)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Title)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Description)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Description)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Created)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Created)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Updated)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Updated)
-            </dd>
-    
-        </dl>
-    </div>
     <p>
         @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
         @Html.ActionLink("Back to List", "Index")

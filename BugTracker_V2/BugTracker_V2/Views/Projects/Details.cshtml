@@ -21,7 +21,7 @@
 
                 <!-- Project Manager -->
                 <p>
-                    @Html.DisplayFor(model=> model.ProjectManager)
+                    Project Manager : @Html.DisplayFor(model=> model.ProjectManager.DisplayName)
                 </p>
 
                 <!-- Date/Time -->
@@ -45,13 +45,16 @@
 
             <div class="col-lg-4"><!-- Begin TicketList Column -->
                 
-            <h2>Project Tickets</h2>
+            
+
+            <a href="@Url.Action("Create", "Tickets", new { projectId = Model.Id })">Create New Ticket</a>
 
             @foreach(var item in Model.Tickets.OrderByDescending(c=> c.Created))
             {
                 <div>
                     <h4><a href="@Url.Action("Details", "Tickets" ,new { id = item.Id })">@Html.DisplayFor(modelItem => item.Title)</a></h4>
                     <p><span class="glyphicon glyphicon-time"></span> Created on :@Html.DisplayFor(modelItem => item.Created)</p>
+                    <p>@Html.DisplayFor(modelItem => item.Description)</p>
                     <ul class="card-panel">
                         <li>Ticket Status: @Html.DisplayFor(modelItem => item.TicketStatus.Name)</li>
                         <li>Ticket Type: @Html.DisplayFor(modelItem => item.TicketType.Name)</li>

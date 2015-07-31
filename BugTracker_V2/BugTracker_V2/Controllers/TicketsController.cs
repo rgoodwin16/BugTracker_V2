@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BugTracker_V2.Models;
+using Microsoft.AspNet.Identity;
 
 namespace BugTracker_V2.Controllers
 {
@@ -38,10 +39,12 @@ namespace BugTracker_V2.Controllers
         }
 
         // GET: Tickets/Create
-        public ActionResult Create()
+        [Route("Projects/{projectId}/Tickets/Create")]
+        public ActionResult Create(int projectId)
         {
             var devId = db.Roles.First(r => r.Name == "Developer").Id;
 
+            ViewBag.ProjectId = projectId;
             ViewBag.AssignedToId = new SelectList(db.Users.Where(u => u.Roles.Any(r => r.RoleId == devId)), "Id", "FirstName");
 
             //ViewBag.OwnedById = new SelectList(db.ApplicationUsers, "Id", "FirstName");
@@ -57,10 +60,12 @@ namespace BugTracker_V2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,ProjectId,Title,Description,Created,Updated,TicketPriorityId,TicketStatusId,TicketTypeId,OwnedById")] Ticket ticket)
+        [Route("Projects/{projectId}/Tickets/Create")]
+        public async Task<ActionResult> Create([Bind(Include = "Id,ProjectId,Title,Description,Created,Updated,TicketPriorityId,TicketStatusId,TicketTypeId,OwnedById")] Ticket ticket, int projectId)
         {
             if (ModelState.IsValid)
             {
+                ticket.OwnedById = User.Identity.GetUserId();
                 ticket.Created = DateTimeOffset.Now;
                 
                 db.Tickets.Add(ticket);
@@ -70,6 +75,7 @@ namespace BugTracker_V2.Controllers
 
             var devId = db.Roles.First(r => r.Name == "Developer").Id;
 
+            ViewBag.ProjectId = projectId;
             ViewBag.AssignedToId = new SelectList(db.Users.Where(u=> u.Roles.Any(r=> r.RoleId == devId)), "Id", "FirstName", ticket.OwnedById);
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Title", ticket.ProjectId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriority, "Id", "Name", ticket.TicketPriorityId);
@@ -93,9 +99,10 @@ namespace BugTracker_V2.Controllers
 
             var devId = db.Roles.First(r => r.Name == "Developer").Id;
 
+            ticket.OwnedById = User.Identity.GetUserId();
             ViewBag.AssignedToId = new SelectList(db.Users.Where(u=> u.Roles.Any(r=> r.RoleId == devId)), "Id", "FirstName", ticket.OwnedById);
 
-            //ViewBag.OwnedById = new SelectList(db.ApplicationUsers, "Id", "FirstName", ticket.OwnedById);
+            ViewBag.OwnedById = new SelectList(db.Users, "Id", "FirstName", ticket.OwnedById);
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Title", ticket.ProjectId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriority, "Id", "Name", ticket.TicketPriorityId);
             ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "Name", ticket.TicketStatusId);
@@ -108,7 +115,7 @@ namespace BugTracker_V2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,ProjectId,Title,Description,Created,Updated,TicketPriorityId,TicketStatusId,TicketTypeId,OwnedById")] Ticket ticket)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,ProjectId,Title,Description,Created,Updated,TicketPriorityId,TicketStatusId,TicketTypeId")] Ticket ticket)
         {
             if (ModelState.IsValid)
             {
