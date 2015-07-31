@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using BugTracker_V2.Models;
 using Microsoft.AspNet.Identity;
+using System.IO;
 
 namespace BugTracker_V2.Controllers
 {
@@ -17,14 +18,17 @@ namespace BugTracker_V2.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Tickets
-        public async Task<ActionResult> Index()
+        [Route("Projects/{projectId}/Tickets")]
+        public async Task<ActionResult> Index(int projectId)
         {
+            ViewBag.ProjectId = projectId;
             var tickets = db.Tickets.Include(t => t.OwnedBy).Include(t => t.Project).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Include(t => t.TicketType);
             return View(await tickets.ToListAsync());
         }
 
         // GET: Tickets/Details/5
-        public async Task<ActionResult> Details(int? id)
+        [Route("Projects/{projectId}/Tickets/{id}")]
+        public async Task<ActionResult> Details(int projectId, int? id)
         {
             if (id == null)
             {
@@ -85,6 +89,7 @@ namespace BugTracker_V2.Controllers
         }
 
         // GET: Tickets/Edit/5
+        [Route("Projects/{projectId}/Tickets/{id}/Edit")]
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -115,6 +120,7 @@ namespace BugTracker_V2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Projects/{projectId}/Tickets/{id}/Edit")]
         public async Task<ActionResult> Edit([Bind(Include = "Id,ProjectId,Title,Description,Created,Updated,TicketPriorityId,TicketStatusId,TicketTypeId")] Ticket ticket)
         {
             if (ModelState.IsValid)
@@ -161,6 +167,84 @@ namespace BugTracker_V2.Controllers
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
+
+
+        // ==============================================
+           //COMMENTS - CREATE
+        // ============================================== 
+
+        // POST: TicketComments/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateComment([Bind(Include = "Id,TicketId,Body")] TicketComment ticketComment)
+        {
+            if (ModelState.IsValid)
+            {
+                ticketComment.Created = System.DateTimeOffset.Now;
+                ticketComment.AuthorId = User.Identity.GetUserId();
+                db.TicketComment.Add(ticketComment);
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.AuthorId = new SelectList(db.Users, "Id", "FirstName", ticketComment.AuthorId);
+            ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", ticketComment.TicketId);
+            return View(ticketComment);
+        }
+
+        // ==============================================
+            //ATTACHMENTS - CREATE
+        // ============================================== 
+
+        //POST: TicketAttchments/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("Projects/{projectId}/Tickets/{ticketId}/AddAttachment")]
+        public async Task<ActionResult> AddAttachment([Bind(Include="Id,TicketId,Description,MediaURL")] TicketAttachment ticketAttachment, HttpPostedFileBase file, int projectId, int ticketId)
+        {
+            //Check if the file selected by the user isn't empty
+            if (file != null && file.ContentLength > 0)
+            {
+                //check the file ext to make sure we allow it
+                var ext = Path.GetExtension(file.FileName).ToLower();
+                if (ext != ".png" && ext != ".jpg" && ext != ".jpeg" && ext != ".gif" && ext != ".pdf" && ext != ".doc" && ext != ".ppt" && ext != ".xls" && ext != ".xlsx" && ext != ".zip")
+                {
+                    ModelState.AddModelError("file", "Invalid Format");
+                }
+            }
+
+            if (ModelState.IsValid)
+            {
+                if (file != null)
+                {
+                    //relative path
+                    var filePath = "/Uploads/";
+                    //path on physical drive on server
+                    var absPath = Server.MapPath("~" + filePath);
+                    Directory.CreateDirectory(absPath);
+                    //media url for relative path
+                    ticketAttachment.MediaURL = filePath + file.FileName;
+                    //save file
+                    file.SaveAs(Path.Combine(absPath, file.FileName));
+                }
+
+                ticketAttachment.Created = DateTimeOffset.Now;
+                    
+
+                db.TicketAttchment.Add(ticketAttachment);
+                await db.SaveChangesAsync();
+
+                return RedirectToAction("Details", new { projectId, id = ticketId });
+
+            }
+
+            return RedirectToAction("Details", new {projectId, id = ticketId});
+        }
+
 
         protected override void Dispose(bool disposing)
         {

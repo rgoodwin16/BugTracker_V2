@@ -53,10 +53,9 @@
                     </div><!-- End Comment/Attachment Label Tabs -->
 
                     <div class="col s12" id="comment_form"><!-- Begin Comment Form Tab -->
-                        <form id="contactForm" method="post" action="@Url.Action("Create", "TicketComments")">
+                        <form method="post" action="@Url.Action("CreateComment", "Tickets")">
                             @Html.AntiForgeryToken()
                             <h3>Leave a Comment</h3>
-                            <input type="hidden" name="TicketId" value="@Model.Id" />
 
                             <div class="form-group">
                                 <div>
@@ -70,7 +69,24 @@
                     </div><!-- End Comment Form Tab -->
 
                     <div class="col s12" id="attachment_form"><!-- Begin Attachemnt Form Tab -->
-                        <input type="file" />
+                        <div class="form-group"><!-- Begin Image -->
+                            <h3>Add an Attachment</h3>
+                            <hr />
+                            <form method="post" action="@Url.Action("AddAttachment", "Tickets", new { Model.ProjectId, ticketId = Model.Id})" enctype="multipart/form-data">
+                                @Html.AntiForgeryToken()
+
+                                <h4>Attachment Description</h4>
+                                <textarea name="Description" class="form-control" rows="6"></textarea>
+                                <br />
+                                <div class="col-md-10">
+                                    <input name="file" type="file" class="form-control" id="fileUpload" />
+                                </div>
+
+                                <input type="submit" value="Submit" class="btn btn-default" />
+                            </form>
+                            
+                            
+                        </div><!-- End Image -->
                     </div><!-- End Attachment Form Tab -->
 
                 </div><!-- End Row -->
@@ -107,6 +123,22 @@
             }
 
             <!-- End Comment List -->
+
+            <!-- Begin Ticket Attachments -->
+                
+            @foreach (var item in Model.Attachments.OrderByDescending(c => c.Created))
+            {
+                <div>
+                    <h4>@Html.DisplayFor(modelItem=> item.Author.UserName)</h4>
+                    <p>@Html.DisplayFor(modelItem=> item.Created)</p>
+
+                    <div class="well">
+                        <p><a href="@item.MediaURL">@item.MediaURL</a></p>
+                    </div>
+                </div>
+            }
+            
+            <!-- End Ticket Attachments -->
 
             <!-- End Ticket Comments -->
 
