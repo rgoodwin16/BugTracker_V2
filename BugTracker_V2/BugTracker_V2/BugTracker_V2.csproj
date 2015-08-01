@@ -179,6 +179,8 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\TicketUserVM.cs" />
+    <Compile Include="Models\UnifiedRoleView.cs" />
+    <Compile Include="Models\UserRoles.cs" />
     <Compile Include="Models\UserRolesHelper.cs" />
     <Compile Include="Models\TicketHistories.cs" />
     <Compile Include="Models\TicketType.cs" />
@@ -194,6 +196,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\multi-select.css" />
     <Content Include="Content\_Con Theme CSS\_con.css" />
     <Content Include="images\icon.png" />
     <Content Include="Content\bootstrap.css" />
@@ -390,6 +393,7 @@
     <Content Include="Scripts\jquery-jvectormap\gdp-data.js" />
     <Content Include="Scripts\jquery-jvectormap\jquery-jvectormap-world-mill-en.js" />
     <Content Include="Scripts\jquery-jvectormap\jquery-jvectormap.min.js" />
+    <Content Include="Scripts\jquery.multi-select.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -464,6 +468,8 @@
     <Content Include="Views\TicketComments\Details.cshtml" />
     <Content Include="Views\TicketComments\Edit.cshtml" />
     <Content Include="Views\TicketComments\Index.cshtml" />
+    <Content Include="Views\Admin\Users.cshtml" />
+    <Content Include="Views\Admin\EditRole.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

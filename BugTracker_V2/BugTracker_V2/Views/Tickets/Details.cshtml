@@ -6,7 +6,9 @@
 <section class="content-wrap">
     
     <div class="container">
-        
+       
+        <div class="row">
+
         <div class="col-lg-8">
 
             <!-- Title -->
@@ -89,12 +91,8 @@
                         </div><!-- End Image -->
                     </div><!-- End Attachment Form Tab -->
 
-                <div class=" col-lg-4"><!-- Begin Ticket Histories -->
-
-
-
-                </div><!-- End Ticket Histories -->
-
+                
+                    
 
 
                 </div><!-- End Row -->
@@ -116,7 +114,7 @@
             @foreach (var item in Model.Comments.OrderByDescending(c => c.Created))
             {
                 <div>
-                    <h4>@Html.DisplayFor(modelItem => item.Author.UserName)</h4>
+                    <h4>@Html.DisplayFor(modelItem => item.Author.DisplayName)</h4>
                     <p>@Html.DisplayFor(modelItem => item.Created)</p>
 
                     <div class="well">
@@ -152,6 +150,45 @@
 
 
         </div><!-- end ticket column -->
+
+            <div class=" col-lg-4">
+                <!-- Begin Ticket Histories -->
+
+                <h4>Tickey History</h4>
+
+                <hr />
+
+                <table class="table-striped">
+                    <thead>
+                        <tr>
+                            <th>Changed</th>
+                            <th>Edited By</th>
+                            <th>Changed On</th>
+                            <th>Old Value</th>
+                            <th>New Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var history in Model.History)
+                        {
+                            <tr>
+                                <td>@history.Property</td>
+                                <td>@history.User.DisplayName</td>
+                                <td>@history.Changed</td>
+                                <td>@history.OldValue</td>
+                                <td>@history.NewValue</td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+
+
+            </div><!-- End Ticket Histories -->
+
+
+        </div><!-- End Row -->
+     
 
     </div><!-- end container -->
     
