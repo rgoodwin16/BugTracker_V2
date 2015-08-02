@@ -22,9 +22,11 @@ namespace BugTracker_V2.Models
         public System.DateTimeOffset Created { get; set; }
         public Nullable<System.DateTimeOffset> Updated { get; set; }
         public string ProjectManagerId { get; set; }
+        public string AssignedUserId { get; set; }
 
 
         public virtual ApplicationUser ProjectManager { get; set; }
+        public virtual ApplicationUser AssignedUser { get;set; }
 
         public virtual ICollection<Ticket> Tickets { get; set; }
         public virtual ICollection<ApplicationUser> User { get; set; }

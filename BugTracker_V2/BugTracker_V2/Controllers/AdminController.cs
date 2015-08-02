@@ -72,8 +72,14 @@ namespace BugTracker_V2.Controllers
                     {
                         helper.AddUserToRole(user.Id, model.RoleName);
                     }
+                    else
+                    {
+                        helper.RemoveUserFromRole(user.Id, model.RoleName);
+                    }
                 }
             }
+
+            return RedirectToAction("EditRole", new { RoleName = model.RoleName });
         }
 
     }

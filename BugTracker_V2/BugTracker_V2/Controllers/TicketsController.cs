@@ -11,6 +11,7 @@ using BugTracker_V2.Models;
 using Microsoft.AspNet.Identity;
 using System.IO;
 using System.Text;
+using System.Web.Security;
 
 namespace BugTracker_V2.Controllers
 {
@@ -49,8 +50,13 @@ namespace BugTracker_V2.Controllers
         {
             var devId = db.Roles.First(r => r.Name == "Developer").Id;
 
+            IEnumerable<ApplicationUser> listOfUsers;
+
+            listOfUsers = db.Users.ToList();
+
             ViewBag.ProjectId = projectId;
-            ViewBag.AssignedToId = new SelectList(db.Users.Where(u => u.Roles.Any(r => r.RoleId == devId)), "Id", "FirstName");
+            //ViewBag.AssignedToId = new SelectList(listOfUsers, "Id", "UserName");
+            ViewBag.AssignedToId = new SelectList(db.Users.Where(u => u.Roles.Any(r => r.RoleId == devId)), "Id", "UserName");
 
             //ViewBag.OwnedById = new SelectList(db.ApplicationUsers, "Id", "FirstName");
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Title");
@@ -66,7 +72,7 @@ namespace BugTracker_V2.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Projects/{projectId}/Tickets/Create")]
-        public async Task<ActionResult> Create([Bind(Include = "Id,ProjectId,Title,Description,Created,Updated,TicketPriorityId,TicketStatusId,TicketTypeId,OwnedById")] Ticket ticket, int projectId)
+        public async Task<ActionResult> Create([Bind(Include = "Id,ProjectId,Title,Description,Created,Updated,TicketPriorityId,TicketStatusId,TicketTypeId,OwnedById,AssignedToId")] Ticket ticket, int projectId)
         {
             if (ModelState.IsValid)
             {
@@ -122,7 +128,7 @@ namespace BugTracker_V2.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Projects/{projectId}/Tickets/{id}/Edit")]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,ProjectId,Title,Description,Created,Updated,TicketPriorityId,TicketStatusId,TicketTypeId")] Ticket ticket)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,ProjectId,Title,Description,Created,Updated,TicketPriorityId,TicketStatusId,TicketTypeId,AssignedToId")] Ticket ticket)
         {
             if (ModelState.IsValid)
             {
@@ -140,7 +146,7 @@ namespace BugTracker_V2.Controllers
                         TicketId = ticket.Id,
                         UserId = UserId,
                         Property = "Assigned To",
-                        OldValue = (oldTicket.AssignedToId == null ? "Not Yet Assigned" : db.Users.FirstOrDefault(u => u.Id == oldTicket.AssignedToId).DisplayName),
+                        OldValue = (oldTicket.AssignedToId == null ? "Not Yet Assigned" : db.Users.FirstOrDefault(u => u.Id == oldTicket.AssignedToId).UserName),
                         NewValue = (db.Users.FirstOrDefault(u => u.Id == ticket.AssignedToId).DisplayName),
                         Changed = System.DateTimeOffset.Now,
                     };

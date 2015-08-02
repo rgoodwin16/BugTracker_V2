@@ -54,6 +54,15 @@ namespace BugTracker_V2.Controllers
         }
 
         //
+        //GET: /Account/CustomLogin
+        [AllowAnonymous]
+        public ActionResult CustomLogin(string returnUrl)
+        {
+            ViewBag.ReturnUrl = returnUrl;
+            return View();
+        }
+
+        //
         // GET: /Account/Login
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)

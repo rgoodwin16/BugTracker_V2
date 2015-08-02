@@ -274,6 +274,7 @@
     <Content Include="Landing Page\img\arrow1.png" />
     <Content Include="Landing Page\img\arrow2.png" />
     <Content Include="Landing Page\img\bt_placeholder.png" />
+    <Content Include="Landing Page\img\coder.png" />
     <Content Include="Landing Page\img\intro01.png" />
     <Content Include="Landing Page\img\intro02.png" />
     <Content Include="Landing Page\img\intro03.png" />
@@ -281,6 +282,8 @@
     <Content Include="Landing Page\img\item-02.png" />
     <Content Include="Landing Page\img\mobile.png" />
     <Content Include="Landing Page\img\mobile_placeholder.png" />
+    <Content Include="Landing Page\img\ray_goodwin.png" />
+    <Content Include="Landing Page\img\ray_goodwin_lg.png" />
     <Content Include="Landing Page\js\bootstrap.js" />
     <Content Include="Landing Page\js\jquery.min.js" />
     <Content Include="Landing Page\js\smoothscroll.js" />
@@ -470,6 +473,9 @@
     <Content Include="Views\TicketComments\Index.cshtml" />
     <Content Include="Views\Admin\Users.cshtml" />
     <Content Include="Views\Admin\EditRole.cshtml" />
+    <Content Include="Views\Account\_CustomExternalLoginListPartial.cshtml" />
+    <Content Include="Views\Account\CustomLogin.cshtml" />
+    <Content Include="Views\Account\Login - Copy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

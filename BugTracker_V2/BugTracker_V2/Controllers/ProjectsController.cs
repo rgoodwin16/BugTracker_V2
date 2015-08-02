@@ -19,7 +19,7 @@ namespace BugTracker_V2.Controllers
         // GET: Projects
         public async Task<ActionResult> Index()
         {
-            return View(await db.Projects.ToListAsync());
+            return View(await db.Projects.OrderByDescending(p=> p.Created).ToListAsync());
         }
 
         // GET: Projects/Details/5
@@ -40,6 +40,8 @@ namespace BugTracker_V2.Controllers
         // GET: Projects/Create
         public ActionResult Create()
         {
+
+            ViewBag.AssignedUserId = new MultiSelectList(db.Users, "Id", "UserName");
             return View();
         }
 
@@ -59,7 +61,7 @@ namespace BugTracker_V2.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-
+            ViewBag.AssignedUserId = new MultiSelectList(db.Users, "Id", "UserName", project.ProjectManagerId);
             return View(project);
         }
 

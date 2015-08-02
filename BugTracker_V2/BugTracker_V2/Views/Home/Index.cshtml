@@ -27,7 +27,7 @@
 
     <link href='//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic' rel='stylesheet' type='text/css'>
     <link href='//fonts.googleapis.com/css?family=Raleway:400,300,700' rel='stylesheet' type='text/css'>
-
+    <link href="~/Content/_Con Theme CSS/font-awesome.min.css" rel="stylesheet" />
     <script src="~/Landing Page/js/jquery.min.js"></script>
     <script src="~/Landing Page/js/smoothscroll.js"></script>
     
@@ -67,7 +67,7 @@
             <div class="row centered">
                 <div class="col-lg-12">
                     <h1>Welcome To Bug<b>Tracker</b></h1>
-                    <h3>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h3>
+                    <h3>A Custom Bug Tracking Ticketing Solution.</h3>
                     <br>
                 </div>
 
@@ -202,36 +202,19 @@
                 <h1 class="centered">Why not take it for a test drive?</h1>
                 <h4 class="centered">It's easy to use, and better yet, it's free.</h4>
                 <br>
-                <div class="col-lg-4">
-                    
-                    <h3 class="centered"><i class="glyphicon glyphicon-user"></i> Create an account.</h3>
+                
+
+                <div class="col l6">
+                    <h3 class="centered"><i class="glyphicon glyphicon-log-in"></i> Get Started!</h3>
                     
                     <hr />
                     
                     <div class="btn-group-lg centered">
-                        <button class="btn btn-default" type="button" onclick="location.href='@Url.Action("Register","Account")'">Register</button>
-                    </div>
-                    
-                </div>
-
-                <div class="col-lg-4">
-                    <h3 class="centered"><i class="glyphicon glyphicon-log-in"></i> Use existing account.</h3>
-                    
-                    <hr />
-                    
-                    <div class="btn-group-lg centered">
-                        <button class="btn btn-default" type="button" onclick="location.href='@Url.Action("Login","Account")'">Login</button>
+                        <button class="btn btn-success" type="button" onclick="location.href='@Url.Action("CustomLogin","Account")'">Login</button>
                     </div>
                 </div>
 
-                <div class="col-lg-4">
-                                      
-
-                    <div class="btn-group-lg centered" role="group">
-                       @Html.Partial("~/Views/Account/_LandingPageExternalLogin.cshtml", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-                    </div>
-                    
-                </div>
+                
             </div>
             <br>
             <br>
@@ -239,44 +222,35 @@
         </div><!-- /container -->
     </div>
 
-    <section id="contact" name="contact"></section>
+   
     <div id="footerwrap">
         <div class="container">
-            <div class="col-lg-5">
-                <h3>Address</h3>
-                <p>
-                    Av. Greenville 987,<br />
-                    New York,<br />
-                    90873<br />
-                    United States
-                </p>
+            
+            <div class="col-lg-6 centered">
+                <h2>Instructed by:</h2>
+                
+                <a href="http://coderfoundry.com"><img src="~/Landing Page/img/coder.png" width="400" height="133" /></a>
             </div>
 
-            <div class="col-lg-7">
-                <h3>Drop Us A Line</h3>
-                <br>
-                <form role="form" action="#" method="post" enctype="plain">
-                    <div class="form-group">
-                        <label for="name1">Your Name</label>
-                        <input type="name" name="Name" class="form-control" id="name1" placeholder="Your Name">
-                    </div>
-                    <div class="form-group">
-                        <label for="email1">Email address</label>
-                        <input type="email" name="Mail" class="form-control" id="email1" placeholder="Enter email">
-                    </div>
-                    <div class="form-group">
-                        <label>Your Text</label>
-                        <textarea class="form-control" name="Message" rows="3"></textarea>
-                    </div>
-                    <br>
-                    <button type="submit" class="btn btn-large btn-success">SUBMIT</button>
-                </form>
+            <div class="col-lg-6 centered">
+                <h2>Developed by:</h2>
+               
+                <p><a href="https://rgoodwin.azurewebsites.net"><img src="~/Landing Page/img/ray_goodwin_lg.png" /></a></p>
+                <hr /> 
             </div>
+
+
         </div>
     </div>
     <div id="c">
         <div class="container">
-            <p>Created by <a href="http://www.blacktie.co">BLACKTIE.CO</a></p>
+
+            <ul class="list-inline banner-social-buttons">
+                <li>Contact Me | </li>
+                <li><a href="https://github.com/rgoodwin16" class="btn btn-default btn-sm"><i class="fa fa-github"></i> GitHub</a></li>
+                <li><a href="https://www.facebook.com/nanyeeast" class="btn btn-default btn-sm"><i class="fa fa-facebook"></i> Facebook</a></li>
+                <li><a href="https://www.linkedin.com/pub/ray-goodwin/102/426/305" class="btn btn-default btn-sm"><i class="fa fa-linkedin"></i> LinkedIn</a></li>
+            </ul> 
 
         </div>
     </div>

@@ -10,6 +10,11 @@ namespace BugTracker_V2.Models
         public string Email { get; set; }
     }
 
+    public class CustomExternalLoginListViewModel
+    {
+        public string ReturnUrl { get; set; }
+    }
+
     public class ExternalLoginListViewModel
     {
         public string ReturnUrl { get; set; }

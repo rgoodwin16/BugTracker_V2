@@ -16,7 +16,11 @@
 
             <!-- Ticket Creator -->
             <p>
-                Owened by : @Html.DisplayFor(model => model.OwnedBy.UserName)
+                Owned by : @Html.DisplayFor(model => model.OwnedBy.UserName)
+            </p>
+
+            <p>
+                Assigned To: @Html.DisplayFor(model => model.AssignedTo.UserName)
             </p>
 
             <!-- Date/Time -->

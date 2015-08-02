@@ -48,7 +48,7 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <p>Add Users to:</p>
-                                @using (Html.BeginForm("EditRole", "Role", FormMethod.Post))
+                                @using (Html.BeginForm("EditRole", "Admin", FormMethod.Post))
                                 {
                                     @Html.HiddenFor(model => model.RoleName)
                                     @Html.HiddenFor(model => model.RoleId)
