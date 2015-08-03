@@ -139,28 +139,31 @@
                         <a href="@Url.Action("Index","Admin")" class="waves-effect waves-blue"><i class="fa fa-dashboard"></i> Dashboard</a>
                         
                     </li>
-                   
-                    <!-- Projects -->
+                   @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                   {
+                       <!-- Projects -->
 
                     <li>
-                        <a class="yay-sub-toggle waves-effect waves-blue"><i class="fa fa-indent"></i> Projects<span class="yay-collapse-icon mdi-navigation-expand-more"></span></a>
+                        <a class="yay-sub-toggle waves-effect waves-blue"><i class="fa fa-folder-open"></i> Projects<span class="yay-collapse-icon mdi-navigation-expand-more"></span></a>
                         <ul>
-                           
+
                             <li>
                                 <a href="@Url.Action("Index","Projects")" class="waves-effect waves-blue">All</a>
                             </li>
-                            
+
                             <li>
                                 <a href="@Url.Action("Create","Projects")" class="waves-effect waves-blue">Create</a>
-                           </li>
-                           
-                       </ul>
+                            </li>
+
+                        </ul>
                     </li>
+                   }
+                    
 
                     <!-- Tickets -->
 
                     <li>
-                        <a class="yay-sub-toggle waves-effect waves-blue"><i class="fa fa-indent"></i> Tickets<span class="yay-collapse-icon mdi-navigation-expand-more"></span></a>
+                        <a class="yay-sub-toggle waves-effect waves-blue"><i class="fa fa-ticket"></i> Tickets<span class="yay-collapse-icon mdi-navigation-expand-more"></span></a>
                         <ul>
 
                             <li>
@@ -170,12 +173,7 @@
                             <li>
                                 <a href="@Url.Action("Create","Tickets")" class="waves-effect waves-blue">Create</a>
                             </li>
-                            <li>
-                                <a href="@Url.Action("Edit","Tickets")" class="waves-effect waves-blue">Edit</a>
-                            </li>
-                            <li>
-                                <a href="@Url.Action("Delete","Tickets")" class="waves-effect waves-blue">Delete</a>
-                            </li>
+
                         </ul>
                     </li>
 

@@ -7,12 +7,45 @@
 
 <section class="content-wrap ecommerce-products">
 
+    <!-- Breadcrumb -->
+    <div class="ecommerce-title">
+        <div class="row">
+            <div class="col s12 m9 l10">
+                <!--h1>@@title</h1-->
+                <nav>
+                    <ul class="left">
+                        <li>
+                            <a href="@Url.Action("Index", "Admin")">Dashboard</a>
+                        </li>
+                        <li class="active">
+                            <a href="@Url.Action("Index","Projects")">Projects</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index", "Tickets")">Tickets</a>
+                        </li>
+
+                    </ul>
+                </nav>
+            </div>
+            <div class="col s12 m3 l2 right-align">
+                <a href="#!" class="btn grey lighten-3 grey-text z-depth-0 chat-toggle"><i class="fa fa-comments"></i></a>
+            </div>
+        </div>
+    </div>
+    <!-- /Breadcrumb -->
+
     <div class="card">
         <div class="title">
             <h5>Projects</h5><!-- Page Title -->
+
+        @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+        {
             <div class="btn-group right">
                 <a href="@Url.Action("Create", "Projects")" class="btn btn-small z-depth-0"><i class="mdi mdi-content-add"></i> Create New</a>
-             </div>
+            </div>
+        }
+
+ 
         </div><!-- /Title -->
 
     <div class="content">
@@ -26,7 +59,13 @@
                     <th>@Html.DisplayNameFor(model => model.Created)</th> 
                     <th>@Html.DisplayNameFor(model => model.Updated)</th>
                     <th>Tickets</th>
-                    <th>Edit/Delete</th>
+
+                    @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                    {
+                        <th>Edit/Delete</th>
+                    }
+
+                    
                 </tr>
             </thead>
             <tbody>
@@ -66,13 +105,17 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Tickets.Count)
                         </td><!-- /Ticket Count -->
+                
+                        @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                        {
+                            <td>
+                                <div class="btn-group">
+                                    <a href="@Url.Action("Edit", "Projects", new { id = item.Id })" class="btn btn-small z-depth-0"><i class="mdi mdi-editor-mode-edit"></i></a>
+                                    <a href="@Url.Action("Delete", "Projects", new { id = item.Id })" class="btn btn-small red lighten-1 z-depth-0"><i class="mdi mdi-action-delete"></i></a>
+                                </div>
+                            </td><!-- /Edit | Delete -->
+                        }
 
-                        <td>
-                            <div class="btn-group">
-                                <a href="@Url.Action("Edit", "Projects", new { id = item.Id })" class="btn btn-small z-depth-0"><i class="mdi mdi-editor-mode-edit"></i></a>
-                                <a href="@Url.Action("Delete", "Projects", new { id = item.Id })" class="btn btn-small red lighten-1 z-depth-0"><i class="mdi mdi-action-delete"></i></a>
-                            </div>
-                        </td><!-- /Edit | Delete -->
 
                         
                     </tr><!-- /Table Row -->

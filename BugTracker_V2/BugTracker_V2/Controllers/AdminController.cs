@@ -21,6 +21,23 @@ namespace BugTracker_V2.Controllers
             return View();
         }
 
+        //GET: Admin/UserList
+        public ActionResult UserList()
+        {
+            var users = db.Users.ToList();
+            var roles = db.Roles.ToList();
+            var model = new UserRoles
+            
+            {
+                RoleList = roles,
+                UserList = users,
+            };
+            
+            return View(model);
+        }
+
+
+
         // ==============================================
         // USER / USERROLES - GET/EDIT
         // ============================================== 
