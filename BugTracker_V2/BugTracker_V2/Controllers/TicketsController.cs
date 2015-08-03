@@ -128,7 +128,7 @@ namespace BugTracker_V2.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Projects/{projectId}/Tickets/{id}/Edit")]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,ProjectId,Title,Description,Created,Updated,TicketPriorityId,TicketStatusId,TicketTypeId,AssignedToId")] Ticket ticket)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,ProjectId,Title,Description,Created,Updated,TicketPriorityId,TicketStatusId,TicketTypeId,AssignedToId, OwnedById")] Ticket ticket)
         {
             if (ModelState.IsValid)
             {
