@@ -477,6 +477,7 @@
     <Content Include="Views\Account\_CustomExternalLoginListPartial.cshtml" />
     <Content Include="Views\Account\CustomLogin.cshtml" />
     <Content Include="Views\Account\Login - Copy.cshtml" />
+    <Content Include="settings_connection.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

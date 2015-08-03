@@ -3,6 +3,8 @@
     ViewBag.Title = "Change Display Name";
 }
 
+<section class="content-wrap">
+
 <h2>@ViewBag.Title.</h2>
 
 @using (Html.BeginForm("ChangeDisplayName", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
@@ -23,7 +25,10 @@
             <input type="submit" value="Change Display Name" class="btn btn-default" />
         </div>
     </div>
+
 }
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+    
+</section>
