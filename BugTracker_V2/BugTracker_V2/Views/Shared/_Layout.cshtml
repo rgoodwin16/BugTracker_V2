@@ -213,13 +213,13 @@
     <div class="search-bar">
         <div class="layer-overlay"></div>
         <div class="layer-content">
-            <form action="#!">
+            <form action="@Url.Action("Index", "Projects")" method="post">
                 <!-- Header -->
                 <a class="search-bar-toggle grey-text text-darken-2" href="#!"><i class="mdi-navigation-close"></i></a>
                 <!-- Search Input -->
                 <div class="input-field">
                     <i class="mdi-action-search prefix"></i>
-                    <input type="text" name="con-search" placeholder="Search...">
+                    <input type="search" name="search" placeholder="Search...">
                 </div>
                 <!-- Search Results -->
                 <div class="search-results">

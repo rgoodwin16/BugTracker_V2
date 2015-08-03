@@ -17,9 +17,34 @@ namespace BugTracker_V2.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Projects
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(string search)
         {
-            return View(await db.Projects.OrderByDescending(p=> p.Created).ToListAsync());
+            var projectList = from str in db.Projects
+                              select str;
+            if (search == null)
+            {
+                return View(await db.Projects.OrderByDescending(p => p.Created).ToListAsync());
+            }
+
+            else
+            {
+                ViewBag.search = search;
+                projectList = db.Projects.Where(s=> s.Title.Contains(search) || 
+                    s.Description.Contains(search) || 
+                    s.ProjectManager.UserName.Contains(search) ||
+                    s.ProjectManager.DisplayName.Contains(search) ||
+                    s.Tickets.Any(t=> t.Title.Contains(search)) 
+                    || s.Tickets.Any(t=> t.Description.Contains(search)) 
+                    || s.Tickets.Any(t=> t.Comments.Any(c=> c.Body.Contains(search))) ||
+                    s.Tickets.Any(t=> t.TicketPriority.Name.Contains(search)) ||
+                    s.Tickets.Any(t=> t.TicketStatus.Name.Contains(search)) ||
+                    s.Tickets.Any(t=> t.TicketType.Name.Contains(search)) ||
+                    s.Tickets.Any(t=> t.AssignedTo.UserName.Contains(search)) ||
+                    s.Tickets.Any(t=> t.AssignedTo.DisplayName.Contains(search))
+                    );
+            }
+
+            return View(await projectList.OrderByDescending(p=> p.Created).ToListAsync());
         }
 
         // GET: Projects/Details/5
