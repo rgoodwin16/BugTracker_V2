@@ -146,7 +146,7 @@ namespace BugTracker_V2.Controllers
                         TicketId = ticket.Id,
                         UserId = UserId,
                         Property = "Assigned To",
-                        OldValue = (oldTicket.AssignedToId == null ? "Not Yet Assigned" : db.Users.FirstOrDefault(u => u.Id == oldTicket.AssignedToId).UserName),
+                        OldValue = (oldTicket.AssignedToId == null ? "Not Yet Assigned" : db.Users.FirstOrDefault(u => u.Id == oldTicket.AssignedToId).DisplayName),
                         NewValue = (db.Users.FirstOrDefault(u => u.Id == ticket.AssignedToId).DisplayName),
                         Changed = System.DateTimeOffset.Now,
                     };

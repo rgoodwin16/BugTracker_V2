@@ -41,7 +41,10 @@ namespace BugTracker_V2.Controllers
         public ActionResult Create()
         {
 
-            ViewBag.AssignedUserId = new MultiSelectList(db.Users, "Id", "UserName");
+            IEnumerable<ApplicationUser> listOfUsers;
+
+            listOfUsers = db.Users.ToList();
+            ViewBag.AssignedUserId = new MultiSelectList(listOfUsers, "Id", "UserName");
             return View();
         }
 
@@ -50,7 +53,7 @@ namespace BugTracker_V2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Title,Description,Created,Updated,ProjectManagerId")] Project project)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Title,Description,Created,Updated,ProjectManagerId,AssignUserId")] Project project)
         {
             if (ModelState.IsValid)
             {
@@ -61,7 +64,10 @@ namespace BugTracker_V2.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.AssignedUserId = new MultiSelectList(db.Users, "Id", "UserName", project.ProjectManagerId);
+            IEnumerable<ApplicationUser> listOfUsers;
+
+            listOfUsers = db.Users.ToList();
+            ViewBag.AssignedUserId = new MultiSelectList(listOfUsers, "Id", "UserName", project.AssignedUserId);
             return View(project);
         }
 
