@@ -1,0 +1,100 @@
+﻿@model BugTracker_V2.Models.Ticket
+
+<!-- ==============================================
+     EDIT TICKET
+=============================================== -->
+
+<section class="content-wrap">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        
+        <div class="form-horizontal">
+            <h4>Ticket</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id)
+            @Html.HiddenFor(model => model.ProjectId)
+            @Html.HiddenFor(model=> model.OwnedById)
+                
+            <div class="form-group"><!-- Begin Title -->
+                @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", @readonly = "" } })
+                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                </div>
+            </div><!-- End Title -->
+    
+            <div class="form-group"><!-- Begin Description-->
+                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
+            </div><!-- End Description -->
+    
+            <div class="form-group"><!-- Begin Created -->
+                @Html.LabelFor(model => model.Created, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Created, new { htmlAttributes = new { @class = "form-control" ,@readonly = "" } })
+                    @Html.ValidationMessageFor(model => model.Created, "", new { @class = "text-danger" })
+                </div>
+            </div><!-- End Created -->
+    
+            <div class="form-group"><!-- Begin Updated -->
+                @Html.LabelFor(model => model.Updated, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Updated, new { htmlAttributes = new { @class = "form-control", @readonly = "" } })
+                    @Html.ValidationMessageFor(model => model.Updated, "", new { @class = "text-danger" })
+                </div>
+            </div><!-- End Updated -->
+                    
+            <div class="form-group"><!-- Begin Status -->
+                @Html.LabelFor(model => model.TicketStatusId, "TicketStatusId", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("TicketStatusId")
+                    @Html.ValidationMessageFor(model => model.TicketStatusId, "", new { @class = "text-danger" })
+                </div>
+            </div><!-- End Status -->
+    
+            <div class="form-group"><!-- Begin Type -->
+                @Html.LabelFor(model => model.TicketTypeId, "TicketTypeId", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("TicketTypeId")
+                    @Html.ValidationMessageFor(model => model.TicketTypeId, "", new { @class = "text-danger" })
+                </div>
+            </div><!-- End Type -->
+    
+            <div class="form-group"><!-- Begin Priority -->
+                
+                @Html.LabelFor(model => model.TicketPriorityId, "TicketPriorityId", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("TicketPriorityId")
+                    @Html.ValidationMessageFor(model => model.TicketPriorityId, "", new { @class = "text-danger" })
+                </div>
+            </div><!-- End Priority -->
+
+            <div class="form-group"><!-- Begin Assigned User -->
+                @Html.LabelFor(model=> model.AssignedToId, "Assign Ticket To:", htmlAttributes: new {@class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.DropDownList("AssignedToId")
+                    @Html.ValidationMessageFor(model => model.AssignedToId, "", new { @class = "text-danger"})
+
+
+                </div>
+
+            </div><!-- End Assigned User -->
+            
+    
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+    
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+</section>

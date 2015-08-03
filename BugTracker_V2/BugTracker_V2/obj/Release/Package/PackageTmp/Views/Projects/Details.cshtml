@@ -1,0 +1,149 @@
+﻿@model BugTracker_V2.Models.Project
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<!-- ==============================================
+     SINGLE PROJECT
+=============================================== -->
+
+<section class="content-wrap ecommerce-invoice">
+
+
+
+
+    <div class="row">
+
+        
+
+            <div class="col-lg-8" ><!-- Begin Project Column -->
+            
+            <div class="card">
+
+            <div class="title">
+                <!-- Title -->
+                <h3>@Html.DisplayFor(model => model.Title)</h3>
+           </div>
+               
+            <div class="content">
+                <h5>Created: @Html.DisplayFor(model => model.Created)</h5>
+                <hr />
+                <p class=" table table-hover">@Html.Raw(Model.Description)</p>
+            
+                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                {
+                    <p>
+                        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+                        @Html.ActionLink("Back to List", "Index")
+                    </p>
+                }
+            
+            
+            </div>   
+
+
+            
+            </div>
+
+            </div><!-- End Project Column -->
+
+       
+
+        <div class="col-lg-4"><!-- Begin Meta Column -->
+        
+        @if (Model.Updated != null)
+        {
+            <div class="card-panel green darken-3 white-text">
+
+                <h5>Updated: @Html.DisplayFor(model => model.Updated)</h5>
+            </div>
+        }
+
+
+            <div class="card-panel blue blue-text text-lighten-5">
+                <h5>Project Manager: @Html.DisplayFor(model => model.ProjectManager.DisplayName)</h5>
+            </div>
+
+            <div class="card-panel">
+                <h5>Assigned Users:</h5>
+            </div>
+        
+
+
+        </div><!-- End Meta Column -->
+
+    </div><!-- End Row -->
+
+    <!-- Begin TicketList Column -->
+
+    <!-- Begin Ticket Table -->
+    <br />
+    <br />
+    
+    <div class="card">
+    
+        <div class="title">
+            <h5>Tickets</h5><!-- Page Title -->
+            <div class="btn-group right">
+                <a href="@Url.Action("Create", "Tickets", new { projectId = Model.Id })" class="btn btn-small z-depth-0"><i class="mdi mdi-content-add"></i> Create New</a>
+            </div>
+        </div><!-- /Title -->
+     
+        <div class="content">
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>View</th>
+                    <th>Ticket Title</th>
+                    <th>Owned By</th>
+                    <th>Created</th>
+                    <th>Updated</th>
+                    <th>Type</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Tickets.OrderByDescending(c=> c.Created))
+                {
+                    <tr>
+                        <td>
+                            <a href="@Url.Action("Details", "Tickets", new { projectId = Model.Id, id = item.Id })" class="btn white grey-text text-darken-2"><i class="fa fa-eye"></i></a>
+                        </td>
+                        <td>
+                         <a href="@Url.Action("Details", "Tickets", new { projectId = Model.Id, id = item.Id })">   <strong class="grey-text text-darken-2">@Html.DisplayFor(modelItem => item.Title)</strong></a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem=> item.OwnedBy.UserName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem=> item.Created)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem=> item.Updated)`
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem=> item.TicketType.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem=> item.TicketPriority.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem=> item.TicketStatus.Name)
+                        </td>
+                    </tr>
+                }
+            </tbody><!-- /table-body -->
+        </table><!-- /table -->
+
+    </div><!-- /content -->
+
+    </div><!-- /card -->
+
+    <!-- /Ticket Table -->
+</section>
+
+

@@ -1,0 +1,241 @@
+﻿@model BugTracker_V2.Models.Ticket
+
+<!-- ==============================================
+     SINGLE TICKET
+=============================================== -->
+<section class="content-wrap ecommerce-invoice">
+    
+    
+       
+        <div class="row">
+
+        <div class="col-lg-8"><!-- begin ticket column -->
+
+            <div class="card">
+
+                <div class="title">
+                    <!-- Title -->
+                    <h3>@Html.DisplayFor(model => model.Title)</h3>
+                </div>
+
+                <div class="content">
+
+                    <h5>Created: @Html.DisplayFor(model => model.Created) | Owned by : @Html.DisplayFor(model => model.OwnedBy.DisplayName)</h5>
+                    <hr />
+                    <p class=" table table-hover">@Html.Raw(Model.Description)</p>
+
+                    <p>
+                        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+                        @Html.ActionLink("Back to List", "Index")
+                    </p>
+
+                </div><!-- /content -->
+
+
+            
+            </div><!-- /card -->
+
+        </div><!-- end ticket column -->
+
+            <div class=" col-lg-4"><!-- begin meta column -->
+                
+                @if (Model.Updated != null)
+                {
+                    <div class="card-panel green darken-3 white-text">
+
+                        <h5>Updated: @Html.DisplayFor(model => model.Updated)</h5>
+                    </div>
+                }
+                
+                <div class="card-panel blue blue-text text-lighten-5">
+                    <h5>Assigned To: @Html.DisplayFor(model => model.AssignedTo.DisplayName)</h5>
+                </div>
+                
+                <div class="card-panel blue-grey lighten-1"><!-- begin ticket status/type/priority -->
+                    <ul class="list-group">
+                        <li class="list-group-item">Ticket Priority: <button class="btn btn-sm">@Html.DisplayFor(model => model.TicketPriority.Name)</button></li>
+                        <li class="list-group-item">Ticket Type: <button class="btn btn-sm">@Html.DisplayFor(model => model.TicketType.Name)</button></li>
+                        <li class="list-group-item">Ticket Status: <button class="btn btn-sm">@Html.DisplayFor(model => model.TicketStatus.Name)</button></li>
+                    </ul>
+                </div><!-- /ticket status/type/priority -->
+
+            </div><!-- /meta column -->
+
+
+        </div><!-- End Row -->
+     
+        <br />
+        <br />
+
+        <div class="card">
+        
+            <!-- Comments Form | Attachment Form -->
+
+                <div class="content">
+                
+                <div class="row">
+
+                    
+
+                        <div class="col s12">
+                            <!-- Begin Comment/Attachment Label Tabs -->
+                            <ul class="tabs">
+                                <li class="tab col s3"><a href="#comment_form">Comments</a></li>
+                                <li class="tab col s3"><a href="#attachment_form">Attachments</a></li>
+                                <li class="tab col s3"><a href="#ticket_histories">Ticket History</a></li>
+                            </ul>
+                        </div><!-- End Comment/Attachment Label Tabs -->
+
+                    
+                    <div class="content">
+
+                    <div class="row" id="comment_form">
+
+                        <div class="col-lg-6">
+
+                            <form method="post" action="@Url.Action("CreateComment", "Tickets",new { projectId = Model.ProjectId, ticketId = Model.Id })">
+                                @Html.AntiForgeryToken()
+                                <h3>Leave a Comment</h3>
+
+                                <div class="form-group">
+                                    <div>
+                                        <textarea name="Body" class="form-control" rows="6"></textarea>
+                                    </div>
+                                </div><!-- End Comment Box -->
+
+                                <input type="submit" value="Submit" class="btn btn-default" /><br />
+
+                            </form><!-- End Comment Form -->
+
+                        </div><!-- /comment form -->
+
+                        <div class="col-lg-6">
+
+                            @foreach (var item in Model.Comments.OrderByDescending(c => c.Created))
+                            {
+                                <div>
+                                    <h4>@Html.DisplayFor(modelItem => item.Author.DisplayName)</h4>
+                                    <p>@Html.DisplayFor(modelItem => item.Created)</p>
+
+                                    <div class="well">
+                                        <p>@Html.Raw(item.Body)</p>
+                                    </div><!-- End Comment Body -->
+
+                                    <br />
+
+                                    <hr />
+
+                                </div>
+                            }
+
+                        </div><!-- /comment list -->
+
+                    </div><!-- /comment section -->
+
+                    </div><!-- /comment content -->
+
+                    <div class="content">
+
+                        <div class="row" id="attachment_form">
+
+                            <div class="col-lg-6">
+
+                                <div class="col s12">
+                                    <!-- Begin Attachemnt Form Tab -->
+                                    <div class="form-group">
+                                        <!-- Begin Image -->
+                                        <h3>Add an Attachment</h3>
+                                        <hr />
+                                        <form method="post" action="@Url.Action("AddAttachment", "Tickets", new { projectId = Model.ProjectId, ticketId = Model.Id})" enctype="multipart/form-data">
+                                            @Html.AntiForgeryToken()
+
+                                            <h4>Attachment Description</h4>
+                                            <textarea name="Description" class="form-control" rows="6"></textarea>
+                                            <br />
+                                            <div class="col-md-10">
+                                                <input name="file" type="file" class="form-control" id="fileUpload" />
+                                            </div>
+
+                                            <input type="submit" value="Submit" class="btn btn-default" />
+                                        </form>
+
+
+                                    </div><!-- End Image -->
+                                </div>
+
+                            </div><!-- /attachment form  column -->
+
+                            <div class="col-lg-6">
+
+                                <!-- Begin Ticket Attachments -->
+                                @foreach (var item in Model.Attachments.OrderByDescending(c => c.Created))
+                                {
+                                    <div>
+                                        <h4>@Html.DisplayFor(modelItem => item.Author.UserName)</h4>
+                                        <p>@Html.DisplayFor(modelItem => item.Created)</p>
+
+                                        <div class="well">
+                                            <p>@item.Description <a href="@item.MediaURL">@item.MediaURL</a></p>
+                                        </div>
+                                    </div>
+                                }
+
+                            </div><!-- /attachments column -->
+
+                        </div><!-- /attachment content row -->
+
+                    </div><!--/ attachment content -->
+
+                    <div class="content">
+
+                        <div class="row" id="ticket_histories">
+
+                            <div class="col-lg-12">
+
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Edited By</th>
+                                            <th>Changed</th>
+                                            <th>From</th>
+                                            <th>To</th>
+                                            <th>Changed On</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var history in Model.History.OrderByDescending(c=> c.Changed))
+                                        {
+                                            <tr>
+                                                <td>@history.User.DisplayName</td>
+                                                <td>@history.Property</td>
+                                                <td>@history.OldValue</td>
+                                                <td>@history.NewValue</td>
+                                                <td>@history.Changed</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table><!-- /table -->                                
+
+                            </div><!-- /history column -->
+
+                        </div><!-- /history row -->
+                        
+                    </div><!-- /history content -->
+
+
+                </div><!-- End Row -->
+
+            <hr />
+
+            <!-- End Comment Form -->
+        
+            </div><!-- /content -->
+
+        </div><!-- /card -->
+
+    
+    
+
+</section>
+
+

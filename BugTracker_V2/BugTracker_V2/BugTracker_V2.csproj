@@ -320,6 +320,7 @@
     <Content Include="Scripts\flot\NEWS.md" />
     <Content Include="Scripts\flot\PLUGINS.md" />
     <Content Include="Scripts\flot\README.md" />
+    <None Include="Properties\PublishProfiles\rgoodwin-bugtrack.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\flot\excanvas.js" />
     <Content Include="Scripts\flot\excanvas.min.js" />

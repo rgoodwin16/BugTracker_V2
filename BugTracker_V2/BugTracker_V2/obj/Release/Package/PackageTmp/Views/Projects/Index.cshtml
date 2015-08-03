@@ -1,0 +1,92 @@
+﻿@model IEnumerable<BugTracker_V2.Models.Project>
+
+
+<!-- ==============================================
+     LIST OF ALL PROJECTS
+=============================================== -->
+
+<section class="content-wrap ecommerce-products">
+
+    <div class="card">
+        <div class="title">
+            <h5>Projects</h5><!-- Page Title -->
+            <div class="btn-group right">
+                <a href="@Url.Action("Create", "Projects")" class="btn btn-small z-depth-0"><i class="mdi mdi-content-add"></i> Create New</a>
+             </div>
+        </div><!-- /Title -->
+
+    <div class="content">
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>View</th>
+                    <th>Project Title</th>
+                    <th>@Html.DisplayNameFor(model => model.ProjectManager)</th>
+                    <th>@Html.DisplayNameFor(model => model.Created)</th> 
+                    <th>@Html.DisplayNameFor(model => model.Updated)</th>
+                    <th>Tickets</th>
+                    <th>Edit/Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                @foreach(var item in Model)
+                {
+                    <tr>
+
+                        <td>
+                            <a href="@Url.Action("Details", "Projects", new { id = item.Id })" class=" btn white grey-text text-darken-2">
+                                <i class="fa fa-eye"></i>
+                            </a>
+                        </td><!-- /View Project -->
+
+                        <td>
+                            <a href="@Url.Action("Details", "Projects", new { id = item.Id })">
+                                <strong class="grey-text text-darken-2">@Html.DisplayFor(modelItem => item.Title)</strong>
+                            </a>
+                            <br />
+                                <span class="grey-text">@Html.DisplayFor(modelItem => item.Description)</span>
+                            
+                        </td><!-- /Project Title | Description -->
+                        
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProjectManager.UserName)
+                        </td><!-- /Project Manager -->
+
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Created)
+                        </td><!-- /Created -->
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Updated)
+                        </td><!-- /Updated -->
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Tickets.Count)
+                        </td><!-- /Ticket Count -->
+
+                        <td>
+                            <div class="btn-group">
+                                <a href="@Url.Action("Edit", "Projects", new { id = item.Id })" class="btn btn-small z-depth-0"><i class="mdi mdi-editor-mode-edit"></i></a>
+                                <a href="@Url.Action("Delete", "Projects", new { id = item.Id })" class="btn btn-small red lighten-1 z-depth-0"><i class="mdi mdi-action-delete"></i></a>
+                            </div>
+                        </td><!-- /Edit | Delete -->
+
+                        
+                    </tr><!-- /Table Row -->
+                }
+                
+            </tbody><!-- /Table Body -->
+           
+        </table><!-- / Table -->
+    </div><!-- /Content -->
+
+    </div><!-- End Main Card -->
+     
+    
+
+
+</section>
+    
