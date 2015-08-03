@@ -190,9 +190,31 @@
 
                         <div class="row" id="ticket_histories">
 
-                            <div class="col-lg-6">
+                            <div class="col-lg-12">
 
-                                
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Edited By</th>
+                                            <th>Changed</th>
+                                            <th>From</th>
+                                            <th>To</th>
+                                            <th>Changed On</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var history in Model.History.OrderByDescending(c=> c.Changed))
+                                        {
+                                            <tr>
+                                                <td>@history.User.DisplayName</td>
+                                                <td>@history.Property</td>
+                                                <td>@history.OldValue</td>
+                                                <td>@history.NewValue</td>
+                                                <td>@history.Changed</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table><!-- /table -->                                
 
                             </div><!-- /history column -->
 
