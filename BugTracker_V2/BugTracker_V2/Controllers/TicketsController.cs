@@ -76,6 +76,16 @@ namespace BugTracker_V2.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (ticket.TicketPriorityId == 0)
+                {
+                    ticket.TicketPriorityId = 1;
+                }
+
+                if (ticket.TicketStatusId == 0)
+                {
+                    ticket.TicketStatusId = 1;
+                }
+
                 ticket.OwnedById = User.Identity.GetUserId();
                 ticket.Created = DateTimeOffset.Now;
                 
