@@ -48,7 +48,7 @@ namespace BugTracker_V2.Controllers
 
             var roles = db.Roles.ToList();
             var users = db.Users.ToList();
-                        
+
             var model = new UserRoles
             {
                 UserList = users,
@@ -59,6 +59,7 @@ namespace BugTracker_V2.Controllers
             return View(model);
 
             
+            //return View();
         }
 
         //GET: Users/UserRoles EDIT
@@ -72,6 +73,7 @@ namespace BugTracker_V2.Controllers
                 RoleName = RoleName,
                 Users = new MultiSelectList(db.Users, "Id", "DisplayName", usersInRole),
             };
+
 
             return View(model);
         }
