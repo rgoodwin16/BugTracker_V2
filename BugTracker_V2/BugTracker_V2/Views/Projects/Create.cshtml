@@ -49,7 +49,14 @@
                         </div>
                     </div><!-- End Description -->
 
-
+                    <div class="form-group">
+                        <!-- Begin project users -->
+                        @Html.Label( "Add Users to Project", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.ListBox("ProjectUserIds",null,new {@class="select2"})
+                            @Html.ValidationMessage("ProjectUserIds", "", new { @class = "text-danger" })
+                        </div>
+                    </div><!-- /project users -->
 
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
@@ -65,14 +72,19 @@
 
         </div><!-- /content -->
 
-
-
-
     </div><!-- /card -->
 
-
-
-
-
 </section>
-    
+ @section Scripts {
+    <script src="~/Scripts/tinymce/tinymce.min.js"></script><!-- tinymce -->
+    <script src="~/Scripts/tinymce/jquery.tinymce.min.js"></script><!-- tinymce -->
+    <script src="~/Scripts/select2/select2.min.js"></script><!-- select2 -->
+    <script>
+        $(document).ready(function () {
+            $('textarea').tinymce({});
+        });
+    </script>
+    <script type="text/javascript">
+        $('select').select2();
+    </script>
+}   

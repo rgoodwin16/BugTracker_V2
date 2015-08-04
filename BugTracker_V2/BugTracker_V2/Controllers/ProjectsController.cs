@@ -31,8 +31,8 @@ namespace BugTracker_V2.Controllers
                 ViewBag.search = search;
                 projectList = db.Projects.Where(s=> s.Title.Contains(search) || 
                     s.Description.Contains(search) || 
-                    s.ProjectManager.UserName.Contains(search) ||
-                    s.ProjectManager.DisplayName.Contains(search) ||
+                    //s.ProjectManager.UserName.Contains(search) ||
+                    //s.ProjectManager.DisplayName.Contains(search) ||
                     s.Tickets.Any(t=> t.Title.Contains(search)) 
                     || s.Tickets.Any(t=> t.Description.Contains(search)) 
                     || s.Tickets.Any(t=> t.Comments.Any(c=> c.Body.Contains(search))) ||
@@ -66,10 +66,7 @@ namespace BugTracker_V2.Controllers
         public ActionResult Create()
         {
 
-            IEnumerable<ApplicationUser> listOfUsers;
-
-            listOfUsers = db.Users.ToList();
-            ViewBag.AssignedUserId = new MultiSelectList(listOfUsers, "Id", "UserName");
+            ViewBag.ProjectUserIds = new MultiSelectList(db.Users.ToList(), "Id", "UserName");//This is how we create the dropdown box that has a list of every user in the db.
             return View();
         }
 
@@ -78,21 +75,26 @@ namespace BugTracker_V2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Title,Description,Created,Updated,ProjectManagerId,AssignUserId")] Project project)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Title,Description,Created,Updated")] Project project, string[] ProjectUserIds)
         {
             if (ModelState.IsValid)
             {
-                project.ProjectManagerId = User.Identity.GetUserId();
                 project.Created = DateTimeOffset.Now;
+               
+                foreach (var userId in ProjectUserIds)
+                {
+                    var fakeUser = new ApplicationUser() { Id = userId };
+                    db.Users.Attach(fakeUser);
+                    project.Users.Add(fakeUser);
+                    
+                }
 
                 db.Projects.Add(project);
                 await db.SaveChangesAsync();
+
                 return RedirectToAction("Index");
             }
-            IEnumerable<ApplicationUser> listOfUsers;
-
-            listOfUsers = db.Users.ToList();
-            ViewBag.AssignedUserId = new MultiSelectList(listOfUsers, "Id", "UserName", project.AssignedUserId);
+ 
             return View(project);
         }
 
@@ -103,11 +105,14 @@ namespace BugTracker_V2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            
             Project project = await db.Projects.FindAsync(id);
             if (project == null)
             {
                 return HttpNotFound();
             }
+
+            ViewBag.ProjectUserIds = new MultiSelectList(db.Users.ToList(), "Id", "UserName");//This is how we create the dropdown box that has a list of every user in the db.
             return View(project);
         }
 
@@ -116,12 +121,20 @@ namespace BugTracker_V2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Description,Created,Updated,ProjectManagerId")] Project project)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Description,Created,Updated")] Project project, string [] ProjectUserIds)
         {
             if (ModelState.IsValid)
             {
 
                 project.Updated = DateTimeOffset.Now;
+
+                foreach (var userId in ProjectUserIds)
+                {
+                    var fakeUser = new ApplicationUser() { Id = userId };
+                    db.Users.Attach(fakeUser);
+                    project.Users.Add(fakeUser);
+
+                }
 
                 db.Entry(project).State = EntityState.Modified;
                 await db.SaveChangesAsync();

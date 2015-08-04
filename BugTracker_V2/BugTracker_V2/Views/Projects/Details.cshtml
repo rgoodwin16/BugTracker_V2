@@ -86,12 +86,13 @@
         }
 
 
-            <div class="card-panel blue blue-text text-lighten-5">
-                <h5>Project Manager: @Html.DisplayFor(model => model.ProjectManager.DisplayName)</h5>
-            </div>
-
             <div class="card-panel">
                 <h5>Assigned Users:</h5>
+
+                @foreach (var item in Model.Users)
+                {
+                    <p>@Html.DisplayFor(modelItem=> item.DisplayName)</p>
+                }
             </div>
         
 

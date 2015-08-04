@@ -55,7 +55,6 @@
                 <tr>
                     <th>View</th>
                     <th>Project Title</th>
-                    <th>@Html.DisplayNameFor(model => model.ProjectManager)</th>
                     <th>@Html.DisplayNameFor(model => model.Created)</th> 
                     <th>@Html.DisplayNameFor(model => model.Updated)</th>
                     <th>Tickets</th>
@@ -85,14 +84,9 @@
                                 <strong class="grey-text text-darken-2">@Html.DisplayFor(modelItem => item.Title)</strong>
                             </a>
                             <br />
-                                <span class="grey-text">@Html.DisplayFor(modelItem => item.Description)</span>
+                                <span class="grey-text">@Html.Raw(item.Description)</span>
                             
                         </td><!-- /Project Title | Description -->
-                        
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ProjectManager.UserName)
-                        </td><!-- /Project Manager -->
-
 
                         <td>
                             @Html.DisplayFor(modelItem => item.Created)

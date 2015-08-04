@@ -39,9 +39,6 @@
 
         <div class="title">
             <h5>Tickets</h5><!-- Page Title -->
-            <div class="btn-group right">
-                <a href="@Url.Action("Create", "Tickets")" class="btn btn-small z-depth-0"><i class="mdi mdi-content-add"></i> Create New</a>
-            </div>
         </div><!-- /Title -->
 
         <div class="content">
@@ -56,7 +53,11 @@
                         <th>Comments</th>
                         <th>Attachments</th>
                         <th>Created</th>
-                        <th>Priority</th>
+                        @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                        {
+                            <th>Priority</th>
+                        }
+                        
                         <th>Status</th>
                     </tr>
                 </thead>
@@ -84,21 +85,22 @@
                             @Html.DisplayFor(modelItem=> item.Created)
                         </td>
                         
-                            @if (item.TicketPriority.Name == "Critical")
+                            @if (@User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
                             {
-                                <td>
-                                    <span class="alert">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span>
-                                </td>
+                                if (item.TicketPriority.Name == "Critical")
+                                {
+                                    <td>
+                                        <span class="alert">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TicketPriority.Name)
+                                    </td>
+                                }
                             }
-                            else
-                            {
-                                <td>
-                                   @Html.DisplayFor(modelItem => item.TicketPriority.Name)
-                                </td>
-                            }
-                            
-                            
-                        
+
                         <td>
                             @Html.DisplayFor(modelItem => item.TicketStatus.Name)
                         </td>
