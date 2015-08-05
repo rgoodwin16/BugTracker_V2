@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -28,11 +29,13 @@ namespace BugTracker_V2.Models
         public int TicketPriorityId { get; set; }
         public int TicketStatusId { get; set; }
         public int TicketTypeId { get; set; }
+
         public string OwnedById { get; set; }
         public string AssignedToId { get; set; }
 
         public virtual ApplicationUser OwnedBy { get; set; }
         public virtual ApplicationUser AssignedTo { get; set; }
+
         public virtual Project Project { get; set; }
         public virtual TicketPriority TicketPriority { get; set; }
         public virtual TicketStatus TicketStatus { get; set; }

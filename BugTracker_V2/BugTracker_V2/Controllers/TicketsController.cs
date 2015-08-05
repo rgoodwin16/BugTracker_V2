@@ -15,6 +15,8 @@ using System.Web.Security;
 
 namespace BugTracker_V2.Controllers
 {
+    [RequireHttps]
+    [Authorize]
     public class TicketsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

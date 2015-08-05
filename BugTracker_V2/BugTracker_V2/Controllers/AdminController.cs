@@ -12,7 +12,7 @@ using BugTracker_V2.Models;
 
 namespace BugTracker_V2.Controllers
 {
-    [Authorize]
+    [Authorize(Roles="Admin")]
     [RequireHttps]
     public class AdminController : Controller
     {

@@ -45,6 +45,7 @@
     <link href="~/Content/_Con Theme CSS/prettify.css" rel="stylesheet" /><!-- Google Prettify -->
     <link href="~/Content/_Con Theme CSS/_con.css" rel="stylesheet" /><!-- Main -->
     <link href="~/Scripts/select2/css/select2.min.css" rel="stylesheet" /><!-- Select 2-->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
@@ -136,7 +137,7 @@
                     <!-- Dashboard -->
 
                     <li>
-                        <a href="@Url.Action("Index","Admin")" class="waves-effect waves-blue"><i class="fa fa-dashboard"></i> Dashboard</a>
+                        <a href="@Url.Action("Index","Dashboard")" class="waves-effect waves-blue"><i class="fa fa-dashboard"></i> Dashboard</a>
                         
                     </li>
                    @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
@@ -159,23 +160,6 @@
                     </li>
                    }
                     
-
-                    <!-- Tickets -->
-
-                    <li>
-                        <a class="yay-sub-toggle waves-effect waves-blue"><i class="fa fa-ticket"></i> Tickets<span class="yay-collapse-icon mdi-navigation-expand-more"></span></a>
-                        <ul>
-
-                            <li>
-                                <a href="@Url.Action("Index","Tickets")" class="waves-effect waves-blue">All</a>
-                            </li>
-
-                            <li>
-                                <a href="@Url.Action("Create","Tickets")" class="waves-effect waves-blue">Create</a>
-                            </li>
-
-                        </ul>
-                    </li>
 
                     <!-- User Profile -->
 

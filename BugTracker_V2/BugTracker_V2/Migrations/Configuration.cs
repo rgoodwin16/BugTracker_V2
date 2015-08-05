@@ -17,6 +17,7 @@ namespace BugTracker_V2.Migrations
             ContextKey = "BugTracker_V2.Models.ApplicationDbContext";
         }
 
+
         protected override void Seed(BugTracker_V2.Models.ApplicationDbContext context)
         {
             //Create Admin Role

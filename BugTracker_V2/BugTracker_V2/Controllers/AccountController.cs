@@ -335,7 +335,7 @@ namespace BugTracker_V2.Controllers
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
             if (loginInfo == null)
             {
-                return RedirectToAction("Login");
+                return RedirectToAction("CustomLogin");
             }
 
             // Sign in the user with this external login provider if the user already has a login
@@ -343,7 +343,7 @@ namespace BugTracker_V2.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToAction("Index", "Admin");
+                    return RedirectToAction("Index", "DashBoard");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -402,7 +402,7 @@ namespace BugTracker_V2.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("CustomLogin", "Account");
         }
 
         //

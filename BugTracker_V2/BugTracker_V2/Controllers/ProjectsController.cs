@@ -12,6 +12,8 @@ using BugTracker_V2.Models;
 
 namespace BugTracker_V2.Controllers
 {
+    [RequireHttps]
+    [Authorize]
     public class ProjectsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

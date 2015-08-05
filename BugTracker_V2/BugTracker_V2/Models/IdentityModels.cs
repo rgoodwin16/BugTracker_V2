@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BugTracker_V2.Models
 {
@@ -25,11 +26,12 @@ namespace BugTracker_V2.Models
         public ApplicationUser()
         {
             this.Projects = new HashSet<Project>();
-            this.Tickets = new HashSet<Ticket>();
+            this.AssignedTickets = new HashSet<Ticket>();
         }
 
         public virtual ICollection<Project> Projects { get; set; }
-        public virtual ICollection<Ticket> Tickets { get; set; }
+
+        public virtual ICollection<Ticket> AssignedTickets { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -42,6 +44,20 @@ namespace BugTracker_V2.Models
             return new ApplicationDbContext();
         }
 
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Ticket>()
+                        .HasOptional(t => t.AssignedTo)
+                        .WithMany(u => u.AssignedTickets)
+                        .HasForeignKey(afc => afc.AssignedToId)
+                        .WillCascadeOnDelete(true);
+
+        }
+
+
         public DbSet<Project> Projects { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<TicketAttachment> TicketAttchment { get; set; }
@@ -50,6 +66,5 @@ namespace BugTracker_V2.Models
         public DbSet<TicketPriority> TicketPriority { get; set; }
         public DbSet<TicketStatus> TicketStatus { get; set; }
         public DbSet<TicketType> TicketType { get; set; }
-
     }
 }
