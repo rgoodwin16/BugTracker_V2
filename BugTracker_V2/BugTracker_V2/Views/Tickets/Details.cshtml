@@ -63,7 +63,9 @@
 
 
             
-            </div><!-- /card -->
+            </div><!-- /card (title|description)-->
+
+
 
         </div><!-- end ticket column -->
 
@@ -77,17 +79,49 @@
                     </div>
                 }
                 
-                <div class="card-panel blue blue-text text-lighten-5">
-                    <h5>Assigned To: @Html.DisplayFor(model => model.AssignedTo.DisplayName)</h5>
+                <div class="card">
+
+                    <div class="title">
+                        <h5>Assigned To</h5>
+                    </div>
+
+                    <div class="content">
+                        @Html.DisplayFor(model => model.AssignedTo.DisplayName)
+                    </div>
+
                 </div>
+
+                <br />
                 
-                <div class="card-panel blue-grey lighten-1"><!-- begin ticket status/type/priority -->
-                    <ul class="list-group">
-                        <li class="list-group-item">Ticket Priority: <button class="btn btn-sm">@Html.DisplayFor(model => model.TicketPriority.Name)</button></li>
-                        <li class="list-group-item">Ticket Type: <button class="btn btn-sm">@Html.DisplayFor(model => model.TicketType.Name)</button></li>
-                        <li class="list-group-item">Ticket Status: <button class="btn btn-sm">@Html.DisplayFor(model => model.TicketStatus.Name)</button></li>
-                    </ul>
-                </div><!-- /ticket status/type/priority -->
+
+                <div class="card">
+
+                    <div class="title">
+                        <h5>Ticket Meta</h5>
+                    </div>
+
+                    <div class="content">
+                        
+                        <table class="table table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Status</th>
+                                    <th>Priority</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><button class="btn btn-sm">@Html.DisplayFor(model => model.TicketPriority.Name)</button></td>
+                                    <td><button class="btn btn-sm">@Html.DisplayFor(model => model.TicketType.Name)</button></td>
+                                    <td><button class="btn btn-sm">@Html.DisplayFor(model => model.TicketStatus.Name)</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div><!-- /card TicketType-->
 
             </div><!-- /meta column -->
 
@@ -100,7 +134,7 @@
         <div class="card">
             <ul class="collapsible" data-collapsible="accordion">
                 <li>
-                    <div class="collapsible-header"><i class="fa fa-comments"></i>Comments</div>
+                    <div class="collapsible-header"><i class="fa fa-comments"></i>Comments<span class="yay-collapse-icon mdi-navigation-expand-more right"></span></div>
                     <div class="collapsible-body">
 
                         <div class="content">
@@ -161,7 +195,7 @@
 
                 <li>
 
-                    <div class="collapsible-header"><i class="fa fa-paperclip"></i>Attachments</div>
+                    <div class="collapsible-header"><i class="fa fa-paperclip"></i>Attachments<span class="yay-collapse-icon mdi-navigation-expand-more right"></span></div>
                     <div class="collapsible-body">
 
                         <div class="content" >
@@ -221,7 +255,7 @@
 
                 <li>
                 
-                    <div class="collapsible-header"><i class="fa fa-history"></i>Ticket History</div>
+                    <div class="collapsible-header"><i class="fa fa-history"></i>Ticket History<span class="yay-collapse-icon mdi-navigation-expand-more right"></span></div>
                     <div class="collapsible-body">
 
                     <div class="content">
@@ -257,7 +291,7 @@
                 </li><!-- /history section -->
 
             </ul>
-        </div><!-- /card -->
+        </div><!-- /card (comments|attachments|history)-->
 
 </section>
 

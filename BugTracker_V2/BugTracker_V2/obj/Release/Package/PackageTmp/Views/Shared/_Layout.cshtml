@@ -44,7 +44,7 @@
     <link href="~/Content/_Con Theme CSS/jquery-jvectormap.css" rel="stylesheet" /><!-- jvectormap -->
     <link href="~/Content/_Con Theme CSS/prettify.css" rel="stylesheet" /><!-- Google Prettify -->
     <link href="~/Content/_Con Theme CSS/_con.css" rel="stylesheet" /><!-- Main -->
-    <link href="~/Content/multi-select.css" rel="stylesheet" />
+    <link href="~/Scripts/select2/css/select2.min.css" rel="stylesheet" /><!-- Select 2-->
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
@@ -121,7 +121,7 @@
                 <!-- Sidebar toggle -->
                 <!-- Logo -->
                 <a href="@Url.Action("Index","Admin")" class="brand-logo">
-                    <img src="assets/_con/images/logo-white.png" alt="Con">
+                    <img src="assets/_con/images/logo-white.png" alt="">
                 </a>
                 <!-- /Logo -->
             </div>
@@ -139,28 +139,31 @@
                         <a href="@Url.Action("Index","Admin")" class="waves-effect waves-blue"><i class="fa fa-dashboard"></i> Dashboard</a>
                         
                     </li>
-                   
-                    <!-- Projects -->
+                   @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                   {
+                       <!-- Projects -->
 
                     <li>
-                        <a class="yay-sub-toggle waves-effect waves-blue"><i class="fa fa-indent"></i> Projects<span class="yay-collapse-icon mdi-navigation-expand-more"></span></a>
+                        <a class="yay-sub-toggle waves-effect waves-blue"><i class="fa fa-folder-open"></i> Projects<span class="yay-collapse-icon mdi-navigation-expand-more"></span></a>
                         <ul>
-                           
+
                             <li>
                                 <a href="@Url.Action("Index","Projects")" class="waves-effect waves-blue">All</a>
                             </li>
-                            
+
                             <li>
                                 <a href="@Url.Action("Create","Projects")" class="waves-effect waves-blue">Create</a>
-                           </li>
-                           
-                       </ul>
+                            </li>
+
+                        </ul>
                     </li>
+                   }
+                    
 
                     <!-- Tickets -->
 
                     <li>
-                        <a class="yay-sub-toggle waves-effect waves-blue"><i class="fa fa-indent"></i> Tickets<span class="yay-collapse-icon mdi-navigation-expand-more"></span></a>
+                        <a class="yay-sub-toggle waves-effect waves-blue"><i class="fa fa-ticket"></i> Tickets<span class="yay-collapse-icon mdi-navigation-expand-more"></span></a>
                         <ul>
 
                             <li>
@@ -170,12 +173,7 @@
                             <li>
                                 <a href="@Url.Action("Create","Tickets")" class="waves-effect waves-blue">Create</a>
                             </li>
-                            <li>
-                                <a href="@Url.Action("Edit","Tickets")" class="waves-effect waves-blue">Edit</a>
-                            </li>
-                            <li>
-                                <a href="@Url.Action("Delete","Tickets")" class="waves-effect waves-blue">Delete</a>
-                            </li>
+
                         </ul>
                     </li>
 
