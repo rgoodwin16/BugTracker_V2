@@ -168,6 +168,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\DashBoardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
@@ -178,6 +179,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\DashBoardViewModel.cs" />
     <Compile Include="Models\TicketUserVM.cs" />
     <Compile Include="Models\UnifiedRoleView.cs" />
     <Compile Include="Models\UserRoles.cs" />
@@ -629,8 +631,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
@@ -655,7 +655,6 @@
     <Content Include="settings.config" />
     <Content Include="Views\Account\ResendEmailConfirmation.cshtml" />
     <Content Include="Views\Account\ConfirmationSent.cshtml" />
-    <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Account\_LandingPageExternalLogin.cshtml" />
     <Content Include="Views\Manage\ChangeDisplayName.cshtml" />
     <Content Include="Views\Projects\Create.cshtml" />
@@ -679,7 +678,6 @@
     <Content Include="Views\Account\CustomLogin.cshtml" />
     <Content Include="Views\Account\Login - Copy.cshtml" />
     <Content Include="settings_connection.config" />
-    <Content Include="Views\Admin\UserList.cshtml" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.woff" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.ttf" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.json" />
@@ -690,6 +688,7 @@
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.eot" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\readme.md" />
     <Content Include="Scripts\tinymce\langs\readme.md" />
+    <Content Include="Views\DashBoard\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

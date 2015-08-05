@@ -65,6 +65,14 @@
                 }
             
             
+                @if (Model.Updated != null)
+                {
+                    <div class="alert alert-dismissible green lighten-3 white-text">
+                        <strong>Updated: </strong>@Html.DisplayFor(model => model.Updated)
+                        <button class="close">&times;</button>
+                    </div>
+                }
+
             </div>   
 
 
@@ -77,23 +85,23 @@
 
         <div class="col-lg-4"><!-- Begin Meta Column -->
         
-        @if (Model.Updated != null)
-        {
-            <div class="card-panel green darken-3 white-text">
 
-                <h5>Updated: @Html.DisplayFor(model => model.Updated)</h5>
-            </div>
-        }
+            <div class="card">
+
+                <div class="title">
+                    <h5>Assigned Users</h5>
+                </div>
+
+                <div class="content">
+
+                    @foreach (var item in Model.Users)
+                    {
+                        <button class="btn btn-small">@Html.DisplayFor(modelItem => item.DisplayName)</button>
+                    }
+                </div><!-- /content -->
 
 
-            <div class="card-panel">
-                <h5>Assigned Users:</h5>
-
-                @foreach (var item in Model.Users)
-                {
-                    <p>@Html.DisplayFor(modelItem=> item.DisplayName)</p>
-                }
-            </div>
+            </div><!-- /card -->
         
 
 

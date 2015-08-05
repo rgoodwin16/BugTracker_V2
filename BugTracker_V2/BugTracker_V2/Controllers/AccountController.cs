@@ -89,7 +89,7 @@ namespace BugTracker_V2.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToAction("Index", "Admin");
+                    return RedirectToAction("Index", "DashBoard");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:

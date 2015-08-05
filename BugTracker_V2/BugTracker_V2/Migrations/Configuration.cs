@@ -47,8 +47,10 @@ namespace BugTracker_V2.Migrations
             }
 
             //Add Default Admin to Admin Role
+            
             var userId = userManager.FindByEmail(adminEmail).Id;
-            userManager.AddToRole(userId, "Admin");
+            if (!userManager.IsInRole(userId,"Admin"))
+                userManager.AddToRole(userId, "Admin");
 
 
 
@@ -59,7 +61,7 @@ namespace BugTracker_V2.Migrations
 
             if (!context.Roles.Any(r => r.Name == "ProjectManager"))
             {
-                roleManager2.Create(new IdentityRole { Name = "ProjectManger" });
+                roleManager2.Create(new IdentityRole { Name = "ProjectManager" });
             }
 
             //Create Default Project Manager 
@@ -81,7 +83,7 @@ namespace BugTracker_V2.Migrations
 
             //Add Default Project Manager to Project Manger Role
             var pmId = userManger2.FindByEmail(pManagerEmail).Id;
-            userManger2.AddToRole(pmId, "ProjectManger");
+            userManger2.AddToRole(pmId, "ProjectManager");
 
 
 

@@ -1,9 +1,14 @@
-﻿using BugTracker_V2.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using BugTracker_V2.Models;
 
 namespace BugTracker_V2.Controllers
 {
@@ -15,29 +20,7 @@ namespace BugTracker_V2.Controllers
         UserRolesHelper helper = new UserRolesHelper();
         ApplicationDbContext db = new ApplicationDbContext();
         
-        // GET: Admin
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        //GET: Admin/UserList
-        public ActionResult UserList()
-        {
-            var users = db.Users.ToList();
-            var roles = db.Roles.ToList();
-            var model = new UserRoles
-            
-            {
-                RoleList = roles,
-                UserList = users,
-            };
-            
-            return View(model);
-        }
-
-
-
+        
         // ==============================================
         // USER / USERROLES - GET/EDIT
         // ============================================== 
