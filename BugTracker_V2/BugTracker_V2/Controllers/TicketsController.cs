@@ -144,76 +144,71 @@ namespace BugTracker_V2.Controllers
         {
             if (ModelState.IsValid)
             {
-
+                var properties = new List<string>() { "Updated", "Description", "TicketTypeId" };
                 var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
 
                 var EditId = Guid.NewGuid().ToString();
                 var UserId = User.Identity.GetUserId();
 
-                //Check if AssignedToId has changed
-                if (oldTicket.AssignedToId != ticket.AssignedToId)
-                {
-                    var AssignedHistory = new TicketHistories
-                    {
-                        TicketId = ticket.Id,
-                        UserId = UserId,
-                        Property = "Assigned To",
-                        OldValue = (oldTicket.AssignedToId == null ? "Not Yet Assigned" : db.Users.FirstOrDefault(u => u.Id == oldTicket.AssignedToId).DisplayName),
-                        NewValue = (db.Users.FirstOrDefault(u => u.Id == ticket.AssignedToId).DisplayName),
-                        Changed = System.DateTimeOffset.Now,
-                    };
-                    db.TicketHistories.Add(AssignedHistory);
-                }
-                //Check Description
-                if (oldTicket.Description != ticket.Description)
-                {
-                    var ChangedDescription = new TicketHistories
-                    {
-                        TicketId = ticket.Id,
-                        UserId = UserId,
-                        Property = "Description",
-                        OldValue = oldTicket.Description,
-                        NewValue = ticket.Description,
-                        Changed = System.DateTimeOffset.Now,
-                    };
-                    db.TicketHistories.Add(ChangedDescription);
-                }
 
-                //Check TicketPriority
-                if (oldTicket.TicketPriorityId != ticket.TicketPriorityId)
+                if(User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
                 {
-                    var ChangedPriority = new TicketHistories
+                    //Check if AssignedToId has changed
+                    if (oldTicket.AssignedToId != ticket.AssignedToId)
                     {
-                        TicketId = ticket.Id,
-                        UserId = UserId,
-                        Property = "Ticket Priority",
-                        OldValue = db.TicketPriority.FirstOrDefault(p => p.Id == oldTicket.TicketPriorityId).Name,
-                        NewValue = db.TicketPriority.FirstOrDefault(p => p.Id == ticket.TicketPriorityId).Name,
-                        Changed = System.DateTimeOffset.Now,
-                    };
-                    db.TicketHistories.Add(ChangedPriority);
-                }
+                        properties.Add("AssignedToId");
+                        var AssignedHistory = new TicketHistory
+                        {
+                            TicketId = ticket.Id,
+                            UserId = UserId,
+                            Property = "Assigned To",
+                            OldValue = (oldTicket.AssignedToId == null ? "Not Yet Assigned" : db.Users.FirstOrDefault(u => u.Id == oldTicket.AssignedToId).DisplayName),
+                            NewValue = (db.Users.FirstOrDefault(u => u.Id == ticket.AssignedToId).DisplayName),
+                            Changed = System.DateTimeOffset.Now,
+                        };
+                        db.TicketHistories.Add(AssignedHistory);
+                    }
 
-                //Check TicketStatus
-                if (oldTicket.TicketStatusId != ticket.TicketStatusId)
-                {
-                    var ChangedStatus = new TicketHistories
+                    //Check TicketPriority
+                    if (oldTicket.TicketPriorityId != ticket.TicketPriorityId)
                     {
-                        TicketId = ticket.Id,
-                        UserId = UserId,
-                        Property = "Ticket Status",
-                        OldValue = db.TicketStatus.FirstOrDefault(p => p.Id == oldTicket.TicketStatusId).Name,
-                        NewValue = db.TicketStatus.FirstOrDefault(p => p.Id == ticket.TicketStatusId).Name,
-                        Changed = System.DateTimeOffset.Now,
-                    };
-                    db.TicketHistories.Add(ChangedStatus);
+                        properties.Add("TicketPriorityId");
+                        var ChangedPriority = new TicketHistory
+                        {
+                            TicketId = ticket.Id,
+                            UserId = UserId,
+                            Property = "Ticket Priority",
+                            OldValue = db.TicketPriority.FirstOrDefault(p => p.Id == oldTicket.TicketPriorityId).Name,
+                            NewValue = db.TicketPriority.FirstOrDefault(p => p.Id == ticket.TicketPriorityId).Name,
+                            Changed = System.DateTimeOffset.Now,
+                        };
+                        db.TicketHistories.Add(ChangedPriority);
+                    }
 
+                    //Check TicketStatus
+                    if (oldTicket.TicketStatusId != ticket.TicketStatusId)
+                    {
+                        properties.Add("TicketStatusId");
+                        var ChangedStatus = new TicketHistory
+                        {
+                            TicketId = ticket.Id,
+                            UserId = UserId,
+                            Property = "Ticket Status",
+                            OldValue = db.TicketStatus.FirstOrDefault(p => p.Id == oldTicket.TicketStatusId).Name,
+                            NewValue = db.TicketStatus.FirstOrDefault(p => p.Id == ticket.TicketStatusId).Name,
+                            Changed = System.DateTimeOffset.Now,
+                        };
+                        db.TicketHistories.Add(ChangedStatus);
+
+                    }
+
+                    properties.AddRange(new string[] { "TicketStatusId", "TicketPriorityId", "AssignedToId" });
                 }
 
                 //Check TicketType
                 if (oldTicket.TicketTypeId != ticket.TicketTypeId)
                 {
-                    var ChangedType = new TicketHistories
+                    var ChangedType = new TicketHistory
                     {
                         TicketId = ticket.Id,
                         UserId = UserId,
@@ -225,11 +220,29 @@ namespace BugTracker_V2.Controllers
                     db.TicketHistories.Add(ChangedType);
 
                 }
-                
+
+                //Check Description
+                if (oldTicket.Description != ticket.Description)
+                {
+                    
+                    var ChangedDescription = new TicketHistory
+                    {
+                        TicketId = ticket.Id,
+                        UserId = UserId,
+                        Property = "Description",
+                        OldValue = oldTicket.Description,
+                        NewValue = ticket.Description,
+                        Changed = System.DateTimeOffset.Now,
+                    };
+                    db.TicketHistories.Add(ChangedDescription);
+                }
+
+
                 
                 ticket.Updated = DateTimeOffset.Now;
-                
-                db.Entry(ticket).State = EntityState.Modified;
+
+
+                db.Update(ticket, properties.ToArray());
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }

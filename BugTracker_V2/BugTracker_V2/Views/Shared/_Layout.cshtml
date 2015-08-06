@@ -45,7 +45,8 @@
     <link href="~/Content/_Con Theme CSS/prettify.css" rel="stylesheet" /><!-- Google Prettify -->
     <link href="~/Content/_Con Theme CSS/_con.css" rel="stylesheet" /><!-- Main -->
     <link href="~/Scripts/select2/css/select2.min.css" rel="stylesheet" /><!-- Select 2-->
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"><!-- FontAwesome CDN -->
+    
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
@@ -273,7 +274,7 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    
 
     <!-- jQuery RAF (improved animation performance) -->
     <script src="~/Scripts/jqueryRAF/jquery.requestAnimationFrame.min.js"></script>
@@ -316,6 +317,9 @@
 
     <!-- Google Prettify -->
     <script src="~/Scripts/google-code-prettify/prettify.js"></script>
+
+    <!-- datatables -->
+    <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
 
     <script>
     /*
@@ -653,6 +657,6 @@
     //   $(window).resize();
     // }, 1);
     </script>
-
+    @RenderSection("scripts", required: false)
 </body>
 </html>

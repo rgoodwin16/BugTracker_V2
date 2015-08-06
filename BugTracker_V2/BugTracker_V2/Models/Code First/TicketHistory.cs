@@ -5,7 +5,7 @@ using System.Web;
 
 namespace BugTracker_V2.Models
 {
-    public class TicketHistories
+    public class TicketHistory
     {
         public int Id { get; set; }
         public int TicketId { get; set; }

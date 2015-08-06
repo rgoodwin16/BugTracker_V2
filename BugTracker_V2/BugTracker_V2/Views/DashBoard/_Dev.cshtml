@@ -7,22 +7,22 @@
         <div class="card">
 
             <div class="title">
-                <h5>My Tickets</h5>
+                <h5>My Assigned Tickets</h5>
             </div>
 
             <div class="content">
 
-                <table class="table table-hover">
+                <table class="display table table-bordered table-striped table-hover">
                     <thead>
                         <tr>
                             <th>View</th>
-                            <th>Project</th>
                             <th>Ticket Title</th>
                             <th>Created</th>
                             <th>Updated</th>
                             <th>Type</th>
                             <th>Priority</th>
                             <th>Status</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -31,10 +31,8 @@
                             <tr>
                                 <td>
                                     <a href="@Url.Action("Details", "Tickets", new { projectId = item.ProjectId, id = item.Id })" class="btn white grey-text text-darken-2"><i class="fa fa-eye"></i></a>
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Project.Title)
-                                </td><!--/ project title -->
+                                </td><!--/view ticket button -->
+                                
                                 <td>
                                     <a href="@Url.Action("Details", "Tickets", new { projectId = item.ProjectId, id = item.Id })">   <strong class="grey-text text-darken-2">@Html.DisplayFor(modelItem => item.Title)</strong></a>
                                 </td><!-- /ticket title -->
@@ -54,6 +52,11 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.TicketStatus.Name)
                                 </td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a class="btn btn-small z-depth-0" href="@Url.Action("Edit", "Tickets", new { projectId = item.ProjectId, id = item.Id })"><i class="mdi mdi-editor-mode-edit"></i> Edit</a>
+                                    </div>
+                                </td><!--/edit ticket -->
                             </tr>
                         }
                     </tbody><!-- /table-body -->
@@ -61,7 +64,77 @@
 
             </div><!--/ content -->
 
-        </div><!-- /card -->
+        </div><!-- /card (My Assigned Tickets) -->
+
+        <div class="card">
+
+            <div class="title">
+                <h5>My Project's Tickets</h5>
+            </div>
+
+            <div class="content">
+
+                <table class="display table table-bordered table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>View</th>
+                            <th>Project Title</th>
+                            <th>Created</th>
+                            <th>Updated</th>
+                            <th>Tickets</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in Model.MyProjects)
+                        {
+                            <tr>
+
+                                <td>
+                                    <a href="@Url.Action("Details", "Projects", new { id = item.Id })" class=" btn white grey-text text-darken-2">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
+                                </td><!-- /View Project -->
+
+                                <td>
+                                    <a href="@Url.Action("Details", "Projects", new { id = item.Id })">
+                                        <strong class="grey-text text-darken-2">@Html.DisplayFor(modelItem => item.Title)</strong>
+                                    </a>
+                                    <br />
+                                    <span class="grey-text">@Html.Raw(item.Description)</span>
+
+                                </td><!-- /Project Title | Description -->
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Created)
+                                </td><!-- /Created -->
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Updated)
+                                </td><!-- /Updated -->
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Tickets.Count)
+                                </td><!-- /Ticket Count -->
+
+                                <td>
+                                    <div class="btn-group">
+                                        <a href="@Url.Action("Edit", "Projects", new { id = item.Id })" class="btn btn-small z-depth-0"><i class="mdi mdi-editor-mode-edit"></i> Edit</a>
+
+                                    </div>
+                                </td><!-- /Edit | Delete -->
+
+                            </tr><!-- /Table Row -->
+                        }
+
+                    </tbody><!-- /Table Body -->
+
+                </table><!-- / Table -->
+
+            </div>
+
+        </div><!-- /card (My Project's Tickets)-->
 
     </div><!-- my projects | tickets column -->
 

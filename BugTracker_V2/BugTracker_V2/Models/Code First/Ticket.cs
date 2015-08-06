@@ -14,7 +14,7 @@ namespace BugTracker_V2.Models
         {
             this.Comments = new HashSet<TicketComment>();
             this.Attachments = new HashSet<TicketAttachment>();
-            this.History = new HashSet<TicketHistories>();
+            this.History = new HashSet<TicketHistory>();
         }
 
         public int Id { get; set; }
@@ -43,7 +43,7 @@ namespace BugTracker_V2.Models
 
         public virtual ICollection<TicketComment> Comments { get; set; }
         public virtual ICollection<TicketAttachment> Attachments { get; set; }
-        public virtual ICollection<TicketHistories> History { get; set; }
+        public virtual ICollection<TicketHistory> History { get; set; }
 
 
     }

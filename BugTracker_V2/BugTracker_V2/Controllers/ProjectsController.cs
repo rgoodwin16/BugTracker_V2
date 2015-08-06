@@ -18,6 +18,7 @@ namespace BugTracker_V2.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        [Authorize(Roles="Admin")]
         // GET: Projects
         public async Task<ActionResult> Index(string search)
         {
@@ -65,6 +66,7 @@ namespace BugTracker_V2.Controllers
         }
 
         // GET: Projects/Create
+        [Authorize(Roles="Admin,ProjectManager")]
         public ActionResult Create()
         {
 
@@ -77,6 +79,7 @@ namespace BugTracker_V2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles="Admin,ProjectManager")]
         public async Task<ActionResult> Create([Bind(Include = "Id,Title,Description,Created,Updated")] Project project, string[] ProjectUserIds)
         {
             if (ModelState.IsValid)
@@ -101,6 +104,7 @@ namespace BugTracker_V2.Controllers
         }
 
         // GET: Projects/Edit/5
+        [Authorize(Roles="Admin,ProjectManager")]
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -123,22 +127,31 @@ namespace BugTracker_V2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles="Admin,ProjectManager")]
         public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Description,Created,Updated")] Project project, string [] ProjectUserIds)
         {
             if (ModelState.IsValid)
             {
+                //var properties = new List<string>() { "Updated", "Description" };
+                var existing = db.Projects.Find(project.Id);
 
-                project.Updated = DateTimeOffset.Now;
+                
 
+                existing.Users.Clear();
                 foreach (var userId in ProjectUserIds)
                 {
-                    var fakeUser = new ApplicationUser() { Id = userId };
-                    db.Users.Attach(fakeUser);
-                    project.Users.Add(fakeUser);
+                   
+                   existing.Users.Add(db.Users.Find(userId));
 
                 }
+                
+                //set existing project properties to same as posted project
+                
+                //properties.AddRange(new string[] { "ProjectUserIds" });
 
-                db.Entry(project).State = EntityState.Modified;
+                project.Description = existing.Description;
+                project.Updated = DateTimeOffset.Now;
+
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
