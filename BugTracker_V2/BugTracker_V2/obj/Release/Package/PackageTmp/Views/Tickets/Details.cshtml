@@ -5,7 +5,7 @@
 =============================================== -->
 <section class="content-wrap ecommerce-products">
 
-    
+        
        
         <div class="row">
 
@@ -31,8 +31,15 @@
                     <p class=" table table-hover">@Html.Raw(Model.Description)</p>
 
                     <p>
-                        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-                        @Html.ActionLink("Back to List", "Index")
+                        @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager") || User.IsInRole("Developer"))
+                        {
+                            Html.ActionLink("Edit", "Edit", new { id = Model.Id });
+                            var str = " | ";
+                            @str
+                            Html.ActionLink("Back to List", "Index");
+
+                        }
+                      
                     </p>
 
                     @if (Model.Updated != null)
@@ -59,7 +66,7 @@
                 <div class="card">
 
                     <div class="title">
-                        <h5>Assigned To</h5>
+                        <h5>Developer</h5>
                     </div>
 
                     <div class="content">

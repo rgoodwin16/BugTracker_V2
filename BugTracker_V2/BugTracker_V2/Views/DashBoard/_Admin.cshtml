@@ -1,0 +1,167 @@
+﻿@model BugTracker_V2.Models.DashBoardViewModel
+
+<div class="row">
+
+    <div class="col l8 s12">
+    
+        <div class="card">
+
+            <div class="title">
+                <h5><i class="fa fa-folder-open"></i> All Projects</h5>
+                <div class="btn-group right">
+                    <a href="@Url.Action("Create", "Projects")" class="btn btn-small z-depth-0"><i class="mdi mdi-content-add"></i> Create New</a>
+                </div>
+            </div><!-- /title -->
+
+            <div class="content">
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>View</th>
+                            <th>Project Title</th>
+                            <th>Created</th>
+                            <th>Updated</th>
+                            <th>Tickets</th>
+                            <th>Edit/Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in Model.Projects)
+                        {
+                            <tr>
+
+                                <td>
+                                    <a href="@Url.Action("Details", "Projects", new { id = item.Id })" class=" btn white grey-text text-darken-2">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
+                                </td><!-- /View Project -->
+
+                                <td>
+                                    <a href="@Url.Action("Details", "Projects", new { id = item.Id })">
+                                        <strong class="grey-text text-darken-2">@Html.DisplayFor(modelItem => item.Title)</strong>
+                                    </a>
+                                    <br />
+                                    <span class="grey-text">@Html.Raw(item.Description)</span>
+
+                                </td><!-- /Project Title | Description -->
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Created)
+                                </td><!-- /Created -->
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Updated)
+                                </td><!-- /Updated -->
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Tickets.Count)
+                                </td><!-- /Ticket Count -->
+                                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                                {
+                                    <td>
+                                        <div class="btn-group">
+                                            <a href="@Url.Action("Edit", "Projects", new { id = item.Id })" class="btn btn-small z-depth-0"><i class="mdi mdi-editor-mode-edit"></i></a>
+                                            <a href="@Url.Action("Delete", "Projects", new { id = item.Id })" class="btn btn-small red lighten-1 z-depth-0"><i class="mdi mdi-action-delete"></i></a>
+                                        </div>
+                                    </td><!-- /Edit | Delete -->
+                                }
+
+                        
+                            </tr><!-- /Table Row -->
+                        }
+
+                    </tbody><!-- /Table Body -->
+
+                </table><!-- / Table -->
+
+            </div><!-- /content -->
+
+        </div><!-- /card (Projects) -->  
+        
+        <br />
+        <br />
+
+        <div class="card">
+
+            <div class="title">
+                <h5><i class="fa fa-ticket"></i> All Tickets</h5>
+            </div><!-- /title -->
+
+            <div class="content">
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>View</th>
+                            <th>Project</th>
+                            <th>Ticket Title</th>
+                            <th>Created</th>
+                            <th>Updated</th>
+                            <th>Type</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Tickets.OrderByDescending(c => c.Created))
+                        {
+                            <tr>
+                                <td>
+                                    <a href="@Url.Action("Details", "Tickets", new { projectId = item.ProjectId, id = item.Id })" class="btn white grey-text text-darken-2"><i class="fa fa-eye"></i></a>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Project.Title)
+                                </td><!--/ project title -->
+                                <td>
+                                    <a href="@Url.Action("Details", "Tickets", new { projectId = item.ProjectId, id = item.Id })">   <strong class="grey-text text-darken-2">@Html.DisplayFor(modelItem => item.Title)</strong></a>
+                                </td><!-- /ticket title -->
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Created)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Updated)`
+
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TicketType.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TicketPriority.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TicketStatus.Name)
+                                </td>
+                            </tr>
+                        }
+                    </tbody><!-- /table-body -->
+                </table><!-- /table -->
+
+
+            </div><!-- /content -->
+
+        </div><!-- /card (Tickets) -->
+
+  
+
+    </div><!-- / column (Projects | Tickets) -->
+
+    <div class="col l4 s12">
+        
+            <div class="card-panel stats-card blue lighten-2 blue-text text-lighten-5">
+                <i class="fa fa-folder-open"></i>
+                <span class="count">@Model.Projects.Count</span>
+                <div class="name">Total Projects</div>
+            </div><!--/ project count -->
+
+            <div class="card-panel stats-card teal lighten-2 green-text text-lighten-5">
+                <i class="fa fa-ticket"></i>
+                <span class="count">@Model.Tickets.Count</span>
+                <div class="name">Total Tickets</div>
+            </div><!-- /ticket count -->
+    
+    </div><!-- column (Meta Info)-->
+
+</div><!-- /row -->
+

@@ -1,0 +1,70 @@
+﻿@model BugTracker_V2.Models.DashBoardViewModel
+
+<div class="row">
+
+    <div class="col l8 s12">
+
+        <div class="card">
+
+            <div class="title">
+                <h5>My Tickets</h5>
+            </div>
+
+            <div class="content">
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>View</th>
+                            <th>Project</th>
+                            <th>Ticket Title</th>
+                            <th>Created</th>
+                            <th>Updated</th>
+                            <th>Type</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.DevTickets.OrderByDescending(c => c.Created))
+                        {
+                            <tr>
+                                <td>
+                                    <a href="@Url.Action("Details", "Tickets", new { projectId = item.ProjectId, id = item.Id })" class="btn white grey-text text-darken-2"><i class="fa fa-eye"></i></a>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Project.Title)
+                                </td><!--/ project title -->
+                                <td>
+                                    <a href="@Url.Action("Details", "Tickets", new { projectId = item.ProjectId, id = item.Id })">   <strong class="grey-text text-darken-2">@Html.DisplayFor(modelItem => item.Title)</strong></a>
+                                </td><!-- /ticket title -->
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Created)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Updated)`
+
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TicketType.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TicketPriority.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TicketStatus.Name)
+                                </td>
+                            </tr>
+                        }
+                    </tbody><!-- /table-body -->
+                </table><!-- /table -->
+
+            </div><!--/ content -->
+
+        </div><!-- /card -->
+
+    </div><!-- my projects | tickets column -->
+
+</div><!-- /row -->
+
+
