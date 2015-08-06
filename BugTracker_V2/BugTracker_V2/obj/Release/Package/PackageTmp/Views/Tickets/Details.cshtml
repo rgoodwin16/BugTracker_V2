@@ -1,4 +1,5 @@
 ﻿@model BugTracker_V2.Models.Ticket
+@using Microsoft.AspNet.Identity;
 
 <!-- ==============================================
      SINGLE TICKET
@@ -16,6 +17,14 @@
                 <div class="title">
                     <!-- Title -->
                     <h3>@Html.DisplayFor(model => model.Title)</h3>
+                    
+                    @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager") || User.IsInRole("Developer") || User.Identity.GetUserId() == @Model.OwnedById)
+                    {
+                        <div class="btn-group right">
+                            <a href="@Url.Action("Edit", "Tickets", new { id = Model.Id })" class="btn btn-small z-depth-0"><i class="mdi mdi-editor-mode-edit"></i> Edit Ticket</a>
+                        </div>
+                    }
+                    
                </div>
 
                 <div class="content">
@@ -30,17 +39,7 @@
                     <hr />
                     <p class=" table table-hover">@Html.Raw(Model.Description)</p>
 
-                    <p>
-                        @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager") || User.IsInRole("Developer"))
-                        {
-                            Html.ActionLink("Edit", "Edit", new { id = Model.Id });
-                            var str = " | ";
-                            @str
-                            Html.ActionLink("Back to List", "Index");
-
-                        }
-                      
-                    </p>
+                    <hr />
 
                     @if (Model.Updated != null)
                     {

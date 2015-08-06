@@ -62,7 +62,16 @@
                         </div>
                     </div><!-- End Updated -->
 
-                    @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                    <div class="form-group">
+                        <!-- Begin Type -->
+                        @Html.LabelFor(model => model.TicketTypeId, "TicketType", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("TicketTypeId")
+                            @Html.ValidationMessageFor(model => model.TicketTypeId, "", new { @class = "text-danger" })
+                        </div>
+                    </div><!-- End Type -->
+                                        
+                    @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager") || User.IsInRole("Developer"))
                     {
                         <div class="form-group">
                             <!-- Begin Status -->
@@ -92,15 +101,12 @@
                         </div><!-- End Assigned User -->
 
                     }
+                    
+                    
+                        
+                    
                                         
-                    <div class="form-group">
-                        <!-- Begin Type -->
-                        @Html.LabelFor(model => model.TicketTypeId, "TicketType", htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.DropDownList("TicketTypeId")
-                            @Html.ValidationMessageFor(model => model.TicketTypeId, "", new { @class = "text-danger" })
-                        </div>
-                    </div><!-- End Type -->
+
 
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">

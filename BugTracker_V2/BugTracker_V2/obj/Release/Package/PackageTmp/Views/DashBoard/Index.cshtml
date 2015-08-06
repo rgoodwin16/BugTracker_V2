@@ -33,3 +33,15 @@
 
 </section>
 <!-- /Main Content -->
+@section scripts {
+    <script>
+        $('table').DataTable({
+            "iDisplayLength": 5,
+            "aLengthMenu": [
+              [5, 10, 25, 50, -1],
+              [5, 10, 25, 50, "all"]
+            ]
+        });
+</script>
+
+}

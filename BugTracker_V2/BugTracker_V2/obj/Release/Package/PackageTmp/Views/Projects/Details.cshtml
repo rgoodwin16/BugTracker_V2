@@ -28,12 +28,18 @@
                 <hr />
                 <p class=" table table-hover">@Html.Raw(Model.Description)</p>
             
-                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                @if (User.IsInRole("Admin"))
                 {
-                    <p>
-                        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-                        @Html.ActionLink("Back to List", "Index")
-                    </p>
+                    var str = " | ";
+                        @Html.ActionLink("Edit", "Edit", new { id = Model.Id });
+                        @str
+                        @Html.ActionLink("Back to List", "Index");
+                }
+
+                else if (User.IsInRole("ProjectManager"))
+                {
+                    @Html.ActionLink("Edit", "Edit", new { id = Model.Id });
+
                 }
             
             
@@ -53,6 +59,7 @@
 
             </div><!-- End Project Column -->
 
+            <br />
        
 
         <div class="col-lg-4"><!-- Begin Meta Column -->

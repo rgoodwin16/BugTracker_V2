@@ -18,7 +18,7 @@ namespace BugTracker_V2.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles="Admin,ProjectManager")]
         // GET: Projects
         public async Task<ActionResult> Index(string search)
         {
@@ -51,6 +51,7 @@ namespace BugTracker_V2.Controllers
         }
 
         // GET: Projects/Details/5
+        [Authorize]
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
@@ -66,11 +67,11 @@ namespace BugTracker_V2.Controllers
         }
 
         // GET: Projects/Create
-        [Authorize(Roles="Admin,ProjectManager")]
+        [Authorize(Roles="Admin")]
         public ActionResult Create()
         {
 
-            ViewBag.ProjectUserIds = new MultiSelectList(db.Users.ToList(), "Id", "UserName");//This is how we create the dropdown box that has a list of every user in the db.
+            ViewBag.ProjectUserIds = new MultiSelectList(db.Users.ToList(), "Id", "DisplayName");//This is how we create the dropdown box that has a list of every user in the db.
             return View();
         }
 
@@ -79,7 +80,7 @@ namespace BugTracker_V2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles="Admin,ProjectManager")]
+        [Authorize(Roles="Admin")]
         public async Task<ActionResult> Create([Bind(Include = "Id,Title,Description,Created,Updated")] Project project, string[] ProjectUserIds)
         {
             if (ModelState.IsValid)
@@ -104,7 +105,7 @@ namespace BugTracker_V2.Controllers
         }
 
         // GET: Projects/Edit/5
-        [Authorize(Roles="Admin,ProjectManager")]
+        [Authorize(Roles = "Admin,ProjectManager")]
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -118,7 +119,7 @@ namespace BugTracker_V2.Controllers
                 return HttpNotFound();
             }
 
-            ViewBag.ProjectUserIds = new MultiSelectList(db.Users.ToList(), "Id", "UserName");//This is how we create the dropdown box that has a list of every user in the db.
+            ViewBag.ProjectUserIds = new MultiSelectList(db.Users.ToList(), "Id", "DisplayName");//This is how we create the dropdown box that has a list of every user in the db.
             return View(project);
         }
 
@@ -127,30 +128,22 @@ namespace BugTracker_V2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles="Admin,ProjectManager")]
+        [Authorize(Roles = "Admin,ProjectManager")]
         public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Description,Created,Updated")] Project project, string [] ProjectUserIds)
         {
             if (ModelState.IsValid)
             {
-                //var properties = new List<string>() { "Updated", "Description" };
                 var existing = db.Projects.Find(project.Id);
-
-                
 
                 existing.Users.Clear();
                 foreach (var userId in ProjectUserIds)
                 {
-                   
                    existing.Users.Add(db.Users.Find(userId));
 
                 }
-                
-                //set existing project properties to same as posted project
-                
-                //properties.AddRange(new string[] { "ProjectUserIds" });
-
-                project.Description = existing.Description;
-                project.Updated = DateTimeOffset.Now;
+               
+                existing.Updated = DateTimeOffset.Now;
+                existing.Description = project.Description;
 
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
