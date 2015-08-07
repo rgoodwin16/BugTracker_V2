@@ -17,33 +17,60 @@ namespace BugTracker_V2.Controllers
         // GET: DashBoard
         public ActionResult Index()
         {
-            //instantiate a new dashbard view model
-            //populate the dashboard view model with necessary fields
-            //return view, passing in the dashboard view model
-            
-            var user = db.Users.Find(User.Identity.GetUserId());//grab the current user from the db
 
-            var myProjects = user.Projects.ToList();//grab every project associated with this user
-            var myTickets = myProjects.SelectMany(p=> p.Tickets).ToList();//grab every ticket associated with this user's projects
-            var devTickets = user.AssignedTickets.ToList();//grab every ticket for this developer
-            
-            var projects = db.Projects.ToList();//grab every project from the db
-            var tickets = db.Tickets.ToList();//grab every ticket from the db
-            
-            var users = db.Users.ToList();//grab every user in the db
+            DashBoardViewModel model;
 
-            var model = new DashBoardViewModel
+            var user = db.Users.Find(User.Identity.GetUserId());    //grab the current user from the db
+
+            if (User.IsInRole("Admin"))
             {
-                MyProjects = myProjects,
-                MyTickets = myTickets,
-                DevTickets = devTickets,
-                Projects = projects,
-                Tickets = tickets,
-                Users = users,
-            };
+                var projects = db.Projects.ToList();    //grab every project from the db
+                var tickets = db.Tickets.ToList();      //grab every ticket from the db
+                var users = db.Users.ToList();          //grab every user in the db
+                
+                model = new DashBoardViewModel
+                {
+                    Projects = projects,
+                    Tickets = tickets,
+                    Users = users,
+                };
 
+                
+            }
+           
+            else if (User.IsInRole("ProjectManager") || User.IsInRole("Developer"))
+            
+            {
+                var myProjects = user.Projects.ToList();                            //grab every project associated with this user
+                var myTickets = myProjects.SelectMany(p => p.Tickets).ToList();     //grab every ticket associated with this user's projects
+
+                var devTickets = user.AssignedTickets.ToList();                     //grab every ticket for this developer
+
+                model = new DashBoardViewModel
+                {
+                    MyProjects = myProjects,
+                    MyTickets = myTickets,
+                    DevTickets = devTickets,
+                };
+
+                
+            }
+            
+            else 
+            
+            {
+                var projects = db.Projects.ToList();    //grab every project from the db
+                model = new DashBoardViewModel
+                {
+                   MyTickets = db.Tickets.Where(t=> t.OwnedById == user.Id).ToList(),
+                   Projects = projects,
+                };
+
+                
+            }
 
             return View(model);
+                        
         }
     }
 }

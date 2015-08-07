@@ -68,15 +68,13 @@
             </a>
             <!-- Sidebar toggle -->
             <!-- Logo -->
-            <a href="@Url.Action("Index","Admin")" class="brand-logo">
+            <a href="@Url.Action("Index","DashBoard")" class="brand-logo">
                 <img src="~/images/logo.png" alt="BugTracker">
             </a>
             <!-- /Logo -->
             <!-- Menu -->
             <ul>
-                <li>
-                    <a href="#!" class="search-bar-toggle"><i class="mdi-action-search"></i></a>
-                </li>
+
                 <li class="user">
                     <a class="dropdown-button" href="#!" data-activates="user-dropdown">
                         <img src="~/images/user.jpg" alt="John Doe" class="circle">
@@ -122,7 +120,7 @@
                 </a>
                 <!-- Sidebar toggle -->
                 <!-- Logo -->
-                <a href="@Url.Action("Index","Admin")" class="brand-logo">
+                <a href="@Url.Action("Index","DashBoard")" class="brand-logo">
                     <img src="assets/_con/images/logo-white.png" alt="">
                 </a>
                 <!-- /Logo -->
@@ -141,7 +139,7 @@
                         <a href="@Url.Action("Index","Dashboard")" class="waves-effect waves-blue"><i class="fa fa-dashboard"></i> Dashboard</a>
                         
                     </li>
-                   @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                   @if (User.IsInRole("Admin"))
                    {
                        <!-- Projects -->
 
@@ -192,84 +190,10 @@
    
 
 
-    <!-- Search Bar -->
-    <div class="search-bar">
-        <div class="layer-overlay"></div>
-        <div class="layer-content">
-            <form action="@Url.Action("Index", "Projects")" method="post">
-                <!-- Header -->
-                <a class="search-bar-toggle grey-text text-darken-2" href="#!"><i class="mdi-navigation-close"></i></a>
-                <!-- Search Input -->
-                <div class="input-field">
-                    <i class="mdi-action-search prefix"></i>
-                    <input type="search" name="search" placeholder="Search...">
-                </div>
-                <!-- Search Results -->
-                <div class="search-results">
-                    <div class="row">
-                        <div class="col s12 l4">
-                            <h4>Users</h4>
-                            <div class="each-result">
-                                <img src="~/images/user2.jpg" alt="Felecia Castro" class="circle photo">
-                                <div class="title">Felecia Castro</div>
-                                <div class="label">Content Manager</div>
-                            </div>
-                            <div class="each-result">
-                                <img src="~/images/user3.jpg" alt="Max Brooks" class="circle photo">
-                                <div class="title">Max Brooks</div>
-                                <div class="label">Programmer</div>
-                            </div>
-                            <div class="each-result">
-                                <img src="~/images/user4.jpg" alt="Patsy Griffin" class="circle photo">
-                                <div class="title">Patsy Griffin</div>
-                                <div class="label">Support</div>
-                            </div>
-                            <div class="each-result">
-                                <img src="~/images/user6.jpg" alt="Vernon Garrett" class="circle photo">
-                                <div class="title">Vernon Garrett</div>
-                                <div class="label">Photographer</div>
-                            </div>
-                        </div>
-                        <div class="col s12 l4">
-                            <h4>Articles</h4>
-                            <div class="each-result">
-                                <div class="icon circle blue white-text">MD</div>
-                                <div class="title">Material Design</div>
-                                <div class="label nowrap">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi consequatur debitis veritatis dolorum, enim libero!</div>
-                            </div>
-                            <div class="each-result">
-                                <div class="icon circle teal white-text">
-                                    <i class="fa fa-dashboard"></i>
-                                </div>
-                                <div class="title">Admin Dashboard</div>
-                                <div class="label nowrap">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi consequatur debitis veritatis dolorum, enim libero!</div>
-                            </div>
-                            <div class="each-result">
-                                <div class="icon circle orange white-text">RD</div>
-                                <div class="title">Responsive Design</div>
-                                <div class="label nowrap">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi consequatur debitis veritatis dolorum, enim libero!</div>
-                            </div>
-                            <div class="each-result">
-                                <div class="icon circle red white-text">
-                                    <i class="fa fa-tablet"></i>
-                                </div>
-                                <div class="title">Mobile First</div>
-                                <div class="label nowrap">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi consequatur debitis veritatis dolorum, enim libero!</div>
-                            </div>
-                        </div>
-                        <div class="col s12 l4">
-                            <h4>Posts</h4>
-                            <div class="no-result">No results were found ;(</div>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-    <!-- /Search Bar -->
+
 
     <footer>
-        &copy; 2015 <strong>nK</strong>. All rights reserved. <a href="http://themeforest.net/item/con-material-admin-dashboard-template/10621512?ref=nKdev">Purchase</a>
+        &copy; 2015 Bug<strong>Tracker</strong>.  Developed by: <a href="https://rgoodwin.azurewebsites.net">Ray Goodwin</a>
     </footer>
 
     @Scripts.Render("~/bundles/jquery")

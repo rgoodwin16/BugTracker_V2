@@ -43,6 +43,7 @@ namespace BugTracker_V2.Controllers
             {
                 return HttpNotFound();
             }
+                        
             return View(ticket);
         }
 
@@ -93,7 +94,7 @@ namespace BugTracker_V2.Controllers
                 
                 db.Tickets.Add(ticket);
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index","DashBoard");
             }
 
             var devId = db.Roles.First(r => r.Name == "Developer").Id;
@@ -108,6 +109,7 @@ namespace BugTracker_V2.Controllers
         }
 
         // GET: Tickets/Edit/5
+        [Authorize(Roles=("Admin, ProjectManager,Developer"))]
         [Route("Projects/{projectId}/Tickets/{id}/Edit")]
         public async Task<ActionResult> Edit(int? id)
         {
@@ -139,6 +141,7 @@ namespace BugTracker_V2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = ("Admin, ProjectManager,Developer"))]
         [Route("Projects/{projectId}/Tickets/{id}/Edit")]
         public async Task<ActionResult> Edit([Bind(Include = "Id,ProjectId,Title,Description,Created,Updated,TicketPriorityId,TicketStatusId,TicketTypeId,AssignedToId, OwnedById")] Ticket ticket)
         {
@@ -244,7 +247,7 @@ namespace BugTracker_V2.Controllers
 
                 db.Update(ticket, properties.ToArray());
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "DashBoard");
             }
 
            
@@ -282,7 +285,7 @@ namespace BugTracker_V2.Controllers
             Ticket ticket = await db.Tickets.FindAsync(id);
             db.Tickets.Remove(ticket);
             await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "DashBoard");
         }
 
 

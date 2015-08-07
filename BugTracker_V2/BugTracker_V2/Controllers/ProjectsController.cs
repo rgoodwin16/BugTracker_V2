@@ -98,7 +98,7 @@ namespace BugTracker_V2.Controllers
                 db.Projects.Add(project);
                 await db.SaveChangesAsync();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Index","DashBoard");
             }
  
             return View(project);
@@ -146,7 +146,7 @@ namespace BugTracker_V2.Controllers
                 existing.Description = project.Description;
 
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "DashBoard");
             }
             return View(project);
         }
@@ -174,7 +174,7 @@ namespace BugTracker_V2.Controllers
             Project project = await db.Projects.FindAsync(id);
             db.Projects.Remove(project);
             await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index","DashBoard");
         }
 
         protected override void Dispose(bool disposing)

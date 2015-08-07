@@ -95,13 +95,13 @@
                     <thead>
                         <tr>
                             <th>View</th>
-                            <th>Project</th>
                             <th>Ticket Title</th>
+                            <th>Project</th>
                             <th>Created</th>
-                            <th>Updated</th>
                             <th>Type</th>
                             <th>Priority</th>
                             <th>Status</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -112,26 +112,53 @@
                                     <a href="@Url.Action("Details", "Tickets", new { projectId = item.ProjectId, id = item.Id })" class="btn white grey-text text-darken-2"><i class="fa fa-eye"></i></a>
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Project.Title)
-                                </td><!--/ project title -->
-                                <td>
                                     <a href="@Url.Action("Details", "Tickets", new { projectId = item.ProjectId, id = item.Id })">   <strong class="grey-text text-darken-2">@Html.DisplayFor(modelItem => item.Title)</strong></a>
                                 </td><!-- /ticket title -->
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Project.Title)
+                                </td><!--/ project title -->
+
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Created)
                                 </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Updated)`
 
-                                </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.TicketType.Name)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.TicketPriority.Name)
+                                    @if (item.TicketPriority.Name == "Critical")
+                                    {
+                                        <span class="alert red white-text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span>
+                                    }
+                                    else
+                                    {
+                                        @Html.DisplayFor(modelItem => item.TicketPriority.Name)
+                                    }
+                                  
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.TicketStatus.Name)
+                                    @if(item.TicketStatus.Name == "New")
+                                    {
+                                        <span class="alert green lighten-1 white-text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span>
+                                    }
+                                    else if (item.TicketStatus.Name == "Assigned")
+                                    {
+                                        <span class="alert blue lighten-1 white-text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span>
+                                    }else if(item.TicketStatus.Name == "Work In Progress")
+                                    {
+                                        @Html.DisplayFor(modelItem => item.TicketStatus.Name)
+                                    }else if (item.TicketStatus.Name == "Resolved")
+                                    {
+                                        <span class="alert grey darken-4 white-text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span>
+                                    }
+                                                                        
+                                </td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a href="@Url.Action("Edit", "Tickets", new { projectId = item.ProjectId, id = item.Id })" class="btn btn-small z-depth-0"><i class="mdi mdi-editor-mode-edit"></i> Edit</a>
+                                    </div>
+
                                 </td>
                             </tr>
                         }

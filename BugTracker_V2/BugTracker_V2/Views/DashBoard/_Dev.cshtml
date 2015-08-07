@@ -78,61 +78,73 @@
                     <thead>
                         <tr>
                             <th>View</th>
-                            <th>Project Title</th>
+                            <th>Project</th>
+                            <th>Ticket Title</th>
                             <th>Created</th>
-                            <th>Updated</th>
-                            <th>Tickets</th>
-                            <th>Action</th>
+                            <th>Type</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                           
                         </tr>
                     </thead>
                     <tbody>
-
-                        @foreach (var item in Model.MyProjects)
+                        @foreach (var item in Model.MyTickets.OrderByDescending(c => c.Created))
                         {
                             <tr>
-
                                 <td>
-                                    <a href="@Url.Action("Details", "Projects", new { id = item.Id })" class=" btn white grey-text text-darken-2">
-                                        <i class="fa fa-eye"></i>
-                                    </a>
-                                </td><!-- /View Project -->
-
+                                    <a href="@Url.Action("Details", "Tickets", new { projectId = item.ProjectId, id = item.Id })" class="btn white grey-text text-darken-2"><i class="fa fa-eye"></i></a>
+                                </td>
                                 <td>
-                                    <a href="@Url.Action("Details", "Projects", new { id = item.Id })">
-                                        <strong class="grey-text text-darken-2">@Html.DisplayFor(modelItem => item.Title)</strong>
-                                    </a>
-                                    <br />
-                                    <span class="grey-text">@Html.Raw(item.Description)</span>
-
-                                </td><!-- /Project Title | Description -->
-
+                                    @Html.DisplayFor(modelItem => item.Project.Title)
+                                </td><!--/ project title -->
+                                <td>
+                                    <a href="@Url.Action("Details", "Tickets", new { projectId = item.ProjectId, id = item.Id })">   <strong class="grey-text text-darken-2">@Html.DisplayFor(modelItem => item.Title)</strong></a>
+                                </td><!-- /ticket title -->
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Created)
-                                </td><!-- /Created -->
+                                </td>
 
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Updated)
-                                </td><!-- /Updated -->
-
+                                    @Html.DisplayFor(modelItem => item.TicketType.Name)
+                                </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Tickets.Count)
-                                </td><!-- /Ticket Count -->
+                                    @if (item.TicketPriority.Name == "Critical")
+                                    {
+                                        <span class="alert red white-text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span>
+                                    }
+                                    else
+                                    {
+                                        @Html.DisplayFor(modelItem => item.TicketPriority.Name)
+                                    }
 
+                                </td>
                                 <td>
-                                    <div class="btn-group">
-                                        <a href="@Url.Action("Edit", "Projects", new { id = item.Id })" class="btn btn-small z-depth-0"><i class="mdi mdi-editor-mode-edit"></i> Edit</a>
+                                    @if (item.TicketStatus.Name == "New")
+                                    {
+                                        <span class="alert green lighten-1 white-text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span>
+                                    }
+                                    else if (item.TicketStatus.Name == "Assigned")
+                                    {
+                                        <span class="alert blue lighten-1 white-text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span>
+                                    }
+                                    else if (item.TicketStatus.Name == "Work In Progress")
+                                    {
+                                        @Html.DisplayFor(modelItem => item.TicketStatus.Name)
+                                    }
+                                    else if (item.TicketStatus.Name == "Resolved")
+                                    {
+                                        <span class="alert grey darken-4 white-text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span>
+                                    }
 
-                                    </div>
-                                </td><!-- /Edit | Delete -->
+                                </td>
 
-                            </tr><!-- /Table Row -->
+                            </tr>
                         }
+                    </tbody><!-- /table-body -->
+                </table><!-- /table -->
 
-                    </tbody><!-- /Table Body -->
 
-                </table><!-- / Table -->
-
-            </div>
+            </div><!-- /content -->
 
         </div><!-- /card (My Project's Tickets)-->
 

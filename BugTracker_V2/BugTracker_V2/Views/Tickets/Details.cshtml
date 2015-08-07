@@ -6,8 +6,6 @@
 =============================================== -->
 <section class="content-wrap ecommerce-products">
 
-        
-       
         <div class="row">
 
         <div class="col-lg-8"><!-- begin ticket column -->
@@ -18,7 +16,7 @@
                     <!-- Title -->
                     <h3>@Html.DisplayFor(model => model.Title)</h3>
                     
-                    @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager") || User.IsInRole("Developer") || User.Identity.GetUserId() == @Model.OwnedById)
+                    @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager") || User.Identity.GetUserId() == @Model.AssignedToId || User.Identity.GetUserId() == @Model.OwnedById)
                     {
                         <div class="btn-group right">
                             <a href="@Url.Action("Edit", "Tickets", new { id = Model.Id })" class="btn btn-small z-depth-0"><i class="mdi mdi-editor-mode-edit"></i> Edit Ticket</a>
@@ -115,34 +113,49 @@
         <br />
 
         <div class="card">
+
             <ul class="collapsible" data-collapsible="accordion">
                 <li>
-                    <div class="collapsible-header"><i class="fa fa-comments"></i>Comments<span class="yay-collapse-icon mdi-navigation-expand-more right"></span></div>
+                    <div class="collapsible-header">
+                        <i class="fa fa-comments"></i>Comments<span class="yay-collapse-icon mdi-navigation-expand-more right"></span>
+                    </div>
+
                     <div class="collapsible-body">
 
                         <div class="content">
 
                         <div class="row">
 
-                            <div class="col-lg-6">
-                                
-                                <form method="post" action="@Url.Action("CreateComment", "Tickets",new { projectId = Model.ProjectId, ticketId = Model.Id })">
-                                    @Html.AntiForgeryToken()
-                                    <h3>Leave a Comment</h3>
+                            @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager") || User.IsInRole("Developer") || User.Identity.GetUserId() == Model.OwnedById)
+                            {
+                                <div class="col-lg-6" id="comment_form">
 
-                                    <div class="form-group">
-                                        <div>
-                                            <textarea name="Body" class="form-control" rows="6"></textarea>
-                                        </div>
-                                    </div><!-- End Comment Box -->
+                                    <form method="post" action="@Url.Action("CreateComment", "Tickets",new { projectId = Model.ProjectId, ticketId = Model.Id })">
+                                        @Html.AntiForgeryToken()
+                                        <h3>Leave a Comment</h3>
 
-                                    <input type="submit" value="Submit" class="btn btn-default" /><br />
+                                        <div class="form-group">
+                                            <div>
+                                                <textarea name="Body" class="form-control" rows="6"></textarea>
+                                            </div>
+                                        </div><!-- End Comment Box -->
 
-                                </form><!--/comment form -->
+                                        <input type="submit" value="Submit" class="btn btn-default" /><br />
 
-                                <br />
+                                    </form><!--/comment form -->
 
-                            </div><!-- /comment form column -->
+                                    <br />
+
+                                </div><!-- /comment form column -->
+                            }
+                            else
+                            {
+                                <div class="col-lg-6">
+                                    <p>Only Admins, Project Managers, Developers, or the original creator of the ticket may make a comment.</p>
+                                </div>
+                            }
+
+                            
 
                             <div class="col-lg-6">
 
@@ -185,10 +198,12 @@
 
                             <div class="row">
 
+                            @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager") || User.IsInRole("Developer") || User.Identity.GetUserId() == Model.OwnedById)
+                            {
                                 <div class="col-lg-6">
 
                                     <div class="form-group">
-                                        <!-- Begin Image -->
+                                        <!-- Begin File Attachment -->
                                         <h3>Add an Attachment</h3>
                                         <hr />
                                         <form method="post" action="@Url.Action("AddAttachment", "Tickets", new { projectId = Model.ProjectId, ticketId = Model.Id})" enctype="multipart/form-data">
@@ -209,6 +224,15 @@
                                     </div><!-- /attachment file -->
 
                                 </div><!-- /attachment form column -->
+                            }
+                            else
+                            {
+                                <div class="col-lg-6">
+                                    <p>Only Admins, Project Managers, Developers, or the original creator of the ticket may make a comment.</p>
+                                </div>
+                            }
+
+                                
 
                                 <div class="col-lg-6">
 
