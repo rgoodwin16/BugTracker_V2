@@ -70,8 +70,15 @@ namespace BugTracker_V2.Controllers
         [Authorize(Roles="Admin")]
         public ActionResult Create()
         {
+            var pmIds = db.Roles.First(r=> r.Name == "ProjectManager").Id;
+            var devIds = db.Roles.First(r=> r.Name == "Developer").Id;
+            var subIds = db.Roles.First(r=> r.Name == "Submitter").Id;
 
-            ViewBag.ProjectUserIds = new MultiSelectList(db.Users.ToList(), "Id", "DisplayName");//This is how we create the dropdown box that has a list of every user in the db.
+
+            ViewBag.PMUserIds = new MultiSelectList(db.Users.Where(u => u.Roles.Any(r => r.RoleId == pmIds)), "Id", "DisplayName");
+            ViewBag.DevUserIds = new MultiSelectList(db.Users.Where(u => u.Roles.Any(r => r.RoleId == devIds)), "Id", "DisplayName");
+            ViewBag.SubUserIds = new MultiSelectList(db.Users.Where(u => u.Roles.Any(r => r.RoleId == subIds)), "Id", "DisplayName");
+            //ViewBag.ProjectUserIds = new MultiSelectList(db.Users.ToList(), "Id", "DisplayName");//This is how we create the dropdown box that has a list of every user in the db.
             return View();
         }
 
@@ -81,18 +88,34 @@ namespace BugTracker_V2.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles="Admin")]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Title,Description,Created,Updated")] Project project, string[] ProjectUserIds)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Title,Description,Created,Updated")] Project project, string[] PMUserIds, string [] DevUserIds, string [] SubUserIds)
         {
             if (ModelState.IsValid)
             {
                 project.Created = DateTimeOffset.Now;
-               
-                foreach (var userId in ProjectUserIds)
+
+                foreach (var userId in PMUserIds)
                 {
                     var fakeUser = new ApplicationUser() { Id = userId };
                     db.Users.Attach(fakeUser);
                     project.Users.Add(fakeUser);
                     
+                }
+
+                foreach (var userId in DevUserIds)
+                {
+                    var fakeUser = new ApplicationUser() { Id = userId };
+                    db.Users.Attach(fakeUser);
+                    project.Users.Add(fakeUser);
+
+                }
+
+                foreach (var userId in SubUserIds)
+                {
+                    var fakeUser = new ApplicationUser() { Id = userId };
+                    db.Users.Attach(fakeUser);
+                    project.Users.Add(fakeUser);
+
                 }
 
                 db.Projects.Add(project);
@@ -114,13 +137,31 @@ namespace BugTracker_V2.Controllers
             }
             
             Project project = await db.Projects.FindAsync(id);
+
             if (project == null)
             {
                 return HttpNotFound();
             }
 
-            ViewBag.ProjectUserIds = new MultiSelectList(db.Users.ToList(), "Id", "DisplayName");//This is how we create the dropdown box that has a list of every user in the db.
-            return View(project);
+            if ( User.IsInRole("Admin") || (User.IsInRole("ProjectManager")  && project.Users.Any(u => u.Id == User.Identity.GetUserId()) ) )
+            {
+                var pmIds = db.Roles.First(r => r.Name == "ProjectManager").Id;
+                var devIds = db.Roles.First(r => r.Name == "Developer").Id;
+                var subIds = db.Roles.First(r => r.Name == "Submitter").Id;
+
+
+                ViewBag.PMUserIds = new MultiSelectList(db.Users.Where(u => u.Roles.Any(r => r.RoleId == pmIds)), "Id", "DisplayName");
+                ViewBag.DevUserIds = new MultiSelectList(db.Users.Where(u => u.Roles.Any(r => r.RoleId == devIds)), "Id", "DisplayName");
+                ViewBag.SubUserIds = new MultiSelectList(db.Users.Where(u => u.Roles.Any(r => r.RoleId == subIds)), "Id", "DisplayName");
+
+                //ViewBag.ProjectUserIds = new MultiSelectList(db.Users.ToList(), "Id", "DisplayName");//This is how we create the dropdown box that has a list of every user in the db.
+                return View(project);
+                
+            }
+
+            TempData["ErrorMessage"] = "You don't have permission to edit this project. Please contact your admin to add you to this project.";
+            return RedirectToAction("Index","DashBoard");
+
         }
 
         // POST: Projects/Edit/5
@@ -129,18 +170,33 @@ namespace BugTracker_V2.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin,ProjectManager")]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Description,Created,Updated")] Project project, string [] ProjectUserIds)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Description,Created,Updated")] Project project, string[] PMUserIds, string[] DevUserIds, string[] SubUserIds)
         {
             if (ModelState.IsValid)
             {
                 var existing = db.Projects.Find(project.Id);
 
-                existing.Users.Clear();
-                foreach (var userId in ProjectUserIds)
+                //existing.Users.Clear();
+
+
+                foreach (var userId in PMUserIds)
                 {
                    existing.Users.Add(db.Users.Find(userId));
 
                 }
+
+                foreach (var userId in DevUserIds)
+                {
+                    existing.Users.Add(db.Users.Find(userId));
+
+                }
+
+                foreach (var userId in SubUserIds)
+                {
+                    existing.Users.Add(db.Users.Find(userId));
+
+                }
+
                
                 existing.Updated = DateTimeOffset.Now;
                 existing.Description = project.Description;

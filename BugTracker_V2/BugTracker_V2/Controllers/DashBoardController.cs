@@ -41,6 +41,9 @@ namespace BugTracker_V2.Controllers
             else if (User.IsInRole("ProjectManager") || User.IsInRole("Developer"))
             
             {
+
+                ViewBag.Error = TempData["ErrorMessage"];
+
                 var myProjects = user.Projects.ToList();                            //grab every project associated with this user
                 var myTickets = myProjects.SelectMany(p => p.Tickets).ToList();     //grab every ticket associated with this user's projects
 
@@ -53,6 +56,7 @@ namespace BugTracker_V2.Controllers
                     DevTickets = devTickets,
                 };
 
+                
                 
             }
             

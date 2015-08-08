@@ -3,30 +3,52 @@
     ViewBag.Title = "Change Display Name";
 }
 
-<section class="content-wrap">
+<section class="content-wrap ecommerce-products">
 
-<h2>@ViewBag.Title.</h2>
+    <div class="row">
 
-@using (Html.BeginForm("ChangeDisplayName", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
-    <h4>Change Display Name Form</h4>
-    <hr />
-    @Html.ValidationSummary("", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(m => m.NewDisplayName, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.EditorFor(m => m.NewDisplayName, new { @class = "form-control" })
-        </div>
-    </div>
-    
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Change Display Name" class="btn btn-default" />
-        </div>
-    </div>
+        <div class="col-lg-12">
 
-}
+            <div class="card">
+
+                <div class="title">
+                    <h5>Change Your Display Name</h5>
+                </div><!-- /title -->
+
+                <div class="content">
+                    
+                    @using (Html.BeginForm("ChangeDisplayName", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        @Html.ValidationSummary("", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.NewDisplayName, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(m => m.NewDisplayName, new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Change Display Name" class="btn btn-default" />
+                                <a class="btn btn-default" href="@Url.Action("Index")">Cancel</a>
+                            </div>
+                        </div>
+
+                    }
+
+                </div><!-- /content -->
+
+            </div><!-- /card -->
+
+        </div><!-- /column -->
+
+    </div><!-- /row -->
+
+
+
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

@@ -22,28 +22,22 @@
             <div class="title">
                 <!-- Title -->
                 <h3>@Html.DisplayFor(model => model.Title)</h3>
+
+                @if (User.IsInRole("Admin") || (Model.Users.Any(u => u.Id == User.Identity.GetUserId())) && (User.IsInRole("ProjectManager")))
+                {
+                    <div class="btn-group right">
+                        <a class="btn btn-small z-depth-0" href="@Url.Action("Edit", new { id = Model.Id })"><i class="mdi mdi-editor-mode-edit"></i> Edit Project</a>
+                    </div>
+
+                }
+
            </div>
                
             <div class="content">
                 <h5>Created: @Html.DisplayFor(model => model.Created)</h5>
                 <hr />
                 <p class=" table table-hover">@Html.Raw(Model.Description)</p>
-            
-                @if (User.IsInRole("Admin"))
-                {
-                    var str = " | ";
-                        @Html.ActionLink("Edit", "Edit", new { id = Model.Id });
-                        @str
-                        @Html.ActionLink("Back to List", "Index");
-                }
-
-                else if (User.IsInRole("ProjectManager"))
-                {
-                    @Html.ActionLink("Edit", "Edit", new { id = Model.Id });
-
-                }
-            
-            
+                        
                 @if (Model.Updated != null)
                 {
                     <div class="alert alert-dismissible green lighten-3 white-text">
@@ -71,10 +65,18 @@
 
                 <div class="content">
 
-                    @foreach (var item in Model.Users)
-                    {
-                        <button class="btn btn-small">@Html.DisplayFor(modelItem => item.DisplayName)</button>
-                    }
+                    <ul class="btn-group" role="group">
+                        @foreach (var item in Model.Users)
+                        {
+                            <li style="margin:3px;" class="btn btn-default">
+                                @Html.DisplayFor(modelItem => item.DisplayName)
+                            </li>
+
+
+
+                        }
+                    </ul>
+
                 </div><!-- /content -->
 
 

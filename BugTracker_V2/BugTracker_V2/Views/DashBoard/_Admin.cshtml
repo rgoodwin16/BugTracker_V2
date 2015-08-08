@@ -2,7 +2,7 @@
 
 <div class="row">
 
-    <div class="col l8 s12">
+    <div class="col l10 s12">
     
         <div class="card">
 
@@ -129,7 +129,7 @@
                                 <td>
                                     @if (item.TicketPriority.Name == "Critical")
                                     {
-                                        <span class="alert red white-text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span>
+                                        <span class="alert amber accent-2 white-text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span>
                                     }
                                     else
                                     {
@@ -142,15 +142,14 @@
                                     {
                                         <span class="alert green lighten-1 white-text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span>
                                     }
-                                    else if (item.TicketStatus.Name == "Assigned")
+                                    
+                                    else if (item.TicketStatus.Name == "Resolved")
                                     {
-                                        <span class="alert blue lighten-1 white-text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span>
-                                    }else if(item.TicketStatus.Name == "Work In Progress")
+                                        <span class="alert grey lighten-1 white-text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span>
+                                    }
+                                    else
                                     {
                                         @Html.DisplayFor(modelItem => item.TicketStatus.Name)
-                                    }else if (item.TicketStatus.Name == "Resolved")
-                                    {
-                                        <span class="alert grey darken-4 white-text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span>
                                     }
                                                                         
                                 </td>
@@ -174,7 +173,7 @@
 
     </div><!-- / column (Projects | Tickets) -->
 
-    <div class="col l4 s12">
+    <div class="col l2 s12">
         
             <div class="card-panel stats-card blue lighten-2 blue-text text-lighten-5">
                 <i class="fa fa-folder-open"></i>
