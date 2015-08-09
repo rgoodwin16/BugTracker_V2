@@ -243,6 +243,7 @@ namespace BugTracker_V2.Controllers
 
                 
                 ticket.Updated = DateTimeOffset.Now;
+                ticket.OwnedById = ticket.OwnedById;
 
 
                 db.Update(ticket, properties.ToArray());
@@ -325,7 +326,7 @@ namespace BugTracker_V2.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Projects/{projectId}/Tickets/{ticketId}/AddAttachment")]
-        public async Task<ActionResult> AddAttachment([Bind(Include="Id,TicketId,Description,MediaURL")] TicketAttachment ticketAttachment, HttpPostedFileBase file, int projectId, int ticketId)
+        public async Task<ActionResult> AddAttachment([Bind(Include="Id,TicketId,Description,MediaURL,AuthorId")] TicketAttachment ticketAttachment, HttpPostedFileBase file, int projectId, int ticketId)
         {
             //Check if the file selected by the user isn't empty
             if (file != null && file.ContentLength > 0)
@@ -354,7 +355,7 @@ namespace BugTracker_V2.Controllers
                 }
 
                 ticketAttachment.Created = DateTimeOffset.Now;
-                    
+                ticketAttachment.AuthorId = User.Identity.GetUserId();    
 
                 db.TicketAttchment.Add(ticketAttachment);
                 await db.SaveChangesAsync();

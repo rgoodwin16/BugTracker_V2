@@ -66,11 +66,22 @@
                         <h5>Developer</h5>
                     </div>
 
-                    <div class="content">
-                     <button class="btn btn-small">   @Html.DisplayFor(model => model.AssignedTo.DisplayName)</button>
-                    </div>
+                    @if (Model.AssignedToId == null)
+                    {
+                        <div class="content">
+                            <button class="btn btn-default">Not Yet Assigned</button>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="content">
+                            <button class="btn btn-small">   @Html.DisplayFor(model => model.AssignedTo.DisplayName)</button>
+                        </div>
+                    }
+                    
+                    
 
-                </div>
+                </div><!-- /card -->
 
                 <br />
                 
@@ -239,7 +250,7 @@
                                     @foreach (var item in Model.Attachments.OrderByDescending(c => c.Created))
                                     {
                                         <div>
-                                            <h4>@Html.DisplayFor(modelItem => item.Author.UserName)</h4>
+                                            <h4>@Html.DisplayFor(modelItem => item.Author.DisplayName)</h4>
                                             <p>@Html.DisplayFor(modelItem => item.Created)</p>
 
                                             <div class="well">
