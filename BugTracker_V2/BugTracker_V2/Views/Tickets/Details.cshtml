@@ -16,7 +16,7 @@
                     <!-- Title -->
                     <h3>@Html.DisplayFor(model => model.Title)</h3>
                     
-                    @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager") || User.Identity.GetUserId() == @Model.AssignedToId || User.Identity.GetUserId() == @Model.OwnedById)
+                    @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager") || User.Identity.GetUserId() == @Model.AssignedToId)
                     {
                         <div class="btn-group right">
                             <a href="@Url.Action("Edit", "Tickets", new { id = Model.Id })" class="btn btn-small z-depth-0"><i class="mdi mdi-editor-mode-edit"></i> Edit Ticket</a>
