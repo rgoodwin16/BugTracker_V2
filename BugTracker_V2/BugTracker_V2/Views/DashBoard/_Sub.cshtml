@@ -16,7 +16,6 @@
                    
                     <thead>
                         <tr>
-                            <th>View</th>
                             <th>Title</th>
                             <th>Created</th>
                             <th>Updated</th>
@@ -30,25 +29,24 @@
                         {
                             <tr>
                                 <td>
-                                    <a href="@Url.Action("Details", "Tickets", new { projectId = item.ProjectId, id = item.Id })" class="btn white grey-text text-darken-2"><i class="fa fa-eye"></i></a>
-                                </td><!--/view ticket button -->
-                                <td>
                                     <a href="@Url.Action("Details", "Tickets", new { projectId = item.ProjectId, id = item.Id })">   <strong class="grey-text text-darken-2">@Html.DisplayFor(modelItem => item.Title)</strong></a>
                                 </td><!-- /ticket title -->
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Created)
-                                </td>
+                                </td><!-- /created -->
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Updated)`
-                                </td>
+                                </td><!-- /updated -->
                                 <td>
                                     @Html.DisplayFor(modelItem => item.TicketType.Name)
-                                </td>
+                                </td><!-- /type -->
                                 <td>
                                     <div class="btn-group">
-                                        <a class="btn btn-small z-depth-0" href="@Url.Action("Details", "Tickets", new { projectId = item.ProjectId, id = item.Id })"><i class="mdi mdi-content-add"></i> Add Comment  </a>
+                                        <a href="@Url.Action("Details", "Tickets", new { projectId = item.ProjectId, id = item.Id })" class="btn white grey-text text-darken-2 btn-small"><i class="fa fa-eye"></i></a>
+                                        <a class="btn btn-small green" href="@Url.Action("Details", "Tickets", new { projectId = item.ProjectId, id = item.Id })"><i class="fa fa-comment"></i></a>
+                                        
                                     </div>
-                                </td>
+                                </td><!-- /actions -->
                             </tr>
                         }
 

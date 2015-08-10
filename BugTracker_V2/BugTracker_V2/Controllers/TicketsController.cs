@@ -326,16 +326,20 @@ namespace BugTracker_V2.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Projects/{projectId}/Tickets/{ticketId}/AddAttachment")]
-        public async Task<ActionResult> AddAttachment([Bind(Include="Id,TicketId,Description,MediaURL,AuthorId")] TicketAttachment ticketAttachment, HttpPostedFileBase file, int projectId, int ticketId)
+        public async Task<ActionResult> AddAttachment([Bind(Include="Id,TicketId,Description,MediaURL,AuthorId,Title")] TicketAttachment ticketAttachment, HttpPostedFileBase file, int projectId, int ticketId)
         {
             //Check if the file selected by the user isn't empty
             if (file != null && file.ContentLength > 0)
             {
                 //check the file ext to make sure we allow it
                 var ext = Path.GetExtension(file.FileName).ToLower();
-                if (ext != ".png" && ext != ".jpg" && ext != ".jpeg" && ext != ".gif" && ext != ".pdf" && ext != ".doc" && ext != ".ppt" && ext != ".xls" && ext != ".xlsx" && ext != ".zip")
+                if (ext != ".png" && ext != ".jpg" && ext != ".jpeg" && ext != ".gif" && ext != ".pdf" && ext != ".doc" && ext != ".ppt" && ext != ".xls" && ext != ".xlsx" && ext != ".zip" && ext != ".txt")
                 {
                     ModelState.AddModelError("file", "Invalid Format");
+                }
+                else
+                {
+                    ticketAttachment.Type = ext;
                 }
             }
 
@@ -355,7 +359,8 @@ namespace BugTracker_V2.Controllers
                 }
 
                 ticketAttachment.Created = DateTimeOffset.Now;
-                ticketAttachment.AuthorId = User.Identity.GetUserId();    
+                ticketAttachment.AuthorId = User.Identity.GetUserId();
+                ticketAttachment.Type = ticketAttachment.Type;
 
                 db.TicketAttchment.Add(ticketAttachment);
                 await db.SaveChangesAsync();
