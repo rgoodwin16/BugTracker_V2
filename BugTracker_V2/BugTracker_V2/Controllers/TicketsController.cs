@@ -13,6 +13,8 @@ using System.IO;
 using System.Text;
 using System.Web.Security;
 
+
+
 namespace BugTracker_V2.Controllers
 {
     [RequireHttps]
@@ -31,6 +33,7 @@ namespace BugTracker_V2.Controllers
         }
 
         // GET: Tickets/Details/5
+        [BugTracker_V2.Models.CustomAttributes.ImportModelStateFromTempData]
         [Route("Projects/{projectId}/Tickets/{id}")]
         public async Task<ActionResult> Details(int projectId, int? id)
         {
@@ -325,6 +328,7 @@ namespace BugTracker_V2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [BugTracker_V2.Models.CustomAttributes.ExportModelStateToTempData]
         [Route("Projects/{projectId}/Tickets/{ticketId}/AddAttachment")]
         public async Task<ActionResult> AddAttachment([Bind(Include="Id,TicketId,Description,MediaURL,AuthorId,Title")] TicketAttachment ticketAttachment, HttpPostedFileBase file, int projectId, int ticketId)
         {
@@ -335,7 +339,7 @@ namespace BugTracker_V2.Controllers
                 var ext = Path.GetExtension(file.FileName).ToLower();
                 if (ext != ".png" && ext != ".jpg" && ext != ".jpeg" && ext != ".gif" && ext != ".pdf" && ext != ".doc" && ext != ".ppt" && ext != ".xls" && ext != ".xlsx" && ext != ".zip" && ext != ".txt")
                 {
-                    ModelState.AddModelError("file", "Invalid Format");
+                    ModelState.AddModelError("file", "Only .PNG, .JPG, .JPEG, .GIF, .PDF, .DOC, .PPT, .XLS, .XLSX, .ZIP or .TXT files are allowed.");
                 }
                 else
                 {

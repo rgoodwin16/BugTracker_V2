@@ -32,7 +32,7 @@
                         {
                             <span class="alert">@Html.DisplayFor(model => model.TicketPriority.Name)</span>
                         }
-                        Created: @Html.DisplayFor(model => model.Created) | Owned by : @Html.DisplayFor(model => model.OwnedBy.DisplayName)
+                        Created: @Html.DisplayFor(model => model.Created.LocalDateTime) | Owned by : @Html.DisplayFor(model => model.OwnedBy.DisplayName)
                     </h5>
                     <hr />
                     <p class=" table table-hover">@Html.Raw(Model.Description)</p>
@@ -54,7 +54,7 @@
             
             </div><!-- /card (title|description)-->
 
-
+            <br />
 
         </div><!-- end ticket column -->
 
@@ -155,6 +155,36 @@
 
             <div class="content">
 
+                <div class="col-lg-12" id="comment_list" style="height:450px; overflow:auto;">
+
+                    @foreach (var item in Model.Comments.OrderByDescending(c => c.Created))
+                    {
+
+                        <div class="card-panel z-depth-2">
+
+                            <div class="mail-subject">
+                                <h4><img src="~/images/user10-30x30.jpg" class="pull-left" style="padding-right:3px;" /> @Html.DisplayFor(modelItem => item.Author.DisplayName) <small class="mail-date">@Html.DisplayFor(modelItem => item.Created.LocalDateTime)</small></h4>
+
+                            </div> <!-- /user name|created -->
+
+                            <hr />
+
+                            <div class="mail-text">
+                                <p>@Html.Raw(item.Body)</p>
+                            </div>
+
+                        </div><!-- /card-panel -->
+
+                    }
+
+                    <br />
+
+                </div><!-- /comment list column -->
+
+                <hr />
+                <br />
+
+
                 @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager") || User.IsInRole("Developer") || User.Identity.GetUserId() == Model.OwnedById)
                 {
                     <div class="col-lg-12" id="comment_form">
@@ -188,39 +218,15 @@
                     </div>
                 }
 
-                <hr />
+                
 
-                <div class="col-lg-12">
-
-                    @foreach (var item in Model.Comments.OrderByDescending(c => c.Created))
-                    {
-
-                        <div class="card-panel z-depth-2">
-
-                            <div class="mail-subject">
-                                <h4><img src="~/images/user10-30x30.jpg" class="pull-left" style="padding-right:3px;" /> @Html.DisplayFor(modelItem => item.Author.DisplayName) <small class="mail-date">@Html.DisplayFor(modelItem => item.Created)</small></h4>
-
-                            </div> <!-- /user name|created -->
-
-                            <hr />
-
-                            <div class="mail-text">
-                                <p>@Html.Raw(item.Body)</p>
-                            </div>
-
-                        </div><!-- /card-panel -->
-
-                    }
-
-                    <br />
-
-                </div><!-- /comment list column -->
+                
 
             </div><!-- /content (Comments)-->
 
         </div><!-- /card (Comments)-->
 
-
+        
         <div class="card">
 
             <ul class="collapsible" data-collapsible="accordian">
@@ -235,64 +241,130 @@
 
                         <div class="content">
 
-                            <ul class="collapsible" data-collapsible="accordian">
+                            <div class="row">
 
-                                <li>
+                                <div class="col-lg-4">
 
-                                    <div class="collapsible-header">
-                                        <i class="mdi mdi-content-add"></i> Add Attachment
-                                    </div>
+                                        <div class="card">
 
-                                    <div class="collapsible-body">
-                                        
+                                            <div class="title">
+                                                <h5>Add Attachment</h5>
+                                            </div>
+
+                                            <div class="content">
+
+                                                <div class="form-group">
+                                                    <!-- Begin File Attachment -->
+
+                                                    <form method="post" action="@Url.Action("AddAttachment", "Tickets", new { projectId = Model.ProjectId, ticketId = Model.Id})" enctype="multipart/form-data">
+                                                        @Html.AntiForgeryToken()
+
+                                                        <div class="input-field">
+                                                            <input name="title" class="validate" type="text">
+                                                            <label for="title">Title<small> Required</small></label>
+                                                        </div>
+
+                                                        <div class="input-field">
+                                                            <input name="description" class="validate" type="text">
+                                                            <label for="description">Description <small> Required</small></label>
+                                                        </div>
+
+                                                        <br />
+
+                                                        <div class="file-field input-field">
+                                                            <input class="file-path validate" type="text" />
+                                                            <div class="btn">
+                                                                <span>File</span>
+                                                                <input name="file" type="file" id="fileUpload" />
+                                                            </div>
+                                                            <p>@Html.ValidationMessage("file", new { @class = "text-danger" })</p>
+
+                                                        </div>
+
+                                                        <br />
+
+                                                        <input type="submit" value="Submit" class="btn btn-default" />
+
+                                                    </form>
+
+                                                    <br />
+
+                                                </div><!-- /attachment file -->
+
+                                            </div><!-- /content -->
+
+                                        </div><!-- /card -->
+                                
+                                </div><!-- /attachment form  column -->
+
+                                <br />
+
+                                <div class="col-lg-8">
+
+                                    <div class="card">
+
+                                        <div class="title">
+                                            <h5>Attachment List</h5>
+                                        </div>
+
                                         <div class="content">
 
-                                            <div class="form-group">
-                                                <!-- Begin File Attachment -->
-                                            
-                                                <form method="post" action="@Url.Action("AddAttachment", "Tickets", new { projectId = Model.ProjectId, ticketId = Model.Id})" enctype="multipart/form-data" >
-                                                    @Html.AntiForgeryToken()
+                                            <table class="display table table-hover">
 
-                                                    <div class="input-field">
-                                                        <input name="title" class="validate" type="text">
-                                                        <label for="title">Title</label>
-                                                    </div>
-                                                    
-                                                    <div class="input-field">
-                                                        <input name="description" class="validate"  type="text">
-                                                        <label for="description">Description</label>
-                                                    </div>
-                                                    
-                                                    <br />
+                                                <thead>
+                                                    <tr>
+                                                        <th>Posted By</th>
+                                                        <th>Title</th>
+                                                        <th>Type</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var item in Model.Attachments.OrderByDescending(a => a.Created))
+                                                    {
+                                                        <tr>
+                                                            <td>@Html.DisplayFor(modelItem => item.Author.DisplayName)</td>
+                                                            <td>
+                                                                @if (Model.Title == null)
+                                                                {
+                                                                    <strong class="grey-text text-darken-2">(No Title)</strong>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <strong class="grey-text text-darken-2">@Html.DisplayFor(modelItem => item.Title)</strong>
+                                                                }
 
-                                                    <div class="file-field input-field">
-                                                        <input class="file-path validate" type="text" />
-                                                        <div class="btn">
-                                                            <span>File</span>
-                                                            <input name="file" type="file" id="fileUpload" />
-                                                        </div>
-                                                        
-                                                    </div>
+                                                                <br />
+                                                                @if (Model.Description == null)
+                                                                {
+                                                                    <span class="grey-text">(No Description)</span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <span class="grey-text">@Html.DisplayFor(modelItem => item.Description)</span>
+                                                                }
 
-                                                    <br />
+                                                            </td>
 
-                                                    <input type="submit" value="Submit" class="btn btn-default" />
+                                                            <td>@Html.DisplayFor(modelItem => item.Type)</td>
+                                                            <td><a href="@item.MediaURL" class="btn btn-small"><i class="fa fa-download"></i></a></td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
 
-                                                </form>
-
-                                                <br />
-
-                                            </div><!-- /attachment file -->
+                                            </table><!-- /table -->
 
                                         </div><!-- /content -->
 
-                                        
+                                    </div><!-- /card -->
 
-                                    </div><!-- /collasible-body -->
+                                    
 
-                                </li>
+                                </div><!-- /attachment list column -->
 
-                            </ul>
+                            </div><!-- /row -->
+
+
 
                             
 
@@ -300,54 +372,7 @@
 
                         <br />
 
-                        <div class="content">
-
-                            <table class="display table table-hover">
-
-                                <thead>
-                                    <tr>
-                                        <th>Posted By</th>
-                                        <th>Title</th>
-                                        <th>Type</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model.Attachments.OrderByDescending(a => a.Created))
-                                    {
-                                        <tr>
-                                            <td>@Html.DisplayFor(modelItem => item.Author.DisplayName)</td>
-                                            <td>
-                                                @if (Model.Title == null)
-                                                {
-                                                    <strong class="grey-text text-darken-2">(No Title)</strong>
-                                                }
-                                                else
-                                                {
-                                                    <strong class="grey-text text-darken-2">@Html.DisplayFor(modelItem => item.Title)</strong>
-                                                }
-
-                                                <br />
-                                                @if (Model.Description == null)
-                                                {
-                                                    <span class="grey-text">(No Description)</span>
-                                                }
-                                                else
-                                                {
-                                                    <span class="grey-text">@Html.DisplayFor(modelItem => item.Description)</span>
-                                                }
-
-                                            </td>
-
-                                            <td>@Html.DisplayFor(modelItem => item.Type)</td>
-                                            <td><a href="@item.MediaURL" class="btn btn-small"><i class="fa fa-download"></i></a></td>
-                                        </tr>
-                                    }
-                                </tbody>
-
-                            </table><!-- /table -->
-
-                        </div><!-- /content -->
+                        
 
                     </div>
 
@@ -402,4 +427,17 @@
 
 </section>
 
+@section scripts {
+    <script>
+        $('table').DataTable({
 
+            "iDisplayLength": 5,
+            "aLengthMenu": [
+              [5, 10, 25, 50, -1],
+              [5, 10, 25, 50, "all"]
+            ]
+
+        });
+    </script>
+
+}
