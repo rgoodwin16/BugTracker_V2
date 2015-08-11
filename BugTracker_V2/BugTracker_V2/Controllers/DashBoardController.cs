@@ -65,11 +65,11 @@ namespace BugTracker_V2.Controllers
             else 
             
             {
-                var projects = db.Projects.ToList();    //grab every project from the db
+                var myProjects = user.Projects.ToList();    //grab every project from the db
                 model = new DashBoardViewModel
                 {
                    MyTickets = db.Tickets.Where(t=> t.OwnedById == user.Id).ToList(),
-                   Projects = projects,
+                   MyProjects = myProjects,
                 };
 
                 
@@ -79,21 +79,6 @@ namespace BugTracker_V2.Controllers
                         
         }
 
-        //GET: Ticket Comment Form
-        [Route("Projects/{projectId}/Tickets/{id}/#comment_form")]
-        public async Task<ActionResult> TicketComment(int projectId, int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Ticket ticket = await db.Tickets.FindAsync(id);
-            if (ticket == null)
-            {
-                return HttpNotFound();
-            }
 
-            return View(ticket);
-        }
     }
 }

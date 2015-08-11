@@ -92,11 +92,28 @@ namespace BugTracker_V2.Controllers
                     ticket.TicketStatusId = 1;
                 }
 
+
+                var newUser = db.Users.Find(ticket.AssignedToId);
+                var mailer = new EmailService();
+                var Notification = newUser != null ? new IdentityMessage()
+                {
+                    Subject = "You have a new Notification",
+                    Destination = newUser.Email,
+                    Body = "You have been assigned the ticket:  " + ticket.Title + "!" //+ "\n" + "This ticket is attached to the " + ticket.Project.Title + " project."
+                } : null;
+
                 ticket.OwnedById = User.Identity.GetUserId();
                 ticket.Created = DateTimeOffset.Now;
                 
                 db.Tickets.Add(ticket);
                 await db.SaveChangesAsync();
+
+                if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                {
+                    await mailer.SendAsync(Notification);
+                }
+
+                
                 return RedirectToAction("Index","DashBoard");
             }
 
@@ -159,11 +176,22 @@ namespace BugTracker_V2.Controllers
 
                 if(User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
                 {
+                 
+                    //Change TicketStatus from New to Assigned Automagically
+                    if (ticket.TicketStatusId == 1 && ticket.AssignedToId != null)
+                    {
+                        ticket.TicketStatusId = 2;
+                    }
+                    
                     //Check if AssignedToId has changed
                     if (oldTicket.AssignedToId != ticket.AssignedToId)
                     {
+                        var newUser = db.Users.Find(ticket.AssignedToId);
+                        
                         properties.Add("AssignedToId");
+                        
                         var AssignedHistory = new TicketHistory
+                        
                         {
                             TicketId = ticket.Id,
                             UserId = UserId,
@@ -172,7 +200,18 @@ namespace BugTracker_V2.Controllers
                             NewValue = (db.Users.FirstOrDefault(u => u.Id == ticket.AssignedToId).DisplayName),
                             Changed = System.DateTimeOffset.Now,
                         };
+
+                       
+                        var mailer = new EmailService();
+                        var Notification = newUser != null ? new IdentityMessage()
+                        {
+                            Subject = "You have a new Notification",
+                            Destination = newUser.Email,
+                            Body = "You have been assigned the ticket:  " +  ticket.Title + "!" //+ "\n" + "This ticket is attached to the " + ticket.Project.Title + " project."
+                        } : null;
+
                         db.TicketHistories.Add(AssignedHistory);
+                        await mailer.SendAsync(Notification);
                     }
 
                     //Check TicketPriority
@@ -337,7 +376,7 @@ namespace BugTracker_V2.Controllers
             {
                 //check the file ext to make sure we allow it
                 var ext = Path.GetExtension(file.FileName).ToLower();
-                if (ext != ".png" && ext != ".jpg" && ext != ".jpeg" && ext != ".gif" && ext != ".pdf" && ext != ".doc" && ext != ".ppt" && ext != ".xls" && ext != ".xlsx" && ext != ".zip" && ext != ".txt")
+                if (ext != ".png" && ext != ".jpg" && ext != ".jpeg" && ext != ".gif" && ext != ".pdf" && ext != ".doc" && ext != ".docx" && ext != ".ppt" && ext != ".xls" && ext != ".xlsx" && ext != ".zip" && ext != ".txt")
                 {
                     ModelState.AddModelError("file", "Only .PNG, .JPG, .JPEG, .GIF, .PDF, .DOC, .PPT, .XLS, .XLSX, .ZIP or .TXT files are allowed.");
                 }

@@ -20,6 +20,7 @@
                             <th>Created</th>
                             <th>Updated</th>
                             <th>Type</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -41,11 +42,21 @@
                                     @Html.DisplayFor(modelItem => item.TicketType.Name)
                                 </td><!-- /type -->
                                 <td>
+                                    @Html.DisplayFor(modelItem => item.TicketStatus.Name)
+                                </td>
+                                <td>
                                     <div class="btn-group">
                                         <a href="@Url.Action("Details", "Tickets", new { projectId = item.ProjectId, id = item.Id })" class="btn white grey-text text-darken-2 btn-small"><i class="fa fa-eye"></i></a>
-                                        <a class="btn btn-small green" href="@Url.Action("Details", "Tickets", new { projectId = item.ProjectId, id = item.Id })/#comment_form"><i class="fa fa-comments"></i></a>
                                         
-                                        
+                                        @if (item.TicketStatus.Name == "Resolved")
+                                        {
+                                            <a class="btn btn-small green tooltipped" href="@Url.Action("Details", "Tickets", new { projectId = item.ProjectId, id = item.Id })/#comment_form"  data-position="top" data-delay="50" data-tooltip="Comments Disabled"><i class="fa fa-comments"></i></a>
+                                        }
+                                        else
+                                        {
+                                            <a class="btn btn-small green" href="@Url.Action("Details", "Tickets", new { projectId = item.ProjectId, id = item.Id })/#comment_form"><i class="fa fa-comments"></i></a>
+                                        }
+                                                                                 
                                     </div>
                                 </td><!-- /actions -->
                             </tr>
@@ -78,7 +89,7 @@
                     </thead><!--/thead -->
                     <tbody>
 
-                        @foreach (var item in Model.Projects)
+                        @foreach (var item in Model.MyProjects)
                         {
                             <tr>
                                 <td>

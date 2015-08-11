@@ -8753,3 +8753,10 @@ html.rtl [type=checkbox]:checked + label:before {
   -webkit-transform-origin: 100% 0;
       -ms-transform-origin: 100% 0;
           transform-origin: 100% 0; }
+
+
+/*==========================*/
+/*      Custom Styles       */
+.meta_height {
+    line-height: 2;
+}

@@ -94,43 +94,24 @@
 
                     <div class="content">
                         
-                        <div class="row">
+                        <ul class="list-group">
+                            <li class="list-group-item meta_height">
+                                Type:<span class="btn btn-small right">@Html.DisplayFor(model => model.TicketType.Name)</span>
+                                <br />
+                            </li>
+                            <li class="list-group-item meta_height">
+                                Status:
+                                <span class="btn btn-small right">@Html.DisplayFor(model => model.TicketStatus.Name)</span>
+                            </li>
+                            @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager") || User.IsInRole("Developer"))
+                            {
+                                <li class="list-group-item meta_height">
+                                    Priority:
+                                    <span class="btn btn-small right">@Html.DisplayFor(model => model.TicketPriority.Name)</span>
+                                </li>
+                            }
 
-                            <div class="col-sm-4">
-                                <h5>Type</h5>
-                                
-                            </div>
-
-                            <div class="col-sm-4">
-                                <h5>Status</h5>
-                                
-                            </div>
-
-                            <div class="col-sm-4">
-                                <h5>Priority</h5>
-                                
-                            </div>
-
-                        </div><!-- /row -->
-
-                        <div class="row">
-
-                            <div class="col-sm-4">
-                                <p><span class="btn btn-default btn-small">@Html.DisplayFor(model => model.TicketPriority.Name)</span></p>
-                            </div>
-
-                            <div class="col-sm-4">
-                                <p><span class="btn btn-default btn-small">@Html.DisplayFor(model => model.TicketType.Name)</span></p>
-                            </div>
-
-                            <div class="col-sm-4">
-                                <p><span class="btn btn-default btn-small">@Html.DisplayFor(model => model.TicketStatus.Name)</span></p>
-                            </div>
-
-                        </div><!-- /row -->
-
-                        <br />
-                        <br />    
+                        </ul>
 
                     </div><!-- /content -->
 
@@ -155,7 +136,7 @@
 
             <div class="content">
 
-                <div class="col-lg-12" id="comment_list" style="height:450px; overflow:auto;">
+                <div class="col-lg-12" id="comment_list" style="height:200px; overflow:auto;">
 
                     @foreach (var item in Model.Comments.OrderByDescending(c => c.Created))
                     {
@@ -184,8 +165,13 @@
                 <hr />
                 <br />
 
-
-                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager") || User.IsInRole("Developer") || User.Identity.GetUserId() == Model.OwnedById)
+                @if (Model.TicketStatus.Name == "Resolved")
+                {
+                    <div class="col-lg-12">
+                        <p>This ticket has been Resolved, comments are closed.</p>
+                    </div>
+                }
+                else if (User.IsInRole("Admin") || User.IsInRole("ProjectManager") || User.IsInRole("Developer") || User.Identity.GetUserId() == Model.OwnedById)
                 {
                     <div class="col-lg-12" id="comment_form">
 
@@ -209,8 +195,8 @@
                         <br />
 
                     </div><!-- /comment form column -->
-
                 }
+
                 else
                 {
                     <div class="col-lg-12">
@@ -253,43 +239,61 @@
 
                                             <div class="content">
 
-                                                <div class="form-group">
-                                                    <!-- Begin File Attachment -->
+                                                @if (Model.TicketStatus.Name == "Resolved")
+                                                {
+                                                    <div class="col-lg-12">
+                                                        <p>This ticket has been Resolved, attachments are closed.</p>
+                                                    </div>
+                                                }
+                                                else if (User.IsInRole("Admin") || User.IsInRole("ProjectManager") || User.IsInRole("Developer") || User.Identity.GetUserId() == Model.OwnedById)
+                                                {
+                                                    <div class="form-group">
+                                                        <!-- Begin File Attachment -->
 
-                                                    <form method="post" action="@Url.Action("AddAttachment", "Tickets", new { projectId = Model.ProjectId, ticketId = Model.Id})" enctype="multipart/form-data">
-                                                        @Html.AntiForgeryToken()
+                                                        <form method="post" action="@Url.Action("AddAttachment", "Tickets", new { projectId = Model.ProjectId, ticketId = Model.Id})" enctype="multipart/form-data">
+                                                            @Html.AntiForgeryToken()
 
-                                                        <div class="input-field">
-                                                            <input name="title" class="validate" type="text">
-                                                            <label for="title">Title<small> Required</small></label>
-                                                        </div>
-
-                                                        <div class="input-field">
-                                                            <input name="description" class="validate" type="text">
-                                                            <label for="description">Description <small> Required</small></label>
-                                                        </div>
-
-                                                        <br />
-
-                                                        <div class="file-field input-field">
-                                                            <input class="file-path validate" type="text" />
-                                                            <div class="btn">
-                                                                <span>File</span>
-                                                                <input name="file" type="file" id="fileUpload" />
+                                                            <div class="input-field">
+                                                                <input name="title" class="validate" type="text">
+                                                                <label for="title">Title<small> Required</small></label>
                                                             </div>
-                                                            <p>@Html.ValidationMessage("file", new { @class = "text-danger" })</p>
 
-                                                        </div>
+                                                            <div class="input-field">
+                                                                <input name="description" class="validate" type="text">
+                                                                <label for="description">Description <small> Required</small></label>
+                                                            </div>
+
+                                                            <br />
+
+                                                            <div class="file-field input-field">
+                                                                <input class="file-path validate" type="text" />
+                                                                <div class="btn">
+                                                                    <span>File</span>
+                                                                    <input name="file" type="file" id="fileUpload" />
+                                                                </div>
+                                                                <p>@Html.ValidationMessage("file", new { @class = "text-danger" })</p>
+
+                                                            </div>
+
+                                                            <br />
+
+                                                            <input type="submit" value="Submit" class="btn btn-default" />
+
+                                                        </form>
 
                                                         <br />
 
-                                                        <input type="submit" value="Submit" class="btn btn-default" />
+                                                    </div><!-- /attachment file -->
+                                                }
+                                                else
+                                                {
+                                                    <div class="col-lg-12">
+                                                        <p>Only Admins, Project Managers, Developers, or the original creator of the ticket may add an attachment.</p>
+                                                    </div>
+                                                }
 
-                                                    </form>
 
-                                                    <br />
 
-                                                </div><!-- /attachment file -->
 
                                             </div><!-- /content -->
 
@@ -346,8 +350,41 @@
 
                                                             </td>
 
-                                                            <td>@Html.DisplayFor(modelItem => item.Type)</td>
-                                                            <td><a href="@item.MediaURL" class="btn btn-small"><i class="fa fa-download"></i></a></td>
+                                                            <td>
+                                                                @if (item.Type == ".png" || item.Type == ".jpg" || item.Type == ".jpeg" || item.Type == ".gif")
+                                                                {
+                                                                    <i class="fa fa-file-image-o"></i>
+                                                                }
+                                                                else if (item.Type == ".pdf") 
+                                                                {
+                                                                    <i class="fa fa-file-pdf-o"></i>
+                                                                }
+                                                                else if (item.Type == ".doc" || item.Type == ".docx")
+                                                                {
+                                                                    <i class="fa fa-file-word-o"></i>
+                                                                }
+                                                                else if (item.Type == ".ppt")
+                                                                {
+                                                                    <i class="fa fa-file-powerpoint-o"></i>
+                                                                }
+                                                                else if (item.Type == ".xls" || item.Type == ".xlsx")
+                                                                {
+                                                                    <i class="fa fa-file-excel-o"></i>
+                                                                }
+                                                                else if (item.Type == ".zip")
+                                                                {
+                                                                    <i class="fa fa-file-archive-o"></i>
+                                                                }
+                                                                else if (item.Type == ".txt")
+                                                                {
+                                                                    <i class="fa fa-file-text"></i>
+                                                                }
+
+                                                                <strong class="text-uppercase">@Html.DisplayFor(modelItem => item.Type)</strong>
+                                                            </td>
+                                                            <td>
+                                                                <a href="@item.MediaURL" class="btn btn-small"><i class="fa fa-download"></i></a>
+                                                            </td>
                                                         </tr>
                                                     }
                                                 </tbody>
