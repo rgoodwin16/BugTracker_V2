@@ -97,17 +97,33 @@
                         <div class="row">
 
                             <div class="col-sm-4">
-                                <p><h5>Type</h5></p>
+                                <h5>Type</h5>
+                                
+                            </div>
+
+                            <div class="col-sm-4">
+                                <h5>Status</h5>
+                                
+                            </div>
+
+                            <div class="col-sm-4">
+                                <h5>Priority</h5>
+                                
+                            </div>
+
+                        </div><!-- /row -->
+
+                        <div class="row">
+
+                            <div class="col-sm-4">
                                 <p><span class="btn btn-default btn-small">@Html.DisplayFor(model => model.TicketPriority.Name)</span></p>
                             </div>
 
                             <div class="col-sm-4">
-                                <p><h5>Status</h5></p>
                                 <p><span class="btn btn-default btn-small">@Html.DisplayFor(model => model.TicketType.Name)</span></p>
                             </div>
 
                             <div class="col-sm-4">
-                                <p><h5>Priority</h5></p>
                                 <p><span class="btn btn-default btn-small">@Html.DisplayFor(model => model.TicketStatus.Name)</span></p>
                             </div>
 
@@ -129,173 +145,220 @@
         <br />
 
         <div class="card">
+        
+            <div class="title">
+                <h5><i class="fa fa-comments"></i> Comments</h5>
+                <a class="minimize" href="#">
+                    <i class="mdi-navigation-expand-less"></i>
+                </a>
+            </div><!-- /title -->
 
-            <ul class="collapsible" data-collapsible="expandable">
-                <li>
+            <div class="content">
+
+                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager") || User.IsInRole("Developer") || User.Identity.GetUserId() == Model.OwnedById)
+                {
+                    <div class="col-lg-12" id="comment_form">
+
+                        <form method="post" action="@Url.Action("CreateComment", "Tickets",new { projectId = Model.ProjectId, ticketId = Model.Id })">
+                            @Html.AntiForgeryToken()
+                            <h3>Leave A Comment</h3>
+
+                            <div class="form-group">
+                                <div>
+                                    <textarea name="Body" class="materialize-textarea" rows="6"></textarea>
+                                </div>
+                            </div><!-- End Comment Box -->
+
+                            <input type="submit" value="Submit" class="btn btn-default" /><br />
+
+                        </form><!--/comment form -->
+
+
+
+
+                        <br />
+
+                    </div><!-- /comment form column -->
+
+                }
+                else
+                {
+                    <div class="col-lg-12">
+                        <p>Only Admins, Project Managers, Developers, or the original creator of the ticket may make a comment.</p>
+                    </div>
+                }
+
+                <hr />
+
+                <div class="col-lg-12">
+
+                    @foreach (var item in Model.Comments.OrderByDescending(c => c.Created))
+                    {
+
+                        <div class="card-panel z-depth-2">
+
+                            <div class="mail-subject">
+                                <h4><img src="~/images/user10-30x30.jpg" class="pull-left" style="padding-right:3px;" /> @Html.DisplayFor(modelItem => item.Author.DisplayName) <small class="mail-date">@Html.DisplayFor(modelItem => item.Created)</small></h4>
+
+                            </div> <!-- /user name|created -->
+
+                            <hr />
+
+                            <div class="mail-text">
+                                <p>@Html.Raw(item.Body)</p>
+                            </div>
+
+                        </div><!-- /card-panel -->
+
+                    }
+
+                    <br />
+
+                </div><!-- /comment list column -->
+
+            </div><!-- /content (Comments)-->
+
+        </div><!-- /card (Comments)-->
+
+
+        <div class="card">
+
+            <ul class="collapsible" data-collapsible="accordian">
+
+                <li><!-- begin attachments -->
+                    
                     <div class="collapsible-header">
-                        <i class="fa fa-comments"></i>Comments<span class="yay-collapse-icon mdi-navigation-expand-more right"></span>
+                        <i class="fa fa-paperclip"></i> Attachments<span class="yay-collapse-icon mdi-navigation-expand-more right"></span>
                     </div>
 
                     <div class="collapsible-body">
 
                         <div class="content">
-                        
-                                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager") || User.IsInRole("Developer") || User.Identity.GetUserId() == Model.OwnedById)
-                                {
-                                    <div class="col-lg-12" id="comment_form">
 
-                                        <form method="post" action="@Url.Action("CreateComment", "Tickets",new { projectId = Model.ProjectId, ticketId = Model.Id })">
-                                            @Html.AntiForgeryToken()
-                                            <h3>Leave A Comment</h3>
+                            <ul class="collapsible" data-collapsible="accordian">
+
+                                <li>
+
+                                    <div class="collapsible-header">
+                                        <i class="mdi mdi-content-add"></i> Add Attachment
+                                    </div>
+
+                                    <div class="collapsible-body">
+                                        
+                                        <div class="content">
 
                                             <div class="form-group">
-                                                <div>
-                                                    <textarea name="Body" class="materialize-textarea" rows="6"></textarea>
-                                                </div>
-                                            </div><!-- End Comment Box -->
+                                                <!-- Begin File Attachment -->
+                                            
+                                                <form method="post" action="@Url.Action("AddAttachment", "Tickets", new { projectId = Model.ProjectId, ticketId = Model.Id})" enctype="multipart/form-data" >
+                                                    @Html.AntiForgeryToken()
 
-                                            <input type="submit" value="Submit" class="btn btn-default" /><br />
+                                                    <div class="input-field">
+                                                        <input name="title" class="validate" type="text">
+                                                        <label for="title">Title</label>
+                                                    </div>
+                                                    
+                                                    <div class="input-field">
+                                                        <input name="description" class="validate"  type="text">
+                                                        <label for="description">Description</label>
+                                                    </div>
+                                                    
+                                                    <br />
 
-                                        </form><!--/comment form -->
+                                                    <div class="file-field input-field">
+                                                        <input class="file-path validate" type="text" />
+                                                        <div class="btn">
+                                                            <span>File</span>
+                                                            <input name="file" type="file" id="fileUpload" />
+                                                        </div>
+                                                        
+                                                    </div>
 
-                                    
-                                    
-                                    
-                                    <br />
-                            
-                                </div><!-- /comment form column -->
-                                    
-                                }
-                                else
-                                {
-                                    <div class="col-lg-12">
-                                        <p>Only Admins, Project Managers, Developers, or the original creator of the ticket may make a comment.</p>
-                                    </div>
-                                }
+                                                    <br />
 
-                                <hr />
+                                                    <input type="submit" value="Submit" class="btn btn-default" />
 
-                                <div class="col-lg-12">
+                                                </form>
 
-                                    @foreach (var item in Model.Comments.OrderByDescending(c => c.Created))
-                                    {
-                                       
-                                        <div class="card-panel z-depth-2">
+                                                <br />
 
-                                            <div class="mail-subject">
-                                                <h4><img src="~/images/user10-30x30.jpg" class="pull-left" style="padding-right:3px;"/> @Html.DisplayFor(modelItem => item.Author.DisplayName) <small class="mail-date">@Html.DisplayFor(modelItem => item.Created)</small></h4>
-                                                
-                                            </div> <!-- /user name|created -->
+                                            </div><!-- /attachment file -->
 
-                                            <hr />
+                                        </div><!-- /content -->
 
-                                            <div class="mail-text">
-                                                <p>@Html.Raw(item.Body)</p>
-                                            </div>
+                                        
 
-                                        </div><!-- /card-panel -->
+                                    </div><!-- /collasible-body -->
 
-                                    }
+                                </li>
 
-                                    <br />
-
-                                </div><!-- /comment list column -->
+                            </ul>
 
                             
 
+                        </div><!-- /content (attachment form)-->
 
-                        </div><!-- /content-->
-
-                    </div><!-- /collaspible body -->
-
-                </li><!-- /comment section -->
-
-                <li>
-
-                    <div class="collapsible-header">
-                        <i class="fa fa-paperclip"></i>Attachments<span class="yay-collapse-icon mdi-navigation-expand-more right"></span>
-                    </div>
-
-                    <div class="collapsible-body">
+                        <br />
 
                         <div class="content">
 
-                            <div class="card">
-                                
-                                <div class="card">
-                                    <div class="title">
-                                        <a class="minimize" href="#"><i class="mdi-navigation-expand-less"></i></a>
-                                    </div><!-- /title -->
-                                    <div class="content">
-                                        <div class="form-group">
-                                            <!-- Begin File Attachment -->
-                                            <h3>Add an Attachment</h3>
-                                            <hr />
-                                            <form method="post" action="@Url.Action("AddAttachment", "Tickets", new { projectId = Model.ProjectId, ticketId = Model.Id})" enctype="multipart/form-data">
-                                                @Html.AntiForgeryToken()
+                            <table class="display table table-hover">
 
-                                                <h4>Attachment Description</h4>
-                                                <textarea name="Description" class="form-control" rows="6"></textarea>
+                                <thead>
+                                    <tr>
+                                        <th>Posted By</th>
+                                        <th>Title</th>
+                                        <th>Type</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.Attachments.OrderByDescending(a => a.Created))
+                                    {
+                                        <tr>
+                                            <td>@Html.DisplayFor(modelItem => item.Author.DisplayName)</td>
+                                            <td>
+                                                @if (Model.Title == null)
+                                                {
+                                                    <strong class="grey-text text-darken-2">(No Title)</strong>
+                                                }
+                                                else
+                                                {
+                                                    <strong class="grey-text text-darken-2">@Html.DisplayFor(modelItem => item.Title)</strong>
+                                                }
+
                                                 <br />
-                                                <div class="col-md-10">
-                                                    <input name="file" type="file" class="form-control" id="fileUpload" />
-                                                </div>
+                                                @if (Model.Description == null)
+                                                {
+                                                    <span class="grey-text">(No Description)</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="grey-text">@Html.DisplayFor(modelItem => item.Description)</span>
+                                                }
 
-                                                <input type="submit" value="Submit" class="btn btn-default" />
-                                            </form>
+                                            </td>
 
-                                            <br />
+                                            <td>@Html.DisplayFor(modelItem => item.Type)</td>
+                                            <td><a href="@item.MediaURL" class="btn btn-small"><i class="fa fa-download"></i></a></td>
+                                        </tr>
+                                    }
+                                </tbody>
 
-                                        </div><!-- /attachment file -->
-                                    </div>
-                                </div>
-
-                                
-
-                                <div class="content">
-
-                                    <table class="display table table-bordered table-striped table-hover">
-                                    
-                                        <thead>
-                                            <tr>
-                                                <th>Posted By</th>
-                                                <th>Title</th>
-                                                <th>Description</th>
-                                                <th>Type</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach (var item in Model.Attachments.OrderByDescending(a => a.Created))
-                                            {
-                                                <tr>
-                                                    <td>@Html.DisplayFor(modelItem => item.Author.DisplayName)</td>
-                                                    <td>@Html.DisplayFor(modelItem => item.Title)</td>
-                                                    <td>@Html.DisplayFor(modelItem => item.Description)</td>
-                                                    <td>@Html.DisplayFor(modelItem => item.Type)</td>
-                                                    <td><a href="@item.MediaURL" class="btn btn-small"><i class="fa fa-download"></i></a></td>
-                                                </tr>
-                                            }
-                                        </tbody>
-                                                                        
-                                    </table><!-- /table -->
-
-                                </div><!-- /content -->
-
-                            </div><!-- /card -->
-
-
-                            
+                            </table><!-- /table -->
 
                         </div><!-- /content -->
 
-                    </div><!-- /collasible body -->
+                    </div>
 
-                </li><!-- /attachment section -->
+                </li><!-- /attachments -->
 
-                <li>
+                <li><!-- begin history-->
 
-                    <div class="collapsible-header"><i class="fa fa-history"></i>Ticket History<span class="yay-collapse-icon mdi-navigation-expand-more right"></span></div>
+                    <div class="collapsible-header">
+                        <i class="fa fa-history"></i>Ticket History<span class="yay-collapse-icon mdi-navigation-expand-more right"></span>
+                    </div>
+
                     <div class="collapsible-body">
 
                         <div class="content">
@@ -328,10 +391,14 @@
 
                     </div><!-- /collapsible body -->
 
-                </li><!-- /history section -->
 
-            </ul>
-        </div><!-- /card (comments|attachments|history)-->
+                </li><!-- / history -->
+
+            </ul><!-- /attachments | history -->
+
+        </div><!-- /card (Attachments | History)-->
+
+        
 
 </section>
 

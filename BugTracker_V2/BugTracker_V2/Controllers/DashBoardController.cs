@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using BugTracker_V2.Models;
 using Microsoft.AspNet.Identity;
+using System.Net;
+using System.Threading.Tasks;
 namespace BugTracker_V2.Controllers
 {
     
@@ -75,6 +77,23 @@ namespace BugTracker_V2.Controllers
 
             return View(model);
                         
+        }
+
+        //GET: Ticket Comment Form
+        [Route("Projects/{projectId}/Tickets/{id}/#comment_form")]
+        public async Task<ActionResult> TicketComment(int projectId, int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Ticket ticket = await db.Tickets.FindAsync(id);
+            if (ticket == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(ticket);
         }
     }
 }

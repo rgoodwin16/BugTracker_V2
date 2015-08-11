@@ -362,6 +362,15 @@ namespace BugTracker_V2.Controllers
                 ticketAttachment.AuthorId = User.Identity.GetUserId();
                 ticketAttachment.Type = ticketAttachment.Type;
 
+                if (ticketAttachment.Title == null)
+                {
+                    ticketAttachment.Title = "(No Title)";
+                }
+                else
+                {
+                    ticketAttachment.Title = ticketAttachment.Title;
+                }
+
                 db.TicketAttchment.Add(ticketAttachment);
                 await db.SaveChangesAsync();
 

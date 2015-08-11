@@ -18,7 +18,6 @@
                 <table class="display table table-bordered table-striped table-hover">
                     <thead>
                         <tr>
-                            <th>View</th>
                             <th>Project Title</th>
                             <th>Created</th>
                             <th>Updated</th>
@@ -31,14 +30,7 @@
                         @foreach (var item in Model.Projects)
                         {
                             <tr>
-
-                                <td>
-                                    <a href="@Url.Action("Details", "Projects", new { id = item.Id })" class=" btn white grey-text text-darken-2">
-                                        <i class="fa fa-eye"></i>
-                                    </a>
-                                </td><!-- /View Project -->
-
-                                <td>
+                                 <td>
                                     <a href="@Url.Action("Details", "Projects", new { id = item.Id })">
                                         <strong class="grey-text text-darken-2">@Html.DisplayFor(modelItem => item.Title)</strong>
                                     </a>
@@ -58,17 +50,14 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Tickets.Count)
                                 </td><!-- /Ticket Count -->
-                                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
-                                {
-                                    <td>
-                                        <div class="btn-group">
-                                            <a href="@Url.Action("Edit", "Projects", new { id = item.Id })" class="btn btn-small z-depth-0"><i class="mdi mdi-editor-mode-edit"></i> Edit</a>
-                                            <a href="@Url.Action("Delete", "Projects", new { id = item.Id })" class="btn btn-small red lighten-1 z-depth-0"><i class="mdi mdi-action-delete"></i> Delete</a>
-                                        </div>
-                                    </td><!-- /Edit | Delete -->
-                                }
-
-
+                                <td>
+                                    <div class="btn-group center" role="button">
+                                        <a href="@Url.Action("Details", "Projects", new { id = item.Id })" class=" btn  btn-small white grey-text text-darken-2"><i class="fa fa-eye"></i></a>
+                                        <a href="@Url.Action("Edit", "Projects", new { id = item.Id })" class="btn btn-small "><i class="mdi mdi-editor-mode-edit"></i></a>
+                                        <a href="@Url.Action("Delete", "Projects", new { id = item.Id })" class="btn btn-small red lighten-1 "><i class="mdi mdi-action-delete"></i></a>
+                                    </div>
+                                </td><!-- /Edit | Delete -->
+      
                             </tr><!-- /Table Row -->
                         }
 
@@ -94,7 +83,6 @@
                 <table class="display table table-bordered table-striped table-hover">
                     <thead>
                         <tr>
-                            <th>View</th>
                             <th>Ticket Title</th>
                             <th>Project</th>
                             <th>Created</th>
@@ -108,9 +96,6 @@
                         @foreach (var item in Model.Tickets.OrderByDescending(c => c.Created))
                         {
                             <tr>
-                                <td>
-                                    <a href="@Url.Action("Details", "Tickets", new { projectId = item.ProjectId, id = item.Id })" class="btn white grey-text text-darken-2"><i class="fa fa-eye"></i></a>
-                                </td>
                                 <td>
                                     <a href="@Url.Action("Details", "Tickets", new { projectId = item.ProjectId, id = item.Id })">   <strong class="grey-text text-darken-2">@Html.DisplayFor(modelItem => item.Title)</strong></a>
                                 </td><!-- /ticket title -->
@@ -129,7 +114,7 @@
                                 <td>
                                     @if (item.TicketPriority.Name == "Critical")
                                     {
-                                        <span class="alert amber accent-2 white-text">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</span>
+                                        <span class="red-text"><strong>@Html.DisplayFor(modelItem => item.TicketPriority.Name)</strong></span>
                                     }
                                     else
                                     {
@@ -140,12 +125,12 @@
                                 <td>
                                     @if(item.TicketStatus.Name == "New")
                                     {
-                                        <span class="alert green lighten-1 white-text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span>
+                                        <span class="green-text"><strong>@Html.DisplayFor(modelItem => item.TicketStatus.Name)</strong></span>
                                     }
                                     
                                     else if (item.TicketStatus.Name == "Resolved")
                                     {
-                                        <span class="alert grey lighten-1 white-text">@Html.DisplayFor(modelItem => item.TicketStatus.Name)</span>
+                                        <strong>@Html.DisplayFor(modelItem => item.TicketStatus.Name)</strong>
                                     }
                                     else
                                     {
@@ -155,7 +140,8 @@
                                 </td>
                                 <td>
                                     <div class="btn-group">
-                                        <a href="@Url.Action("Edit", "Tickets", new { projectId = item.ProjectId, id = item.Id })" class="btn btn-small z-depth-0"><i class="mdi mdi-editor-mode-edit"></i> Edit</a>
+                                        <a href="@Url.Action("Details", "Tickets", new { projectId = item.ProjectId, id = item.Id })" class="btn-small btn white grey-text text-darken-2"><i class="fa fa-eye"></i></a>
+                                        <a href="@Url.Action("Edit", "Tickets", new { projectId = item.ProjectId, id = item.Id })" class="btn btn-small"><i class="mdi mdi-editor-mode-edit"></i></a>
                                     </div>
 
                                 </td>

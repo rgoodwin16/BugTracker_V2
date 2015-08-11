@@ -43,7 +43,8 @@
                                 <td>
                                     <div class="btn-group">
                                         <a href="@Url.Action("Details", "Tickets", new { projectId = item.ProjectId, id = item.Id })" class="btn white grey-text text-darken-2 btn-small"><i class="fa fa-eye"></i></a>
-                                        <a class="btn btn-small green" href="@Url.Action("Details", "Tickets", new { projectId = item.ProjectId, id = item.Id })"><i class="fa fa-comment"></i></a>
+                                        <a class="btn btn-small green" href="@Url.Action("Details", "Tickets", new { projectId = item.ProjectId, id = item.Id })/#comment_form"><i class="fa fa-comments"></i></a>
+                                        
                                         
                                     </div>
                                 </td><!-- /actions -->
