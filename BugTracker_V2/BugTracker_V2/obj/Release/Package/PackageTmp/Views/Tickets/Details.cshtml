@@ -144,31 +144,93 @@
 
             <div class="content">
 
-                <div class="col-lg-12" id="comment_list" style="height:200px; overflow:auto;">
+                @if (Model.Comments.Count == 0)
+                {
+                    <div class="col-lg-12" id="comment_list" style="height:25px; overflow:auto;">
 
-                    @foreach (var item in Model.Comments.OrderByDescending(c => c.Created))
-                    {
+                        @foreach (var item in Model.Comments.OrderByDescending(c => c.Created))
+                        {
 
-                        <div class="card-panel z-depth-2">
+                            <div class="card-panel z-depth-2">
 
-                            <div class="mail-subject">
-                                <h4><img src="~/images/user10-30x30.jpg" class="pull-left" style="padding-right:3px;" /> @Html.DisplayFor(modelItem => item.Author.DisplayName) <small class="mail-date">@Html.DisplayFor(modelItem => item.Created.LocalDateTime)</small></h4>
+                                <div class="mail-subject">
+                                    <h4><img src="~/images/user10-30x30.jpg" class="pull-left" style="padding-right:3px;" /> @Html.DisplayFor(modelItem => item.Author.DisplayName) <small class="mail-date">@Html.DisplayFor(modelItem => item.Created.LocalDateTime)</small></h4>
 
-                            </div> <!-- /user name|created -->
+                                </div> <!-- /user name|created -->
 
-                            <hr />
+                                <hr />
 
-                            <div class="mail-text">
-                                <p>@Html.Raw(item.Body)</p>
-                            </div>
+                                <div class="mail-text">
+                                    <p>@Html.Raw(item.Body)</p>
+                                </div>
 
-                        </div><!-- /card-panel -->
+                            </div><!-- /card-panel -->
 
-                    }
+                        }
 
-                    <br />
+                        <br />
 
-                </div><!-- /comment list column -->
+                    </div><!-- /comment list column -->
+                }
+                else if (Model.Comments.Count == 1)
+                {
+                    <div class="col-lg-12" id="comment_list" style="height:165px; overflow:auto;">
+
+                        @foreach (var item in Model.Comments.OrderByDescending(c => c.Created))
+                        {
+
+                            <div class="card-panel z-depth-2">
+
+                                <div class="mail-subject">
+                                    <h4><img src="~/images/user10-30x30.jpg" class="pull-left" style="padding-right:3px;" /> @Html.DisplayFor(modelItem => item.Author.DisplayName) <small class="mail-date">@Html.DisplayFor(modelItem => item.Created.LocalDateTime)</small></h4>
+
+                                </div> <!-- /user name|created -->
+
+                                <hr />
+
+                                <div class="mail-text">
+                                    <p>@Html.Raw(item.Body)</p>
+                                </div>
+
+                            </div><!-- /card-panel -->
+
+                        }
+
+                        <br />
+
+                    </div><!-- /comment list column -->
+                }
+                else
+                {
+                    <div class="col-lg-12" id="comment_list" style="height:400px; overflow:auto;">
+
+                        @foreach (var item in Model.Comments.OrderByDescending(c => c.Created))
+                        {
+
+                            <div class="card-panel z-depth-2">
+
+                                <div class="mail-subject">
+                                    <h4><img src="~/images/user10-30x30.jpg" class="pull-left" style="padding-right:3px;" /> @Html.DisplayFor(modelItem => item.Author.DisplayName) <small class="mail-date">@Html.DisplayFor(modelItem => item.Created.LocalDateTime)</small></h4>
+
+                                </div> <!-- /user name|created -->
+
+                                <hr />
+
+                                <div class="mail-text">
+                                    <p>@Html.Raw(item.Body)</p>
+                                </div>
+
+                            </div><!-- /card-panel -->
+
+                        }
+
+                        <br />
+
+                    </div><!-- /comment list column -->
+                }
+
+
+                
 
                 <hr />
                 <br />

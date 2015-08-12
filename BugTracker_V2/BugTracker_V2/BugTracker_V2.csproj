@@ -318,6 +318,7 @@
     <Content Include="Landing Page\img\app-bg.png" />
     <Content Include="Landing Page\img\arrow1.png" />
     <Content Include="Landing Page\img\arrow2.png" />
+    <Content Include="Landing Page\img\bt_admin_dashboard.png" />
     <Content Include="Landing Page\img\bt_placeholder.png" />
     <Content Include="Landing Page\img\coder.png" />
     <Content Include="Landing Page\img\intro01.png" />
@@ -326,6 +327,7 @@
     <Content Include="Landing Page\img\item-01.png" />
     <Content Include="Landing Page\img\item-02.png" />
     <Content Include="Landing Page\img\mobile.png" />
+    <Content Include="Landing Page\img\mobile_admin.png" />
     <Content Include="Landing Page\img\mobile_placeholder.png" />
     <Content Include="Landing Page\img\ray_goodwin.png" />
     <Content Include="Landing Page\img\ray_goodwin_lg.png" />

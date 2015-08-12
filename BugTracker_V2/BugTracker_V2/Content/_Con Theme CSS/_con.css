@@ -7678,7 +7678,7 @@ table.dataTable.no-footer {
   zoom: 1; }
 
 .dataTables_wrapper .dataTables_length {
-  float: left;
+  
   margin-bottom: 15px; }
   .dataTables_wrapper .dataTables_length label {
     font-size: 1rem; }
