@@ -68,8 +68,13 @@ namespace BugTracker_V2.Controllers
         {
             if (ModelState.IsValid)
             {
-                foreach (var user in db.Users)
+                foreach (var user in db.Users.Where(u=>u.Email != "rgoodwin16@outlook.com" &&
+                                                       u.Email != "admin@guest.com" &&
+                                                       u.Email != "projectmanager@guest.com" &&
+                                                       u.Email != "developer@guest.com" &&
+                                                       u.Email != "submitter@guest.com"))
                 {
+                    
                     if (model.Selected != null && model.Selected.Contains(user.Id))
                     {
                         helper.AddUserToRole(user.Id, model.RoleName);
@@ -78,6 +83,7 @@ namespace BugTracker_V2.Controllers
                     {
                         helper.RemoveUserFromRole(user.Id, model.RoleName);
                     }
+
                 }
             }
 

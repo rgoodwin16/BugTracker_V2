@@ -77,11 +77,7 @@
 
             <div class="card-panel">
 
-
-
-                <div class="row">
-                    <div class="col"></div>
-                </div><h4>Login with Existing Account.</h4>
+                <h4>Login with an Existing Account.</h4>
 
                 <hr />
 
@@ -138,6 +134,59 @@
             @Html.Partial("_CustomExternalLoginListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
 
             <!-- /Social Sign Up -->
+
+        </div>
+
+        <br />
+
+        <div class="card-panel"
+             style="
+                 position: relative;
+                 margin: 0 auto;
+                 max-width: 500px;
+                 width: 100%;
+                 z-index: 2;
+                 ">
+
+            <!-- Demo Login -->
+
+            
+            <h4>Login with a Guest Account.</h4>
+            
+            <hr />
+
+            <div class="content">
+
+                <div class="row">
+
+                    <div class="col s6">
+                        <button type="button" class="btn btn-default green z-depth-1" onclick="location.href='@Url.Action("GuestAdmin", "Account")'"><i class="fa fa-users"></i> Admin</button>
+                    </div>
+
+                    <div class="col s6">
+                        <button type="button" class="btn btn-default z-depth-1" onclick="location.href='@Url.Action("GuestDev", "Account")'"><i class="fa fa-code"></i> Developer</button>
+                    </div>
+
+                </div><!-- /row -->
+
+                <div class="row">
+
+                    <div class="col s6">
+                        <button type="button" class="btn btn-default amber accent-4 z-depth-1" onclick="location.href='@Url.Action("GuestPM", "Account")'"><i class="fa fa-folder-open"></i> Project Manager</button>
+                    </div>
+
+
+                    <div class="col s6">
+                        <button type="button" class="btn white grey-text text-darken-2 z-depth-1" onclick="location.href='@Url.Action("GuestSub", "Account")'"><i class="fa fa-ticket"></i> Submitter</button>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- /Demo Login -->
 
         </div>
 

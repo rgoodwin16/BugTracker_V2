@@ -36,6 +36,7 @@
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
+                        <button type="button" class="btn btn-default" onclick="location.href='@Url.Action("Users", "Admin")'">Cancel</button>
                         <input type="submit" value="Save" class="btn btn-default" />
                     </div>
                 </div><!-- /save button -->
@@ -43,9 +44,7 @@
             </div><!-- /form-horizontal -->
         }
 
-        <p>
-            @Html.ActionLink("Back To List", "Users", "Admin")
-        </p>
+
 
         </div><!-- /content -->
 

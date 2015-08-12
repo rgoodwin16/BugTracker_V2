@@ -18,6 +18,7 @@ namespace BugTracker_V2.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         public AccountController()
         {
@@ -60,6 +61,48 @@ namespace BugTracker_V2.Controllers
         {
             ViewBag.ReturnUrl = returnUrl;
             return View();
+        }
+
+        //DEMO LOGINS
+
+        //GuestAdmin
+        [AllowAnonymous]
+        public async Task<ActionResult> GuestAdmin()
+        {
+            var user = db.Users.First(u => u.FirstName == "GuestAdmin");
+            await SignInManager.SignInAsync(user,isPersistent: false, rememberBrowser: false);
+
+            return RedirectToAction("Index", "DashBoard");
+        }
+
+        //GuestPM
+        [AllowAnonymous]
+        public async Task<ActionResult> GuestPM()
+        {
+            var user = db.Users.First(u => u.FirstName == "GuestPM");
+            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+            return RedirectToAction("Index", "DashBoard");
+        }
+
+        //GuestDev
+        [AllowAnonymous]
+        public async Task<ActionResult> GuestDev()
+        {
+            var user = db.Users.First(u => u.FirstName == "GuestDev");
+            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+            return RedirectToAction("Index", "DashBoard");
+        }
+
+        //GuestSub
+        [AllowAnonymous]
+        public async Task<ActionResult> GuestSub()
+        {
+            var user = db.Users.First(u => u.FirstName == "GuestSub");
+            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+            return RedirectToAction("Index", "DashBoard");
         }
 
         //
