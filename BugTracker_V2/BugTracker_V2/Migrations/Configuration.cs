@@ -153,6 +153,8 @@ namespace BugTracker_V2.Migrations
             var smId = userManager4.FindByEmail(submitterEmail).Id;
             userManager4.AddToRole(smId, "Submitter");
 
+
+            
         }
     }
 }

@@ -34,8 +34,6 @@ namespace BugTracker_V2.Controllers
                 ViewBag.search = search;
                 projectList = db.Projects.Where(s=> s.Title.Contains(search) || 
                     s.Description.Contains(search) || 
-                    //s.ProjectManager.UserName.Contains(search) ||
-                    //s.ProjectManager.DisplayName.Contains(search) ||
                     s.Tickets.Any(t=> t.Title.Contains(search)) 
                     || s.Tickets.Any(t=> t.Description.Contains(search)) 
                     || s.Tickets.Any(t=> t.Comments.Any(c=> c.Body.Contains(search))) ||

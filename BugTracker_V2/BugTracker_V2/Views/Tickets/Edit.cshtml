@@ -82,6 +82,10 @@
                             </div>
                         </div><!-- End Status -->
 
+                    }
+                    
+                    @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                    {
                         <div class="form-group">
                             <!-- Begin Priority -->
                             @Html.LabelFor(model => model.TicketPriorityId, "TicketPriority", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -99,7 +103,6 @@
                                 @Html.ValidationMessageFor(model => model.AssignedToId, "", new { @class = "text-danger" })
                             </div>
                         </div><!-- End Assigned User -->
-
                     }
                     
                     

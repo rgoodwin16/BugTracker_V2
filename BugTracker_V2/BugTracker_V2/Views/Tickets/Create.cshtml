@@ -43,19 +43,6 @@
                         @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                     </div>
                 </div><!-- End Description -->
-
-                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
-                {
-                    <div class="form-group">
-                        <!-- Begin TicketStatus -->
-                        @Html.LabelFor(model => model.TicketStatusId, "TicketStatus", htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.DropDownList("TicketStatusId")
-                            @Html.ValidationMessageFor(model => model.TicketStatusId, "", new { @class = "text-danger" })
-                        </div>
-                    </div><!-- End TicketStatus -->
-                }
-
             
                 <div class="form-group">
                     <!-- Begin TicketType -->
@@ -68,6 +55,16 @@
 
                 @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
                 {
+
+                    <div class="form-group">
+                        <!-- Begin TicketStatus -->
+                        @Html.LabelFor(model => model.TicketStatusId, "TicketStatus", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("TicketStatusId")
+                            @Html.ValidationMessageFor(model => model.TicketStatusId, "", new { @class = "text-danger" })
+                        </div>
+                    </div><!-- End TicketStatus -->
+
                     <div class="form-group">
                         <!-- Begin TicketPriority -->
                         @Html.LabelFor(model => model.TicketPriorityId, "TicketPriority", htmlAttributes: new { @class = "control-label col-md-2" })

@@ -19,7 +19,7 @@
                     @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager") || User.Identity.GetUserId() == @Model.AssignedToId)
                     {
                         <div class="btn-group right">
-                            <a href="@Url.Action("Edit", "Tickets", new { id = Model.Id })" class="btn btn-small z-depth-0"><i class="mdi mdi-editor-mode-edit"></i> Edit Ticket</a>
+                            <a href="@Url.Action("Edit", "Tickets", new { id = Model.Id })" class="btn btn-small z-depth-2"><i class="mdi mdi-editor-mode-edit"></i> Edit Ticket</a>
                         </div>
                     }
                     
@@ -39,7 +39,15 @@
 
                     <hr />
 
-                    @if (Model.Updated != null)
+                    @if (Model.TicketStatus.Name == "Resolved")
+                    {
+                        <div class="alert alert-dismissible orange accent-2 white-text">
+                            This ticket was marked <strong>Resolved</strong> on : @Html.DisplayFor(model => model.Updated)
+                            <button class="close">&times;</button>
+                        </div>
+                    }
+
+                    @if (Model.Updated != null && Model.TicketStatus.Name != "Resolved")
                     {
                         <div class="alert alert-dismissible green lighten-3 white-text">
                             <strong>Updated: </strong>@Html.DisplayFor(model => model.Updated)
@@ -75,7 +83,7 @@
                     else
                     {
                         <div class="content">
-                            <button class="btn btn-small">   @Html.DisplayFor(model => model.AssignedTo.DisplayName)</button>
+                            <button class="orange btn btn-small z-depth-0 white-text" disabled>   @Html.DisplayFor(model => model.AssignedTo.DisplayName)</button>
                         </div>
                     }
                     
@@ -96,18 +104,18 @@
                         
                         <ul class="list-group">
                             <li class="list-group-item meta_height">
-                                Type:<span class="btn btn-small right">@Html.DisplayFor(model => model.TicketType.Name)</span>
+                                Type:<span class="cyan darken-1 right btn btn-small z-depth-0" disabled>@Html.DisplayFor(model => model.TicketType.Name)</span>
                                 <br />
                             </li>
                             <li class="list-group-item meta_height">
                                 Status:
-                                <span class="btn btn-small right">@Html.DisplayFor(model => model.TicketStatus.Name)</span>
+                                <span class="cyan darken-1 right btn btn-small z-depth-0" disabled>@Html.DisplayFor(model => model.TicketStatus.Name)</span>
                             </li>
                             @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager") || User.IsInRole("Developer"))
                             {
                                 <li class="list-group-item meta_height">
                                     Priority:
-                                    <span class="btn btn-small right">@Html.DisplayFor(model => model.TicketPriority.Name)</span>
+                                    <span class="cyan darken-1 right btn btn-small z-depth-0" disabled>@Html.DisplayFor(model => model.TicketPriority.Name)</span>
                                 </li>
                             }
 

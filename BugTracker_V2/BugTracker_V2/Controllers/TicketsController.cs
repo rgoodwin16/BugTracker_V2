@@ -61,14 +61,15 @@ namespace BugTracker_V2.Controllers
             listOfUsers = db.Users.ToList();
 
             ViewBag.ProjectId = projectId;
-            //ViewBag.AssignedToId = new SelectList(listOfUsers, "Id", "UserName");
+            
             ViewBag.AssignedToId = new SelectList(db.Users.Where(u => u.Roles.Any(r => r.RoleId == devId)), "Id", "UserName");
 
-            //ViewBag.OwnedById = new SelectList(db.ApplicationUsers, "Id", "FirstName");
+           
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Title");
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriority, "Id", "Name");
             ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "Name");
             ViewBag.TicketTypeId = new SelectList(db.TicketType, "Id", "Name");
+
             return View();
         }
 
@@ -167,7 +168,7 @@ namespace BugTracker_V2.Controllers
         {
             if (ModelState.IsValid)
             {
-                var properties = new List<string>() { "Updated", "Description", "TicketTypeId" };
+                var properties = new List<string>() { "Updated", "Description", "TicketTypeId","TicketStatusId" };
                 var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
 
                 var EditId = Guid.NewGuid().ToString();
@@ -182,7 +183,23 @@ namespace BugTracker_V2.Controllers
                     {
                         ticket.TicketStatusId = 2;
                     }
-                    
+
+                    //Check TicketPriority
+                    if (oldTicket.TicketPriorityId != ticket.TicketPriorityId)
+                    {
+                        properties.Add("TicketPriorityId");
+                        var ChangedPriority = new TicketHistory
+                        {
+                            TicketId = ticket.Id,
+                            UserId = UserId,
+                            Property = "Ticket Priority",
+                            OldValue = db.TicketPriority.FirstOrDefault(p => p.Id == oldTicket.TicketPriorityId).Name,
+                            NewValue = db.TicketPriority.FirstOrDefault(p => p.Id == ticket.TicketPriorityId).Name,
+                            Changed = System.DateTimeOffset.Now,
+                        };
+                        db.TicketHistories.Add(ChangedPriority);
+                    }
+
                     //Check if AssignedToId has changed
                     if (oldTicket.AssignedToId != ticket.AssignedToId)
                     {
@@ -207,47 +224,31 @@ namespace BugTracker_V2.Controllers
                         {
                             Subject = "You have a new Notification",
                             Destination = newUser.Email,
-                            Body = "You have been assigned the ticket:  " +  ticket.Title + "!" //+ "\n" + "This ticket is attached to the " + ticket.Project.Title + " project."
+                            Body = "You have been assigned the ticket:  " +  ticket.Title + "!" 
                         } : null;
 
                         db.TicketHistories.Add(AssignedHistory);
                         await mailer.SendAsync(Notification);
                     }
 
-                    //Check TicketPriority
-                    if (oldTicket.TicketPriorityId != ticket.TicketPriorityId)
+                    properties.AddRange(new string[] { "TicketPriorityId", "AssignedToId" });
+                }
+
+
+                //Check Description
+                if (oldTicket.Description != ticket.Description)
+                {
+
+                    var ChangedDescription = new TicketHistory
                     {
-                        properties.Add("TicketPriorityId");
-                        var ChangedPriority = new TicketHistory
-                        {
-                            TicketId = ticket.Id,
-                            UserId = UserId,
-                            Property = "Ticket Priority",
-                            OldValue = db.TicketPriority.FirstOrDefault(p => p.Id == oldTicket.TicketPriorityId).Name,
-                            NewValue = db.TicketPriority.FirstOrDefault(p => p.Id == ticket.TicketPriorityId).Name,
-                            Changed = System.DateTimeOffset.Now,
-                        };
-                        db.TicketHistories.Add(ChangedPriority);
-                    }
-
-                    //Check TicketStatus
-                    if (oldTicket.TicketStatusId != ticket.TicketStatusId)
-                    {
-                        properties.Add("TicketStatusId");
-                        var ChangedStatus = new TicketHistory
-                        {
-                            TicketId = ticket.Id,
-                            UserId = UserId,
-                            Property = "Ticket Status",
-                            OldValue = db.TicketStatus.FirstOrDefault(p => p.Id == oldTicket.TicketStatusId).Name,
-                            NewValue = db.TicketStatus.FirstOrDefault(p => p.Id == ticket.TicketStatusId).Name,
-                            Changed = System.DateTimeOffset.Now,
-                        };
-                        db.TicketHistories.Add(ChangedStatus);
-
-                    }
-
-                    properties.AddRange(new string[] { "TicketStatusId", "TicketPriorityId", "AssignedToId" });
+                        TicketId = ticket.Id,
+                        UserId = UserId,
+                        Property = "Description",
+                        OldValue = oldTicket.Description,
+                        NewValue = ticket.Description,
+                        Changed = System.DateTimeOffset.Now,
+                    };
+                    db.TicketHistories.Add(ChangedDescription);
                 }
 
                 //Check TicketType
@@ -266,24 +267,24 @@ namespace BugTracker_V2.Controllers
 
                 }
 
-                //Check Description
-                if (oldTicket.Description != ticket.Description)
+                //Check TicketStatus
+                if (oldTicket.TicketStatusId != ticket.TicketStatusId)
                 {
-                    
-                    var ChangedDescription = new TicketHistory
+                    properties.Add("TicketStatusId");
+                    var ChangedStatus = new TicketHistory
                     {
                         TicketId = ticket.Id,
                         UserId = UserId,
-                        Property = "Description",
-                        OldValue = oldTicket.Description,
-                        NewValue = ticket.Description,
+                        Property = "Ticket Status",
+                        OldValue = db.TicketStatus.FirstOrDefault(p => p.Id == oldTicket.TicketStatusId).Name,
+                        NewValue = db.TicketStatus.FirstOrDefault(p => p.Id == ticket.TicketStatusId).Name,
                         Changed = System.DateTimeOffset.Now,
                     };
-                    db.TicketHistories.Add(ChangedDescription);
+                    db.TicketHistories.Add(ChangedStatus);
+
                 }
 
-
-                
+                                
                 ticket.Updated = DateTimeOffset.Now;
                 ticket.OwnedById = ticket.OwnedById;
 

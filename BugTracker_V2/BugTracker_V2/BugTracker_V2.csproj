@@ -773,9 +773,7 @@
     <Content Include="Views\DashBoard\_Admin.cshtml" />
     <Content Include="Views\DashBoard\_PM.cshtml" />
     <Content Include="Views\DashBoard\_Dev.cshtml" />
-    <Content Include="Views\DashBoard\_NoRole.cshtml" />
     <Content Include="Views\DashBoard\_Sub.cshtml" />
-    <Content Include="Views\Tickets\_AttachType.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
