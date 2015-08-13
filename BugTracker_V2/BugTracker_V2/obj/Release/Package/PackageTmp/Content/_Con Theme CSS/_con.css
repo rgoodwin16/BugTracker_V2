@@ -7678,7 +7678,7 @@ table.dataTable.no-footer {
   zoom: 1; }
 
 .dataTables_wrapper .dataTables_length {
-  float: left;
+  
   margin-bottom: 15px; }
   .dataTables_wrapper .dataTables_length label {
     font-size: 1rem; }
@@ -7974,7 +7974,7 @@ table.dataTable.no-footer {
   min-height: 100%;
   min-height: 100vh;
   padding-top: 80px;
-  background: #35384C; }
+  background: #34495e; }
   #sign-in .logo, #sign-up .logo, #forgot-password .logo, #lock .logo {
     margin-top: -10px; }
   #sign-in .logo img, #sign-up .logo img, #forgot-password .logo img, #lock .logo img {
@@ -8759,4 +8759,49 @@ html.rtl [type=checkbox]:checked + label:before {
 /*      Custom Styles       */
 .meta_height {
     line-height: 2;
+}
+
+
+.login_links {
+    position: relative;
+    margin: 0 auto;
+    max-width: 575px;
+    width: 100%;
+    z-index:999;
+}
+
+.main_login_card-panel {
+    position: relative;
+    margin: 0 auto;
+    max-width: 575px;
+    width: 100%;
+    z-index: 2;
+    background:none;
+    box-shadow:none;
+    margin-bottom:30px;
+}
+
+.main_login_logo {
+    margin-left:30px;
+}
+
+.main_login_tabs {
+    background:none;
+    margin-left:-40px;
+}
+
+.login_card-panel {
+    position: relative;
+    margin: 0 auto;
+    max-width: 500px;
+    width: 100%;
+    z-index: 2;
+    color:grey;
+    border-radius: 2px;
+    background-color: #fff;
+    padding: 20px;
+}
+
+.sign_up_alert {
+    text-align:center;
 }

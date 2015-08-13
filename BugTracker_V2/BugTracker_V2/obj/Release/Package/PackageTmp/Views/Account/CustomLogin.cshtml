@@ -14,150 +14,134 @@
 <!--[if IE 8]>     <html class="lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
 
-<html lang ="en">
+<html lang="en">
 <!--<![endif]-->
-    <head>
+<head>
 
-     <!-- ==============================================
-          Title and Meta Tags
-          ============================================== -->
-        
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>BugTracker - by Ray Goodwin</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-                
+    <!-- ==============================================
+         Title and Meta Tags
+         ============================================== -->
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>BugTracker - by Ray Goodwin</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <!-- ==============================================
          Favicons
          ============================================== -->
-        
-        <link rel="icon" type="image/png" href="~/images/icon.png">
+
+    <link rel="icon" type="image/png" href="~/images/icon.png">
 
     <!-- ==============================================
          Google Fonts
          ============================================== -->
 
-        <link href='//fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900' rel='stylesheet' type='text/css'>
 
     <!-- ==============================================
          CSS
          =============================================== -->
 
-        
-        <link href="~/Content/_Con Theme CSS/nanoscroller.css" rel="stylesheet" /><!-- nanoScroller -->
-        <link href="~/Content/_Con Theme CSS/font-awesome.min.css" rel="stylesheet" /><!-- FontAwesome -->
-        <link href="~/Content/_Con Theme CSS/material-design-icons.css" rel="stylesheet" /><!-- Material Design Icons -->
-        <link href="~/Content/_Con Theme CSS/ionicons.min.css" rel="stylesheet" /><!-- IonIcons -->
-        <link href="~/Content/_Con Theme CSS/weather-icons.min.css" rel="stylesheet" /><!-- WeatherIcons -->
-        <link href="~/Content/_Con Theme CSS/prettify.css" rel="stylesheet" /><!-- Google Prettify -->
-        <link href="~/Content/_Con Theme CSS/_con.css" rel="stylesheet" /><!-- Main -->
-        <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
-    </head>
-    <body>
+    <link href="~/Content/_Con Theme CSS/nanoscroller.css" rel="stylesheet" /><!-- nanoScroller -->
+    <link href="~/Content/_Con Theme CSS/font-awesome.min.css" rel="stylesheet" /><!-- FontAwesome -->
+    <link href="~/Content/_Con Theme CSS/material-design-icons.css" rel="stylesheet" /><!-- Material Design Icons -->
+    <link href="~/Content/_Con Theme CSS/ionicons.min.css" rel="stylesheet" /><!-- IonIcons -->
+    <link href="~/Content/_Con Theme CSS/weather-icons.min.css" rel="stylesheet" /><!-- WeatherIcons -->
+    <link href="~/Content/_Con Theme CSS/prettify.css" rel="stylesheet" /><!-- Google Prettify -->
+    <link href="~/Content/_Con Theme CSS/_con.css" rel="stylesheet" /><!-- Main -->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
-        <section id="sign-up">
+</head>
+<body>
 
-            <!-- Background Bubbles -->
-            <canvas id="bubble-canvas"></canvas>
-            <!-- /Background Bubbles -->
-                        
+    <section id="sign-up">
 
+        <!-- Background Bubbles -->
+        <canvas id="bubble-canvas"></canvas>
+        <!-- /Background Bubbles -->
 
+        <div class="row links login_links">
+            <div class="col s6 logo">
+                <img src="~/images/logo-white.png" class="main_login_logo" alt="">
+            </div>
+            <div class="col s6 right-align">
+
+                <ul class="tabs main_login_tabs">
+                    <li class="tab col s3"><a href="#signin"><small>Sign In</small></a></li>
+                    <li class="tab col s3"><a href="#sign_up"><small>Sign Up</small></a></li>
+                    <li class="tab col s3"><a href="#forgotpassword"><small>Forgot Password</small></a></li>
+                </ul>
+
+            </div><!-- /tabs -->
+        </div>
+
+        <br />
+
+        <div id="signin">
 
             @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
                 @Html.AntiForgeryToken()
 
-              <div class="row links">
-                 <div class="col s6 logo">
-                     <img src="~/images/logo-white.png" alt="">
-                 </div>
-                 <div class="col s6 right-align">
-                     <strong>Sign In</strong> / <a href="@Url.Action("Register", "Account")">Sign Up</a> / <a href="@Url.Action("ForgotPassword", "Account")"> Forgot Password</a>
-                 </div>
-              </div>
 
-              <div class="card-panel">  
-                
-                <h4>Login with an Existing Account.</h4>
 
-                <hr />
+                <div class="card-panel">
 
-                @Html.ValidationSummary("", new { @class = "text-danger" })
+                    <h4>Login with an Existing Account.</h4>
 
-                <!-- Email -->
-                <div class="input-field">
-                    <i class="fa fa-envelope prefix"></i>
-                    <input type="text" id="Email" name="Email" />
-                    <label for="Email"> Email</label>
-                    
-                </div>
-                <!-- /Email -->
+                    <hr />
 
-                <!-- Password -->
-                <div class="input-field">
-                    <i class="fa fa-unlock-alt prefix"></i>
-                    <input type="password" id="Password" name="Password"/>
-                    <label for="Password">Password</label>
-                   
-                </div>
-                <!-- /Password -->
+                    @Html.ValidationSummary("", new { @class = "text-danger" })
 
-                  <div class="switch">
-                      <label>
-                          <input type="checkbox" checked />
-                          <span class="lever"></span>
-                          Remember
-                      </label>
-                  </div>
+                    <!-- Email -->
+                    <div class="input-field">
+                        <i class="fa fa-envelope prefix"></i>
+                        <input type="text" id="Email" name="Email" />
+                        <label for="Email"> Email</label>
 
-                
+                    </div>
+                    <!-- /Email -->
+                    <!-- Password -->
+                    <div class="input-field">
+                        <i class="fa fa-unlock-alt prefix"></i>
+                        <input type="password" id="Password" name="Password" />
+                        <label for="Password">Password</label>
 
-                
-                  <button class="waves-effect waves-light btn-large z-depth-0 z-depth-1-hover" type="submit">Sign In</button>   
-                        
-                    
-                
-                
+                    </div>
+                    <!-- /Password -->
+
+                    <div class="switch">
+                        <label>
+                            <input type="checkbox" checked />
+                            <span class="lever"></span>
+                            Remember
+                        </label>
+                    </div>
+
+                    <button class="waves-effect waves-light btn-large z-depth-0 z-depth-1-hover" type="submit">Sign In</button>
+
                 </div>
             }
 
             <br />
 
-            <div class="card-panel"
-                 style="
-                 position: relative;
-                 margin: 0 auto;
-                 max-width: 500px;
-                 width: 100%;
-                 z-index: 2;
-                 ">
-
+            <div class="login_card-panel">
                 <!-- Social Sign Up -->
                 @Html.Partial("_CustomExternalLoginListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-
                 <!-- /Social Sign Up -->
-
             </div>
 
             <br />
 
-            <div class="card-panel"
-                 style="
-                 position: relative;
-                 margin: 0 auto;
-                 max-width: 500px;
-                 width: 100%;
-                 z-index: 2;
-                 ">
+            <div class="login_card-panel">
 
                 <!-- Demo Login -->
-                
-                
+
                 <h4>Login with a Guest Account.</h4>
-                
+
                 <hr />
 
                 <div class="content">
@@ -165,7 +149,7 @@
                     <div class="row">
 
                         <div class="col s6">
-                            <button type="button" class="btn btn-default green z-depth-1"onclick="location.href='@Url.Action("GuestAdmin", "Account")'"><i class="fa fa-users"></i> Admin</button>
+                            <button type="button" class="btn btn-default green z-depth-1" onclick="location.href='@Url.Action("GuestAdmin", "Account")'"><i class="fa fa-users"></i> Admin</button>
                         </div>
 
                         <div class="col s6">
@@ -180,7 +164,7 @@
                             <button type="button" class="btn btn-default amber accent-4 z-depth-1" onclick="location.href='@Url.Action("GuestPM", "Account")'"><i class="fa fa-folder-open"></i> Project Manager</button>
                         </div>
 
-                        
+
                         <div class="col s6">
                             <button type="button" class="btn white grey-text text-darken-2 z-depth-1" onclick="location.href='@Url.Action("GuestSub", "Account")'"><i class="fa fa-ticket"></i> Submitter</button>
                         </div>
@@ -189,41 +173,134 @@
 
                 </div>
 
-                
-
                 <!-- /Demo Login -->
 
             </div>
 
+        </div><!-- /signin -->
 
-        </section>
+        <br />
+
+        <div id="sign_up">
+
+            @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="card-panel">
+
+                    <h4>Create a new account.</h4>
+                    <hr />
+                    @Html.ValidationSummary("", new { @class = "text-danger" })
+
+                    <!-- Email -->
+                    <div class="input-field">
+                        <i class="fa fa-envelope prefix"></i>
+                        <input type="text" id="Email" name="Email" />
+                        <label for="Email"> Email</label>
+
+                    </div>
+                    <!-- /Email -->
+                    <!-- Password -->
+                    <div class="input-field">
+                        <i class="fa fa-unlock-alt prefix"></i>
+                        <input type="password" id="Password" name="Password" />
+                        <label for="Password">Password</label>
+                    </div>
+                    <!-- /Password -->
+                    <!-- Confirm Password -->
+
+                    <div class="input-field">
+                        <i class=" fa fa-lock prefix"></i>
+                        <input type="password" id="ConfirmPassword" name="ConfirmPassword" />
+                        <label for="ConfirmPassword">Confirm Password</label>
+
+                    </div>
+
+                    <button class="waves-effect waves-light btn-large z-depth-0 z-depth-1-hover" type="submit">Sign Up</button>
+
+                    <br />
+
+                    <div class="alert blue lighten-3 white-text">
+                        <h5 class="sign_up_alert">Passwords must have at least one non letter ('~!#$' etc.)</h5>
+                        <h5 class="sign_up_alert">Passwords must have at least one digit (‘0′-‘9′)</h5>
+                        <h5 class="sign_up_alert">Passwords must have at least one uppercase (‘A’-‘Z’)</h5>
+                    </div>
 
 
 
-        @Scripts.Render("~/bundles/jquery")
-       
+                </div>
+            }
 
 
-        <!-- jQuery RAF (improved animation performance) -->
-        <script src="~/Scripts/jqueryRAF/jquery.requestAnimationFrame.min.js"></script>
 
-        <!-- nanoScroller -->
-        <script src="~/Scripts/nanoScroller/jquery.nanoscroller.min.js"></script>
+        </div><!--/signup -->
 
-        <!-- Materialize -->
-        <script src="~/Scripts/materialize/materialize.min.js"></script>
+        <br />
 
-        <!-- Sortable -->
-        <script src="~/Scripts/sortable/Sortable.min.js"></script>
+        <div id="forgotpassword">
 
-        <!-- Main -->
-        <script src="~/Scripts/_con/_con.min.js"></script>
+            @using (Html.BeginForm("ForgotPassword", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
 
-        <!-- Google Prettify -->
-        <script src="~/Scripts/google-code-prettify/prettify.js"></script>
+                <div class="card-panel">
+
+                    <h4>Forgot Your Password?</h4>
+
+                    <hr />
+
+                    @Html.ValidationSummary("", new { @class = "text-danger" })
+
+                    <!-- Email -->
+                    <div class="input-field">
+                        <i class="fa fa-envelope prefix"></i>
+                        <input type="text" id="Email" name="Email" />
+                        <label for="Email"> Email</label>
+
+                    </div>
+                    <!-- /Email -->
+
+                    <button class="waves-effect waves-light btn-large z-depth-0 z-depth-1-hover" type="submit">Email Link</button>
+
+                </div>
 
 
-    </body>
+            }
+
+        </div><!-- /forgotpassword -->
+
+
+
+
+    </section>
+
+
+
+    @Scripts.Render("~/bundles/jquery")
+
+
+
+    <!-- jQuery RAF (improved animation performance) -->
+    <script src="~/Scripts/jqueryRAF/jquery.requestAnimationFrame.min.js"></script>
+
+    <!-- nanoScroller -->
+    <script src="~/Scripts/nanoScroller/jquery.nanoscroller.min.js"></script>
+
+    <!-- Materialize -->
+    <script src="~/Scripts/materialize/materialize.min.js"></script>
+
+    <!-- Sortable -->
+    <script src="~/Scripts/sortable/Sortable.min.js"></script>
+
+    <!-- Main -->
+    <script src="~/Scripts/_con/_con.min.js"></script>
+
+    <!-- Google Prettify -->
+    <script src="~/Scripts/google-code-prettify/prettify.js"></script>
+
+
+</body>
 </html>
 
 

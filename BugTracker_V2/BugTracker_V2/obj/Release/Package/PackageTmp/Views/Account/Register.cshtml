@@ -1,4 +1,5 @@
-﻿@model BugTracker_V2.Models.RegisterViewModel
+﻿@using BugTracker_V2.Models
+@model BugTracker_V2.Models.RegisterViewModel
 @{
     ViewBag.Title = "Register";
 }
@@ -43,7 +44,7 @@
          CSS
          =============================================== -->
 
-        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+        
         <link href="~/Content/_Con Theme CSS/nanoscroller.css" rel="stylesheet" /><!-- nanoScroller -->
         <link href="~/Content/_Con Theme CSS/font-awesome.min.css" rel="stylesheet" /><!-- FontAwesome -->
         <link href="~/Content/_Con Theme CSS/material-design-icons.css" rel="stylesheet" /><!-- Material Design Icons -->
@@ -63,63 +64,213 @@
             <!-- /Background Bubbles -->
                         
 
-            @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-            {
-                @Html.AntiForgeryToken()
-
-              <div class="row links">
-                 <div class="col s6 logo">
-                     <img src="~/images/logo-white.png" alt="">
-                 </div>
-                 <div class="col s6 right-align">
-                     <a href="@Url.Action("CustomLogin", "Account")">Sign In</a> / <strong>Sign Up</strong> / <a href="@Url.Action("ForgotPassword", "Account")"> Forgot Password</a>
-                 </div>
-              </div>
-
-              <div class="card-panel">  
-                
-                <h4>Create a new account.</h4>
-                <hr />
-                @Html.ValidationSummary("", new { @class = "text-danger" })
-
-                <!-- Email -->
-                <div class="input-field">
-                    <i class="fa fa-envelope prefix"></i>
-                    <input type="text" id="Email" name="Email" />
-                    <label for="Email"> Email</label>
-                    
+            <div class="row links login_links">
+                <div class="col s6 logo">
+                    <img src="~/images/logo-white.png" class="main_login_logo" alt="">
                 </div>
-                <!-- /Email -->
+                <div class="col s6 right-align">
 
-                <!-- Password -->
-                <div class="input-field">
-                    <i class="fa fa-unlock-alt prefix"></i>
-                    <input type="password" id="Password" name="Password"/>
-                    <label for="Password">Password</label>
-                    <p class="text-center alert-info">Passwords must have at least one non letter ('~!#$' etc.)</p>
-                    <p class="text-center alert-info">Passwords must have at least one digit (‘0′-‘9′)</p>
-                    <p class="text-center alert-info">Passwords must have at least one uppercase (‘A’-‘Z’)</p>
-                   
+                    <ul class="tabs main_login_tabs">
+                        <li class="tab col s3"><a href="#signin"><small>Sign In</small></a></li>
+                        <li class="tab col s3"><a class="active" href="#sign_up"><small>Sign Up</small></a></li>
+                        <li class="tab col s3"><a href="#forgotpassword"><small>Forgot Password</small></a></li>
+                    </ul>
+
+                </div><!-- /tabs -->
+            </div>
+
+            <br />
+
+            <div id="signin">
+
+                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+
+
+
+                    <div class="card-panel">
+
+                        <h4>Login with an Existing Account.</h4>
+
+                        <hr />
+
+                        @Html.ValidationSummary("", new { @class = "text-danger" })
+
+                        <!-- Email -->
+                        <div class="input-field">
+                            <i class="fa fa-envelope prefix"></i>
+                            <input type="text" id="Email" name="Email" />
+                            <label for="Email"> Email</label>
+
+                        </div>
+                        <!-- /Email -->
+                        <!-- Password -->
+                        <div class="input-field">
+                            <i class="fa fa-unlock-alt prefix"></i>
+                            <input type="password" id="Password" name="Password" />
+                            <label for="Password">Password</label>
+
+                        </div>
+                        <!-- /Password -->
+
+                        <div class="switch">
+                            <label>
+                                <input type="checkbox" checked />
+                                <span class="lever"></span>
+                                Remember
+                            </label>
+                        </div>
+
+                        <button class="waves-effect waves-light btn-large z-depth-0 z-depth-1-hover" type="submit">Sign In</button>
+
+                    </div>
+                }
+
+                <br />
+
+                <div class="login_card-panel">
+                    <!-- Social Sign Up -->
+                    @Html.Partial("_CustomExternalLoginListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+                    <!-- /Social Sign Up -->
                 </div>
-                <!-- /Password -->
 
-                <!-- Confirm Password -->
+                <br />
 
-                <div class="input-field">
-                    <i class=" fa fa-lock prefix"></i>
-                    <input type="password" id="ConfirmPassword" name="ConfirmPassword" />
-                    <label for="ConfirmPassword">Confirm Password</label>
-                    
+                <div class="login_card-panel">
+
+                    <!-- Demo Login -->
+
+                    <h4>Login with a Guest Account.</h4>
+
+                    <hr />
+
+                    <div class="content">
+
+                        <div class="row">
+
+                            <div class="col s6">
+                                <button type="button" class="btn btn-default green z-depth-1" onclick="location.href='@Url.Action("GuestAdmin", "Account")'"><i class="fa fa-users"></i> Admin</button>
+                            </div>
+
+                            <div class="col s6">
+                                <button type="button" class="btn btn-default z-depth-1" onclick="location.href='@Url.Action("GuestDev", "Account")'"><i class="fa fa-code"></i> Developer</button>
+                            </div>
+
+                        </div><!-- /row -->
+
+                        <div class="row">
+
+                            <div class="col s6">
+                                <button type="button" class="btn btn-default amber accent-4 z-depth-1" onclick="location.href='@Url.Action("GuestPM", "Account")'"><i class="fa fa-folder-open"></i> Project Manager</button>
+                            </div>
+
+
+                            <div class="col s6">
+                                <button type="button" class="btn white grey-text text-darken-2 z-depth-1" onclick="location.href='@Url.Action("GuestSub", "Account")'"><i class="fa fa-ticket"></i> Submitter</button>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- /Demo Login -->
+
                 </div>
 
-                
-                  <button class="waves-effect waves-light btn-large z-depth-0 z-depth-1-hover" type="submit">Sign Up</button>   
-                        
-                    
-                
-                
-                </div>
-            }
+            </div><!-- /signin -->
+
+            <br />
+
+            <div id="sign_up">
+
+                @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="card-panel">
+
+                        <h4>Create a new account.</h4>
+                        <hr />
+                        @Html.ValidationSummary("", new { @class = "text-danger" })
+
+                        <!-- Email -->
+                        <div class="input-field">
+                            <i class="fa fa-envelope prefix"></i>
+                            <input type="text" id="Email" name="Email" />
+                            <label for="Email"> Email</label>
+
+                        </div>
+                        <!-- /Email -->
+                        <!-- Password -->
+                        <div class="input-field">
+                            <i class="fa fa-unlock-alt prefix"></i>
+                            <input type="password" id="Password" name="Password" />
+                            <label for="Password">Password</label>
+                        </div>
+                        <!-- /Password -->
+                        <!-- Confirm Password -->
+
+                        <div class="input-field">
+                            <i class=" fa fa-lock prefix"></i>
+                            <input type="password" id="ConfirmPassword" name="ConfirmPassword" />
+                            <label for="ConfirmPassword">Confirm Password</label>
+
+                        </div>
+
+                        <button class="waves-effect waves-light btn-large z-depth-0 z-depth-1-hover" type="submit">Sign Up</button>
+
+                        <br />
+
+                        <div class="alert blue lighten-3 white-text">
+                            <h5 class="sign_up_alert">Passwords must have at least one non letter ('~!#$' etc.)</h5>
+                            <h5 class="sign_up_alert">Passwords must have at least one digit (‘0′-‘9′)</h5>
+                            <h5 class="sign_up_alert">Passwords must have at least one uppercase (‘A’-‘Z’)</h5>
+                        </div>
+
+
+
+                    </div>
+                }
+
+
+
+            </div><!--/signup -->
+
+            <br />
+
+            <div id="forgotpassword">
+
+                @using (Html.BeginForm("ForgotPassword", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="card-panel">
+
+                        <h4>Forgot Your Password?</h4>
+
+                        <hr />
+
+                        @Html.ValidationSummary("", new { @class = "text-danger" })
+
+                        <!-- Email -->
+                        <div class="input-field">
+                            <i class="fa fa-envelope prefix"></i>
+                            <input type="text" id="Email" name="Email" />
+                            <label for="Email"> Email</label>
+
+                        </div>
+                        <!-- /Email -->
+
+                        <button class="waves-effect waves-light btn-large z-depth-0 z-depth-1-hover" type="submit">Email Link</button>
+
+                    </div>
+
+
+                }
+
+            </div><!-- /forgotpassword -->
+            
         </section>
 
 
