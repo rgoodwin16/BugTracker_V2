@@ -36,7 +36,7 @@
 
     @Styles.Render("~/Content/css")
     <link href="~/Content/_Con Theme CSS/nanoscroller.css" rel="stylesheet" /><!-- nanoScroller -->
-    <link href="~/Content/_Con Theme CSS/font-awesome.min.css" rel="stylesheet" /><!-- FontAwesome -->
+    <link href="~/css/font-awesome.min.css" rel="stylesheet" /><!-- Font Awesome -->
     <link href="~/Content/_Con Theme CSS/material-design-icons.css" rel="stylesheet" /><!-- Material Design Icons -->
     <link href="~/Content/_Con Theme CSS/ionicons.min.css" rel="stylesheet" /><!-- IonIcons -->
     <link href="~/Content/_Con Theme CSS/weather-icons.min.css" rel="stylesheet" /><!-- WeatherIcons -->
@@ -45,7 +45,7 @@
     <link href="~/Content/_Con Theme CSS/prettify.css" rel="stylesheet" /><!-- Google Prettify -->
     <link href="~/Content/_Con Theme CSS/_con.css" rel="stylesheet" /><!-- Main -->
     <link href="~/Scripts/select2/css/select2.min.css" rel="stylesheet" /><!-- Select 2-->
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet"><!-- FontAwesome CDN -->
+
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     
     @Scripts.Render("~/bundles/modernizr")
@@ -140,27 +140,7 @@
                         <a href="@Url.Action("Index","Dashboard")" class="waves-effect waves-blue"><i class="fa fa-dashboard"></i> Dashboard</a>
                         
                     </li>
-                   @if (User.IsInRole("Admin"))
-                   {
-                       <!-- Projects -->
-
-                    <li>
-                        <a class="yay-sub-toggle waves-effect waves-blue"><i class="fa fa-folder-open"></i> Projects<span class="yay-collapse-icon mdi-navigation-expand-more"></span></a>
-                        <ul>
-
-                            <li>
-                                <a href="@Url.Action("Index","Projects")" class="waves-effect waves-blue">All</a>
-                            </li>
-
-                            <li>
-                                <a href="@Url.Action("Create","Projects")" class="waves-effect waves-blue">Create</a>
-                            </li>
-
-                        </ul>
-                    </li>
-                   }
-                    
-
+                   
                     <!-- User Profile -->
 
                     <li class="label">User Menu</li>

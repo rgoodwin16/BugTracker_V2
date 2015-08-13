@@ -25,7 +25,9 @@
     <!-- Custom styles for this template -->
     <link href="~/Landing Page/css/main.css" rel="stylesheet" />
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link href="~/css/font-awesome.min.css" rel="stylesheet" />
+
+    <link href="~/Landing Page/css/slippry.css" rel="stylesheet" />
 
 
     <link href='//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic' rel='stylesheet' type='text/css'>
@@ -68,26 +70,37 @@
     <div id="headerwrap">
         <div class="container">
             <div class="row centered">
+
                 <div class="col-lg-12">
-                    <h1>Welcome To Bug<b>Tracker</b></h1>
+                    <h1>Welcome to Bug<b>Tracker</b></h1>
                     <h3>A Custom Bug Tracking Ticketing Solution.</h3>
                     <br>
                 </div>
+                
+                <div class="col-lg-12">
+                    
+                    <ul id="bt_slide">
+                        <li>
+                            <a href="#slide1">
+                                <img class="img-responsive" src="~/Landing Page/img/bt_dashboard.png" alt="">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#slide2">
+                                <img class="img-responsive" src="~/Landing Page/img/bt_project.png" alt="">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#slide3">
+                                <img class="img-responsive" src="~/Landing Page/img/bt_ticket.png" alt="">
+                            </a>
+                        </li>
+                    </ul>
+                    
+                    
+                    
+                </div>
 
-                <div class="col-lg-2">
-                    <h5>Amazing Results</h5>
-                    
-                    <img class="hidden-xs hidden-sm hidden-md" src="~/Landing Page/img/arrow1.png">
-                </div>
-                <div class="col-lg-8">
-                    <img class="img-responsive" src="~/Landing Page/img/bt_admin_dashboard.png" alt="">
-                </div>
-                <div class="col-lg-2">
-                    <br>
-                    <img class="hidden-xs hidden-sm hidden-md" src="~/Landing Page/img/arrow2.png">
-                    <h5>Awesome Design</h5>
-                    
-                </div>
             </div>
         </div> <!--/ .container -->
     </div><!--/ #headerwrap -->
@@ -248,7 +261,6 @@
             <ul class="list-inline banner-social-buttons">
                 <li>Contact Me | </li>
                 <li><a href="https://github.com/rgoodwin16" class="btn btn-default btn-sm"><i class="fa fa-github"></i> GitHub</a></li>
-                <li><a href="https://www.facebook.com/nanyeeast" class="btn btn-default btn-sm"><i class="fa fa-facebook"></i> Facebook</a></li>
                 <li><a href="https://www.linkedin.com/pub/ray-goodwin/102/426/305" class="btn btn-default btn-sm"><i class="fa fa-linkedin"></i> LinkedIn</a></li>
             </ul> 
 
@@ -260,11 +272,23 @@
     <!-- Placed at the end of the document so the pages load faster -->
 
     <script src="~/Landing Page/js/bootstrap.js"></script> 
+    <script src="~/Landing Page/js/jquery.min.js"></script>
+
+    <script src="~/Landing Page/js/slippry.min.js"></script>
+
     <script>
 	$('.carousel').carousel({
 	  interval: 3500
 	})
     </script>
+
+    <script type="text/javascript">
+        
+        $(document).ready(function(){
+            jQuery('#bt_slide').slippry()
+        });
+    </script>
+
 </body>
 </html>
 

@@ -243,6 +243,8 @@
     <Content Include="Content\DataTables-1.10.7\media\images\sort_desc_disabled.png" />
     <Content Include="Content\multi-select.css" />
     <Content Include="Content\_Con Theme CSS\_con.css" />
+    <Content Include="css\font-awesome.css" />
+    <Content Include="css\font-awesome.min.css" />
     <Content Include="images\icon.png" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -314,12 +316,18 @@
     <Content Include="images\user9.jpg" />
     <Content Include="Landing Page\css\bootstrap.css" />
     <Content Include="Landing Page\css\main.css" />
+    <Content Include="Landing Page\css\slippry.css" />
     <Content Include="Landing Page\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Landing Page\img\app-bg.png" />
     <Content Include="Landing Page\img\arrow1.png" />
     <Content Include="Landing Page\img\arrow2.png" />
     <Content Include="Landing Page\img\bt_admin_dashboard.png" />
+    <Content Include="Landing Page\img\bt_dashboard.png" />
     <Content Include="Landing Page\img\bt_placeholder.png" />
+    <Content Include="Landing Page\img\bt_placeholder_1.png" />
+    <Content Include="Landing Page\img\bt_project.png" />
+    <Content Include="Landing Page\img\bt_splash.png" />
+    <Content Include="Landing Page\img\bt_ticket.png" />
     <Content Include="Landing Page\img\coder.png" />
     <Content Include="Landing Page\img\intro01.png" />
     <Content Include="Landing Page\img\intro02.png" />
@@ -333,6 +341,7 @@
     <Content Include="Landing Page\img\ray_goodwin_lg.png" />
     <Content Include="Landing Page\js\bootstrap.js" />
     <Content Include="Landing Page\js\jquery.min.js" />
+    <Content Include="Landing Page\js\slippry.min.js" />
     <Content Include="Landing Page\js\smoothscroll.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
