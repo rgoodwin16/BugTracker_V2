@@ -13,6 +13,41 @@
     @if (User.IsInRole("Admin"))
     {
         Html.RenderPartial("_Admin");
+        @section scripts {
+    <script>
+        $('#projectsTable').DataTable({
+            responsive: {
+                details: {
+                    type: 'column'
+                }
+            },
+
+            "autoWidth": false,
+
+            "columnDefs": [
+                { "orderable": false, "width": "240px", "targets": 2 },
+            ]
+
+        });
+
+        $('#ticketTable').DataTable({
+            responsive: {
+                details: {
+                    type: 'column'
+                }
+            },
+
+            "autoWidth": false,
+
+            "columnDefs": [
+                { "orderable": false, "width": "160px", "targets": 6 }
+            ]
+
+        });
+    </script>
+
+        }
+
     }
     else if (User.IsInRole("ProjectManager"))
     {
@@ -30,17 +65,3 @@
 
 </section>
 <!-- /Main Content -->
-@section scripts {
-    <script>
-        $('table').DataTable({
-
-            "iDisplayLength": 5,
-            "aLengthMenu": [
-              [5, 10, 25, 50, -1],
-              [5, 10, 25, 50, "all"]
-            ]
-
-        });
-</script>
-
-}

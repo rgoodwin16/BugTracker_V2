@@ -1,13 +1,32 @@
 ﻿@model BugTracker_V2.Models.DashBoardViewModel
 
 <div class="row">
+    <div class="col-lg-6 col-md-4 col-sx-6 col-xs-12" style="margin-bottom: 10px;">
+        <div class="card-panel clickable stats-card blue lighten-2 blue-text text-lighten-5" data-target="#dash_projects" aria-controls="home" role="tab" data-toggle="tab">
+            <i class="fa fa-folder-open">@Model.MyProjects.Count</i>
+            <span class="count">My Projects:</span>
 
-    <div class="col l10 s12">
-        
-        
+        </div><!--/ project count -->
+    </div>
 
-        <div class="card">
-                
+    <div class="col-lg-6 col-md-4 col-sx-6 col-xs-12" style="margin-bottom: 10px;">
+        <div class="card-panel clickable stats-card cyan cyan-text text-lighten-5" data-target="#dash_tickets" aria-controls="home" role="tab" data-toggle="tab">
+            <i class="fa fa-ticket">@Model.MyTickets.Count</i>
+            <span class="count"> My Tickets:</span>
+
+        </div><!-- /ticket count -->
+    </div>
+
+</div><!--/ row (tabs)-->
+
+<div class="row">
+
+    <div class="col l12 s12 tab-content">
+
+
+
+        <div role="tabpanel" class="tab-pane card active" id="dash_projects">
+
             <div class="title">
 
                 @if (ViewBag.Error != null)
@@ -16,15 +35,15 @@
                         <strong>@ViewBag.Error</strong>
                         <button class="close">&times;</button>
                     </div>
-                                        
+
                 }
-                
+
                 <h5><i class="fa fa-folder-open"></i> My Projects</h5>
             </div><!-- /title -->
 
             <div class="content">
 
-                <table class="display table table-bordered table-striped table-hover">
+                <table class="display table table-bordered table-striped table-hover" id="projectsTable">
                     <thead>
                         <tr>
                             <th>Project Title</th>
@@ -59,16 +78,15 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Tickets.Count)
                                 </td><!-- /Ticket Count -->
-                                
-                                <td>
-                                        <div class="btn-group">
-                                            <a href="@Url.Action("Details", "Projects", new { id = item.Id })" class=" btn white grey-text text-darken-2 btn-small"><i class="fa fa-eye"></i>
-                                            </a>
-                                            <a href="@Url.Action("Edit", "Projects", new { id = item.Id })" class="btn btn-small"><i class="mdi mdi-editor-mode-edit"></i></a>
 
-                                        </div>
+                                <td>
+                                    <div class="btn-group">
+                                        <a href="@Url.Action("Details", "Projects", new { id = item.Id })" class=" btn white grey-text text-darken-2 btn-small"><i class="fa fa-eye"></i></a>
+                                        <a href="@Url.Action("Edit", "Projects", new { id = item.Id })" class="btn btn-small"><i class="mdi mdi-editor-mode-edit"></i></a>
+                                        <a href="@Url.Action("Create", "Tickets", new { projectId = item.Id })" class="btn btn-small green"><i class="fa fa-ticket"></i></a>
+                                    </div>
                                 </td><!-- /actions -->
-                                
+
                             </tr><!-- /Table Row -->
                         }
 
@@ -80,10 +98,8 @@
 
         </div><!-- /card (Projects) -->
 
-        <br />
-        <br />
-
-        <div class="card">
+ 
+        <div role="tabpanel" class="tab-pane card" id="dash_tickets" style="margin-top:0;">
 
             <div class="title">
                 <h5><i class="fa fa-ticket"></i> My Project's Tickets</h5>
@@ -91,7 +107,7 @@
 
             <div class="content">
 
-                <table class="display table table-bordered table-striped table-hover">
+                <table class="display table table-bordered table-striped table-hover" id="ticketTable">
                     <thead>
                         <tr>
                             <th>Project</th>
@@ -116,7 +132,7 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Created)
                                 </td><!-- /created -->
-                                
+
                                 <td>
                                     @Html.DisplayFor(modelItem => item.TicketType.Name)
                                 </td><!-- /type -->
@@ -152,7 +168,7 @@
                                         <a href="@Url.Action("Details", "Tickets", new { projectId = item.ProjectId, id = item.Id })" class="btn white grey-text text-darken-2 btn-small"><i class="fa fa-eye"></i></a>
                                         <a class="btn btn-small" href="@Url.Action("Edit", "Tickets", new { projectId = item.ProjectId, id = item.Id })"><i class="mdi mdi-editor-mode-edit"></i></a>
                                     </div>
-                                    
+
 
                                 </td><!-- /actions -->
                             </tr>
@@ -169,20 +185,5 @@
 
     </div><!-- / column (Projects | Tickets) -->
 
-    <div class="col l2 s12">
-
-        <div class="card-panel stats-card blue lighten-2 blue-text text-lighten-5">
-            <i class="fa fa-folder-open"></i>
-            <span class="count">@Model.MyProjects.Count</span>
-            <div class="name">Total Projects</div>
-        </div><!--/ project count -->
-
-        <div class="card-panel stats-card teal lighten-2 green-text text-lighten-5">
-            <i class="fa fa-ticket"></i>
-            <span class="count">@Model.MyTickets.Count</span>
-            <div class="name">Total Tickets</div>
-        </div><!-- /ticket count -->
-
-    </div><!-- column (Meta Info)-->
 
 </div><!-- /row -->

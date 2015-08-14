@@ -7678,7 +7678,8 @@ table.dataTable.no-footer {
   zoom: 1; }
 
 .dataTables_wrapper .dataTables_length {
-  
+  display: inline-block;
+  float: left;
   margin-bottom: 15px; }
   .dataTables_wrapper .dataTables_length label {
     font-size: 1rem; }
@@ -7691,6 +7692,7 @@ table.dataTable.no-footer {
 
 .dataTables_wrapper .dataTables_filter {
   float: right;
+  display: inline-block;
   text-align: right;
   margin-bottom: 15px; }
   .dataTables_wrapper .dataTables_filter label {
@@ -8804,4 +8806,7 @@ html.rtl [type=checkbox]:checked + label:before {
 
 .sign_up_alert {
     text-align:center;
+}
+.dashboard_tabs {
+    background:none;
 }

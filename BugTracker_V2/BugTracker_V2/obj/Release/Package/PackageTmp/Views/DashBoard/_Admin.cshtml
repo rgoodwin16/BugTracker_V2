@@ -15,12 +15,10 @@
 
             <div class="content">
 
-                <table class="display table table-bordered table-striped table-hover">
+                <table class="display table table-bordered table-striped table-hover" id="projectsTable">
                     <thead>
                         <tr>
                             <th>Project Title</th>
-                            <th>Created</th>
-                            <th>Updated</th>
                             <th>Tickets</th>
                             <th>Action</th>
                         </tr>
@@ -39,23 +37,22 @@
 
                                 </td><!-- /Project Title | Description -->
 
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Created)
-                                </td><!-- /Created -->
 
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Updated)
-                                </td><!-- /Updated -->
 
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Tickets.Count)
                                 </td><!-- /Ticket Count -->
                                 <td>
-                                    <div class="btn-group center" role="button">
+
+                                    <div class="btn-group" role="group">
                                         <a href="@Url.Action("Details", "Projects", new { id = item.Id })" class=" btn  btn-small white grey-text text-darken-2"><i class="fa fa-eye"></i></a>
                                         <a href="@Url.Action("Edit", "Projects", new { id = item.Id })" class="btn btn-small "><i class="mdi mdi-editor-mode-edit"></i></a>
                                         <a href="@Url.Action("Delete", "Projects", new { id = item.Id })" class="btn btn-small red lighten-1 "><i class="mdi mdi-action-delete"></i></a>
                                     </div>
+
+
+
+
                                 </td><!-- /Edit | Delete -->
       
                             </tr><!-- /Table Row -->
@@ -80,7 +77,7 @@
 
             <div class="content">
 
-                <table class="display table table-bordered table-striped table-hover">
+                <table class="display table table-bordered table-striped table-hover" id="ticketTable">
                     <thead>
                         <tr>
                             <th>Ticket Title</th>

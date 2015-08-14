@@ -26,15 +26,13 @@ namespace BugTracker_V2.Controllers
 
             if (User.IsInRole("Admin"))
             {
-                var projects = db.Projects.ToList();    //grab every project from the db
-                var tickets = db.Tickets.ToList();      //grab every ticket from the db
-                var users = db.Users.ToList();          //grab every user in the db
-                
+                ViewBag.RoleNames = db.Roles.ToDictionary(k => k.Id, v => v.Name);
+
                 model = new DashBoardViewModel
                 {
-                    Projects = projects,
-                    Tickets = tickets,
-                    Users = users,
+                    Projects = db.Projects.ToList(),   //grab every project from the db
+                    Tickets = db.Tickets.ToList(),    //grab every ticket from the db
+                    Users = db.Users.ToList()
                 };
 
                 
