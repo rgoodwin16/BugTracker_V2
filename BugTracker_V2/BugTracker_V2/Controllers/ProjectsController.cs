@@ -76,7 +76,7 @@ namespace BugTracker_V2.Controllers
             ViewBag.PMUserIds = new MultiSelectList(db.Users.Where(u => u.Roles.Any(r => r.RoleId == pmIds)), "Id", "DisplayName");
             ViewBag.DevUserIds = new MultiSelectList(db.Users.Where(u => u.Roles.Any(r => r.RoleId == devIds)), "Id", "DisplayName");
             ViewBag.SubUserIds = new MultiSelectList(db.Users.Where(u => u.Roles.Any(r => r.RoleId == subIds)), "Id", "DisplayName");
-            //ViewBag.ProjectUserIds = new MultiSelectList(db.Users.ToList(), "Id", "DisplayName");//This is how we create the dropdown box that has a list of every user in the db.
+            
             return View();
         }
 
@@ -152,7 +152,7 @@ namespace BugTracker_V2.Controllers
                 ViewBag.DevUserIds = new MultiSelectList(db.Users.Where(u => u.Roles.Any(r => r.RoleId == devIds)), "Id", "DisplayName");
                 ViewBag.SubUserIds = new MultiSelectList(db.Users.Where(u => u.Roles.Any(r => r.RoleId == subIds)), "Id", "DisplayName");
 
-                //ViewBag.ProjectUserIds = new MultiSelectList(db.Users.ToList(), "Id", "DisplayName");//This is how we create the dropdown box that has a list of every user in the db.
+                
                 return View(project);
                 
             }
@@ -174,8 +174,7 @@ namespace BugTracker_V2.Controllers
             {
                 var existing = db.Projects.Find(project.Id);
 
-                //existing.Users.Clear();
-
+                
 
                 foreach (var userId in PMUserIds)
                 {
