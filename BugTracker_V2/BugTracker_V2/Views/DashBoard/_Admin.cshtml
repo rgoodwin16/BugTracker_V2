@@ -38,7 +38,7 @@
             <div class="title">
                 <h5><i class="fa fa-folder-open"></i> All Projects</h5>
                 <div class="btn-group right">
-                    <a href="@Url.Action("Create", "Projects")" class="btn btn-small z-depth-0"><i class="mdi mdi-content-add"></i> Create New</a>
+                    <a href="@Url.Action("Create", "Projects")" class="btn btn-small z-depth-0 green"><i class="mdi mdi-content-add"></i> Create New</a>
                 </div>
             </div><!-- /title -->
 
@@ -157,6 +157,7 @@
                                     <div class="btn-group">
                                         <a href="@Url.Action("Details", "Tickets", new { projectId = item.ProjectId, id = item.Id })" class="btn-small btn white grey-text text-darken-2"><i class="fa fa-eye"></i></a>
                                         <a href="@Url.Action("Edit", "Tickets", new { projectId = item.ProjectId, id = item.Id })" class="btn btn-small"><i class="mdi mdi-editor-mode-edit"></i></a>
+                                        <a href="@Url.Action("Details", "Tickets", new { projectId = item.ProjectId, id = item.Id })" class= "btn btn-small green"><i class="fa fa-comments"></i></a>
                                     </div>
 
                                 </td>

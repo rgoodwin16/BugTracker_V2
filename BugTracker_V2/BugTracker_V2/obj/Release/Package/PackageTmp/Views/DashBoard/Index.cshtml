@@ -21,7 +21,7 @@
                     type: 'column'
                 }
             },
-
+            "dom": '<"top"fl><"clearfix">rt<"bottom"ip>',
             "autoWidth": false,
 
             "columnDefs": [
@@ -36,12 +36,25 @@
                     type: 'column'
                 }
             },
-
+            "dom": '<"top"fl><"clearfix">rt<"bottom"ip>',
             "autoWidth": false,
 
             "columnDefs": [
-                { "orderable": false, "width": "160px", "targets": 6 }
+                { "orderable": false, "width": "240px", "targets": 6 }
             ]
+
+        });
+
+        $('#userTable').DataTable({
+            responsive: {
+                details: {
+                    type: 'column'
+                }
+            },
+            "dom": '<"top"fl><"clearfix">rt<"bottom"ip>',
+            "autoWidth": false,
+
+            
 
         });
     </script>
@@ -52,14 +65,119 @@
     else if (User.IsInRole("ProjectManager"))
     {
         Html.RenderPartial("_PM");
+        @section scripts {
+            <script>
+                $('#projectsTable').DataTable({
+                    responsive: {
+                        details: {
+                            type: 'column'
+                        }
+                    },
+                    "dom": '<"top"fl><"clearfix">rt<"bottom"ip>',
+                    "autoWidth": false,
+
+                    "columnDefs": [
+                        { "orderable": false, "width": "230px", "targets": 4 },
+                    ]
+
+                });
+
+                $('#ticketTable').DataTable({
+                    responsive: {
+                        details: {
+                            type: 'column'
+                        }
+                    },
+                    "dom": '<"top"fl><"clearfix">rt<"bottom"ip>',
+                    "autoWidth": false,
+
+                    "columnDefs": [
+                        { "orderable": false, "width": "240px", "targets": 6 }
+                    ]
+
+                });
+
+            </script>
+        }
+
     }
     else if (User.IsInRole("Developer"))
     {
         Html.RenderPartial("_Dev");
+        @section scripts {
+            <script>
+                $('#projectsTable').DataTable({
+                    responsive: {
+                        details: {
+                            type: 'column'
+                        }
+                    },
+                    "dom": '<"top"fl><"clearfix">rt<"bottom"ip>',
+                    "autoWidth": false,
+
+                    "columnDefs": [
+                        { "orderable": false, "width": "160px", "targets": 1 },
+                    ]
+
+                });
+
+                $('#ticketTable').DataTable({
+                    responsive: {
+                        details: {
+                            type: 'column'
+                        }
+                    },
+                    "dom": '<"top"fl><"clearfix">rt<"bottom"ip>',
+                    "autoWidth": false,
+
+                    "columnDefs": [
+                        { "orderable": false, "width": "225px", "targets": 6 }
+                    ]
+
+                });
+
+
+            </script>
+        }
     }
     else if (User.IsInRole("Submitter"))
     {
         Html.RenderPartial("_Sub");
+        @section scripts {
+            <script>
+                $('#projectsTable').DataTable({
+                    responsive: {
+                        details: {
+                            type: 'column'
+                        }
+                    },
+                    "dom": '<"top"fl><"clearfix">rt<"bottom"ip>',
+                    "autoWidth": false,
+
+                    "columnDefs": [
+                        { "orderable": false, "width": "150px", "targets": 1 },
+                    ]
+
+                });
+
+                $('#ticketTable').DataTable({
+                    responsive: {
+                        details: {
+                            type: 'column'
+                        }
+                    },
+                    "dom": '<"top"fl><"clearfix">rt<"bottom"ip>',
+                    "autoWidth": false,
+
+                    "columnDefs": [
+                        { "orderable": false, "width": "160px", "targets": 5 }
+                    ]
+
+                });
+
+
+            </script>
+        }
     }
 
 

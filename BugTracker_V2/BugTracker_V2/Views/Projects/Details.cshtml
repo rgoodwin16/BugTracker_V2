@@ -13,40 +13,38 @@
 
     <div class="row">
 
-        
-
             <div class="col-lg-8" ><!-- Begin Project Column -->
             
-            <div class="card">
+                <div class="card">
 
-            <div class="title">
-                <!-- Title -->
-                <h3>@Html.DisplayFor(model => model.Title)</h3>
-                <h5>Created: @Html.DisplayFor(model => model.Created)</h5>
-                @if (User.IsInRole("Admin") || (Model.Users.Any(u => u.Id == User.Identity.GetUserId())) && (User.IsInRole("ProjectManager")))
-                {
-                    <div class="btn-group right">
-                        <a class="btn btn-small z-depth-1" href="@Url.Action("Edit", new { id = Model.Id })"><i class="mdi mdi-editor-mode-edit"></i> Edit Project</a>
-                    </div>
+                  <div class="title">
+                    <!-- Title -->
+                    <h3>@Html.DisplayFor(model => model.Title)</h3>
+                    <h5>Created: @Html.DisplayFor(model => model.Created)</h5>
+                    @if (User.IsInRole("Admin") || (Model.Users.Any(u => u.Id == User.Identity.GetUserId())) && (User.IsInRole("ProjectManager")))
+                    {
+                        <div class="btn-group right">
+                            <a class="btn btn-small z-depth-1" href="@Url.Action("Edit", new { id = Model.Id })"><i class="mdi mdi-editor-mode-edit"></i> Edit Project</a>
+                        </div>
 
-                }
+                    }
 
-           </div>
+                  </div>
                
-            <div class="content">
+                  <div class="content">
                 
                 
-                <p class=" table table-hover">@Html.Raw(Model.Description)</p>
+                    <p class=" table table-hover">@Html.Raw(Model.Description)</p>
                         
-                @if (Model.Updated != null)
-                {
-                    <div class="alert alert-dismissible green lighten-3 white-text">
-                        <strong>Updated: </strong>@Html.DisplayFor(model => model.Updated)
-                        <button class="close">&times;</button>
-                    </div>
-                }
+                    @if (Model.Updated != null)
+                    {
+                        <div class="alert alert-dismissible green lighten-3 white-text">
+                            <strong>Updated: </strong>@Html.DisplayFor(model => model.Updated)
+                            <button class="close">&times;</button>
+                        </div>
+                    }
 
-            </div>   
+                </div>   
 
             </div>
 
@@ -98,7 +96,7 @@
         <div class="title">
             <h5>Tickets</h5><!-- Page Title -->
             <div class="btn-group right">
-                <a href="@Url.Action("Create", "Tickets", new { projectId = Model.Id })" class="btn btn-small z-depth-1"><i class="mdi mdi-content-add"></i> Create New</a>
+                <a href="@Url.Action("Create", "Tickets", new { projectId = Model.Id })" class="btn btn-small green z-depth-1"><i class="mdi mdi-content-add"></i> Create New</a>
             </div>
         </div><!-- /Title -->
      
@@ -107,7 +105,6 @@
             <table class="display table table-bordered table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>View</th>
                         <th>Ticket Title</th>
                         <th>Owned By</th>
                         <th>Created</th>
@@ -115,6 +112,7 @@
                         <th>Type</th>
                         <th>Priority</th>
                         <th>Status</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -123,9 +121,6 @@
                     @foreach (var item in Model.Tickets.OrderByDescending(c => c.Created))
                     {
                         <tr>
-                            <td>
-                                <a href="@Url.Action("Details", "Tickets", new { projectId = Model.Id, id = item.Id })" class="btn white grey-text text-darken-2"><i class="fa fa-eye"></i></a>
-                            </td>
                             <td>
                                 <a href="@Url.Action("Details", "Tickets", new { projectId = Model.Id, id = item.Id })">   <strong class="grey-text text-darken-2">@Html.DisplayFor(modelItem => item.Title)</strong></a>
                             </td>
@@ -148,6 +143,22 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.TicketStatus.Name)
                             </td>
+                            <td>
+                                <a href="@Url.Action("Details", "Tickets", new { projectId = Model.Id, id = item.Id })" class="btn btn-small white grey-text text-darken-2"><i class="fa fa-eye"></i></a>
+                                <a class="btn btn-small green" href="@Url.Action("Details", "Tickets", new { projectId = Model.Id, id = item.Id })/#comment_form"><i class="fa fa-comments"></i></a>
+                                
+                                @if (User.IsInRole("Admin") ||
+                                    (User.IsInRole("ProjectManager") && Model.Users.Any(u => u.Id == User.Identity.GetUserId())) ||
+                                    (User.IsInRole("Developer")) && item.AssignedToId == User.Identity.GetUserId())
+                                {
+                                    <a href="@Url.Action("Edit", "Tickets", new { projectId = Model.Id, id = item.Id })" class="btn btn-small z-depth-1"><i class="mdi mdi-editor-mode-edit"></i></a>
+                                }
+                               
+                                    
+                                
+                                
+                                
+                            </td>
                         </tr>
                     }
 
@@ -165,10 +176,16 @@
     <script>
         $('table').DataTable({
 
-            "iDisplayLength": 5,
-            "aLengthMenu": [
-              [5, 10, 25, 50, -1],
-              [5, 10, 25, 50, "all"]
+            responsive: {
+                details: {
+                    type: 'column'
+                }
+            },
+            "dom": '<"top"fl><"clearfix">rt<"bottom"ip>',
+            "autoWidth": false,
+
+            "columnDefs": [
+                { "orderable": false, "width": "240px", "targets": 7 }
             ]
 
         });
