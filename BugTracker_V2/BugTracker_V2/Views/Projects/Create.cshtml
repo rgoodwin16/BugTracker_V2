@@ -49,15 +49,7 @@
                         </div>
                     </div><!-- End Description -->
 
-                    @*<div class="form-group">*@
-                        <!-- Begin project users -->
-                        @*@Html.Label( "Add Users to Project", htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.ListBox("ProjectUserIds",null,new {@class="select2"})
-                            @Html.ValidationMessage("ProjectUserIds", "", new { @class = "text-danger" })
-                        </div>
-                    </div>*@<!-- /project users -->
-
+ 
                     <div class="form-group">
                         <!-- Begin project pm users -->
                         @Html.Label("Add Project Managers to Project", htmlAttributes: new { @class = "control-label col-md-2" })

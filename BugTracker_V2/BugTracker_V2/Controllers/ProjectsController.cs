@@ -17,6 +17,7 @@ namespace BugTracker_V2.Controllers
     public class ProjectsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        UserRolesHelper helper = new UserRolesHelper();
 
         [Authorize(Roles="Admin,ProjectManager")]
         // GET: Projects
@@ -65,6 +66,7 @@ namespace BugTracker_V2.Controllers
         }
 
         // GET: Projects/Create
+        [BugTracker_V2.Models.CustomAttributes.ImportModelStateFromTempData]
         [Authorize(Roles="Admin")]
         public ActionResult Create()
         {
@@ -85,37 +87,56 @@ namespace BugTracker_V2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [BugTracker_V2.Models.CustomAttributes.ExportModelStateToTempData]
         [Authorize(Roles="Admin")]
         public async Task<ActionResult> Create([Bind(Include = "Id,Title,Description,Created,Updated")] Project project, string[] PMUserIds, string [] DevUserIds, string [] SubUserIds)
         {
+
+            if (project.Description == null)
+            {
+                ModelState.AddModelError("Description", "You must first add a description");
+                return RedirectToAction("Create");
+            }
+
+
             if (ModelState.IsValid)
             {
                 project.Created = DateTimeOffset.Now;
 
-                foreach (var userId in PMUserIds)
+
+                if (PMUserIds != null)
                 {
-                    var fakeUser = new ApplicationUser() { Id = userId };
-                    db.Users.Attach(fakeUser);
-                    project.Users.Add(fakeUser);
-                    
+                    foreach (var userId in PMUserIds)
+                    {
+                        var fakeUser = new ApplicationUser() { Id = userId };
+                        db.Users.Attach(fakeUser);
+                        project.Users.Add(fakeUser);
+
+                    }
                 }
 
-                foreach (var userId in DevUserIds)
+                if (DevUserIds != null)
                 {
-                    var fakeUser = new ApplicationUser() { Id = userId };
-                    db.Users.Attach(fakeUser);
-                    project.Users.Add(fakeUser);
+                    foreach (var userId in DevUserIds)
+                    {
+                        var fakeUser = new ApplicationUser() { Id = userId };
+                        db.Users.Attach(fakeUser);
+                        project.Users.Add(fakeUser);
 
+                    }
                 }
 
-                foreach (var userId in SubUserIds)
+                if (SubUserIds != null)
                 {
-                    var fakeUser = new ApplicationUser() { Id = userId };
-                    db.Users.Attach(fakeUser);
-                    project.Users.Add(fakeUser);
+                    foreach (var userId in SubUserIds)
+                    {
+                        var fakeUser = new ApplicationUser() { Id = userId };
+                        db.Users.Attach(fakeUser);
+                        project.Users.Add(fakeUser);
 
+                    }
                 }
-
+                
                 db.Projects.Add(project);
                 await db.SaveChangesAsync();
 
@@ -143,14 +164,22 @@ namespace BugTracker_V2.Controllers
 
             if ( User.IsInRole("Admin") || (User.IsInRole("ProjectManager")  && project.Users.Any(u => u.Id == User.Identity.GetUserId()) ) )
             {
+
                 var pmIds = db.Roles.First(r => r.Name == "ProjectManager").Id;
+                var PMOnProjectIds = project.Users.Where(u => u.Roles.Any(r => r.RoleId == pmIds)).Select(s=>s.Id).ToList();
+                
+               
                 var devIds = db.Roles.First(r => r.Name == "Developer").Id;
+                var DevOnProjectIds = project.Users.Where(u => u.Roles.Any(r => r.RoleId == devIds)).Select(s => s.Id).ToList();
+
                 var subIds = db.Roles.First(r => r.Name == "Submitter").Id;
+                var SubOnProjectIds = project.Users.Where(u => u.Roles.Any(r => r.RoleId == subIds)).Select(s => s.Id).ToList();
 
 
-                ViewBag.PMUserIds = new MultiSelectList(db.Users.Where(u => u.Roles.Any(r => r.RoleId == pmIds)), "Id", "DisplayName");
-                ViewBag.DevUserIds = new MultiSelectList(db.Users.Where(u => u.Roles.Any(r => r.RoleId == devIds)), "Id", "DisplayName");
-                ViewBag.SubUserIds = new MultiSelectList(db.Users.Where(u => u.Roles.Any(r => r.RoleId == subIds)), "Id", "DisplayName");
+               // ViewBag.ProjcetUsersIds = new MultiSelectList(usersOnProjectIds, "Id", "DisplayName");
+                ViewBag.PMUserIds = new MultiSelectList(db.Users.Where(u => u.Roles.Any(r => r.RoleId == pmIds)), "Id", "DisplayName",PMOnProjectIds);
+                ViewBag.DevUserIds = new MultiSelectList(db.Users.Where(u => u.Roles.Any(r => r.RoleId == devIds)), "Id", "DisplayName", DevOnProjectIds);
+                ViewBag.SubUserIds = new MultiSelectList(db.Users.Where(u => u.Roles.Any(r => r.RoleId == subIds)), "Id", "DisplayName", SubOnProjectIds);
 
                 
                 return View(project);
@@ -168,33 +197,44 @@ namespace BugTracker_V2.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin,ProjectManager")]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Description,Created,Updated")] Project project, string[] PMUserIds, string[] DevUserIds, string[] SubUserIds)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Description,Created,Updated")] Project project,string[] PMUserIds, string[] DevUserIds, string[] SubUserIds)
         {
             if (ModelState.IsValid)
             {
                 var existing = db.Projects.Find(project.Id);
 
-                
+                existing.Users.Clear();
 
-                foreach (var userId in PMUserIds)
+                if (PMUserIds != null)
                 {
-                   existing.Users.Add(db.Users.Find(userId));
+                    
+                    foreach (var userId in PMUserIds)
+                    {
+                        existing.Users.Add(db.Users.Find(userId));
 
+                    }
                 }
 
-                foreach (var userId in DevUserIds)
+                if (DevUserIds != null)
                 {
-                    existing.Users.Add(db.Users.Find(userId));
+                    
+                    foreach (var userId in DevUserIds)
+                    {
+                        existing.Users.Add(db.Users.Find(userId));
 
+                    }
                 }
 
-                foreach (var userId in SubUserIds)
+                if (SubUserIds != null)
                 {
-                    existing.Users.Add(db.Users.Find(userId));
+                    
+                    foreach (var userId in SubUserIds)
+                    {
+                        existing.Users.Add(db.Users.Find(userId));
 
+                    }
                 }
-
-               
+                         
                 existing.Updated = DateTimeOffset.Now;
                 existing.Description = project.Description;
 

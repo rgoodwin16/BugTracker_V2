@@ -495,7 +495,7 @@
 
                         <div class="content">
 
-                            <table class="table table-striped">
+                            <table class="table table-striped" id="historyTable">
                                 <thead>
                                     <tr>
                                         <th>Edited By</th>
@@ -536,12 +536,17 @@
 
 @section scripts {
     <script>
-        $('table').DataTable({
+        $('#historyTable').DataTable({
+            responsive: {
+                details: {
+                    type: 'column'
+                }
+            },
+            "dom": '<"top"fl><"clearfix">rt<"bottom"ip>',
+            "autoWidth": false,
 
-            "iDisplayLength": 5,
-            "aLengthMenu": [
-              [5, 10, 25, 50, -1],
-              [5, 10, 25, 50, "all"]
+            "columnDefs": [
+                { "orderable": false, "targets": 1 }
             ]
 
         });
