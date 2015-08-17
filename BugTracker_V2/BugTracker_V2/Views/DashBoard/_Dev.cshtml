@@ -136,8 +136,10 @@
                                 
                                 </td><!--/ project title -->
                                 <td>
-                                    <a class="btn btn-small white grey-text text-darken-2" href="@Url.Action("Details", "Projects", new { Id = item.Id })"><i class="fa fa-eye"></i></a>
-                                    <a href="@Url.Action("Create", "Tickets", new { projectId = item.Id })" class="btn btn-small green"><i class="fa fa-ticket"></i></a>
+                                    <div class="btn-group" role="button">
+                                        <a class="btn btn-small white grey-text text-darken-2" href="@Url.Action("Details", "Projects", new { Id = item.Id })"><i class="fa fa-eye"></i></a>
+                                        <a href="@Url.Action("Create", "Tickets", new { projectId = item.Id })" class="btn btn-small green"><i class="fa fa-ticket"></i></a>
+                                    </div>
                                 </td><!-- actions -->
 
 

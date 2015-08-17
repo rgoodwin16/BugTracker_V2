@@ -144,19 +144,18 @@
                                 @Html.DisplayFor(modelItem => item.TicketStatus.Name)
                             </td>
                             <td>
-                                <a href="@Url.Action("Details", "Tickets", new { projectId = Model.Id, id = item.Id })" class="btn btn-small white grey-text text-darken-2"><i class="fa fa-eye"></i></a>
-                                <a class="btn btn-small green" href="@Url.Action("Details", "Tickets", new { projectId = Model.Id, id = item.Id })/#comment_form"><i class="fa fa-comments"></i></a>
-                                
-                                @if (User.IsInRole("Admin") ||
+                                <div class="btn-group" role="button">
+                                    <a href="@Url.Action("Details", "Tickets", new { projectId = Model.Id, id = item.Id })" class="btn btn-small white grey-text text-darken-2"><i class="fa fa-eye"></i></a>
+                                    <a class="btn btn-small green" href="@Url.Action("Details", "Tickets", new { projectId = Model.Id, id = item.Id })/#comment_form"><i class="fa fa-comments"></i></a>
+
+                                    @if (User.IsInRole("Admin") ||
                                     (User.IsInRole("ProjectManager") && Model.Users.Any(u => u.Id == User.Identity.GetUserId())) ||
                                     (User.IsInRole("Developer")) && item.AssignedToId == User.Identity.GetUserId())
-                                {
-                                    <a href="@Url.Action("Edit", "Tickets", new { projectId = Model.Id, id = item.Id })" class="btn btn-small z-depth-1"><i class="mdi mdi-editor-mode-edit"></i></a>
-                                }
-                               
+                                    {
+                                        <a href="@Url.Action("Edit", "Tickets", new { projectId = Model.Id, id = item.Id })" class="btn btn-small z-depth-1"><i class="mdi mdi-editor-mode-edit"></i></a>
+                                    }
                                     
-                                
-                                
+                                </div>
                                 
                             </td>
                         </tr>
