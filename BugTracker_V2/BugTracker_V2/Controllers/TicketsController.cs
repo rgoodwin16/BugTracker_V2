@@ -204,7 +204,7 @@ namespace BugTracker_V2.Controllers
                         {
                             Subject = "You have a new Notification",
                             Destination = newUser.Email,
-                            Body = "The priority for your assigned ticket: " + ticket.Title + " has been changed." + Environment.NewLine + 
+                            Body = "The priority for your assigned ticket: " + ticket.Title + " has been changed.\n" + Environment.NewLine + 
                                    " The new priority is: " + db.TicketPriority.FirstOrDefault(p=> p.Id == ticket.TicketPriorityId).Name
                         } : null;
 
@@ -313,7 +313,7 @@ namespace BugTracker_V2.Controllers
                     {
                         Subject = "You have a new Notification",
                         Destination = newUser.Email,
-                        Body = "The priority for your assigned ticket: " + ticket.Title + " has been changed." + Environment.NewLine +
+                        Body = "The priority for your assigned ticket: " + ticket.Title + " has been changed.\n" + Environment.NewLine +
                                " The new priority is: " + db.TicketStatus.FirstOrDefault(p => p.Id == ticket.TicketStatusId).Name
                     } : null;
 

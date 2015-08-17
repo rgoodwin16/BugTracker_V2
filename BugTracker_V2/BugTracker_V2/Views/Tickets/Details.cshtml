@@ -32,7 +32,7 @@
                         {
                             <span class="alert">@Html.DisplayFor(model => model.TicketPriority.Name)</span>
                         }
-                        Created: @Html.DisplayFor(model => model.Created.LocalDateTime) | Owned by : @Html.DisplayFor(model => model.OwnedBy.DisplayName)
+                        Created: @Html.DisplayFor(model => model.Created) | Owned by : @Html.DisplayFor(model => model.OwnedBy.DisplayName)
                     </h5>
                     <hr />
                     <p class=" table table-hover">@Html.Raw(Model.Description)</p>
@@ -513,7 +513,7 @@
                                             <td>@history.Property</td>
                                             <td>@Html.Raw(history.OldValue)</td>
                                             <td>@Html.Raw(history.NewValue)</td>
-                                            <td>@history.Changed</td>
+                                            <td>@Html.DisplayFor(historyItem => history.Changed)</td>
                                         </tr>
                                     }
                                 </tbody>

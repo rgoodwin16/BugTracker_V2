@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -13,6 +14,7 @@ namespace BugTracker_V2.Models
         public string Property { get; set; }
         public string OldValue { get; set; }
         public string NewValue { get; set; }
+        [DisplayFormat(DataFormatString = "{0:MM/d/yy}")]
         public System.DateTimeOffset Changed { get; set; }
         public string EditId { get; set; }
 

@@ -24,7 +24,9 @@ namespace BugTracker_V2.Models
         [Required]
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
+        [DisplayFormat(DataFormatString = "{0:MM/d/yy}")]
         public System.DateTimeOffset Created { get; set; }
+        [DisplayFormat(DataFormatString = "{0:MM/d/yy}")]
         public Nullable<System.DateTimeOffset> Updated { get; set; }
         public int TicketPriorityId { get; set; }
         public int TicketStatusId { get; set; }
