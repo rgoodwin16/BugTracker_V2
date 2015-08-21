@@ -314,6 +314,7 @@
     <Content Include="images\user8.jpg" />
     <Content Include="images\user9-30x30.jpg" />
     <Content Include="images\user9.jpg" />
+    <Content Include="Landing Page\css\blueberry.css" />
     <Content Include="Landing Page\css\bootstrap.css" />
     <Content Include="Landing Page\css\main.css" />
     <Content Include="Landing Page\css\slippry.css" />
@@ -339,10 +340,12 @@
     <Content Include="Landing Page\img\mobile_placeholder.png" />
     <Content Include="Landing Page\img\ray_goodwin.png" />
     <Content Include="Landing Page\img\ray_goodwin_lg.png" />
+    <Content Include="Landing Page\js\blueberry.js" />
     <Content Include="Landing Page\js\bootstrap.js" />
     <Content Include="Landing Page\js\jquery.min.js" />
     <Content Include="Landing Page\js\slippry.min.js" />
     <Content Include="Landing Page\js\smoothscroll.js" />
+    <Content Include="Landing Page\js\unslider.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Landing Page\css\.DS_Store" />

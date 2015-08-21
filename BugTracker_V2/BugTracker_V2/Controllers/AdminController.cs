@@ -66,6 +66,8 @@ namespace BugTracker_V2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditRole(UnifiedRoleView model)
         {
+            
+                       
             if (ModelState.IsValid)
             {
                 foreach (var user in db.Users.Where(u=>u.Email != "rgoodwin16@outlook.com" &&
