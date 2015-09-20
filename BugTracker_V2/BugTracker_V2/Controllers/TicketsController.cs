@@ -328,7 +328,7 @@ namespace BugTracker_V2.Controllers
 
                 db.Update(ticket, properties.ToArray());
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index", "DashBoard");
+                return RedirectToAction("Details", new { projectId = ticket.ProjectId, id = ticket.Id });
             }
 
            

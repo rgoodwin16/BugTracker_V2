@@ -239,7 +239,7 @@ namespace BugTracker_V2.Controllers
                 existing.Description = project.Description;
 
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index", "DashBoard");
+                return RedirectToAction("Details", new { id = project.Id });
             }
             return View(project);
         }
