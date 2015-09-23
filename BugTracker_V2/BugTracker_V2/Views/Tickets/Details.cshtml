@@ -35,7 +35,10 @@
                         Created: @Html.DisplayFor(model => model.Created) | Owned by : @Html.DisplayFor(model => model.OwnedBy.DisplayName)
                     </h5>
                     <hr />
-                    <p class=" table table-hover">@Html.Raw(Model.Description)</p>
+                    
+                    <div>
+                        @Html.Raw(Model.Description)
+                    </div>
 
                     <hr />
 
@@ -133,404 +136,392 @@
         <br />
         <br />
 
-        <div class="card">
-        
-            <div class="title">
-                <h5><i class="fa fa-comments"></i> Comments</h5>
-                <a class="minimize" href="#">
-                    <i class="mdi-navigation-expand-less"></i>
-                </a>
-            </div><!-- /title -->
+    <div class="card" id="comments">
 
-            <div class="content">
+        <div class="title">
+            <h5><i class="fa fa-comments"></i> Comments</h5>
+            <a class="minimize" href="#">
+                <i class="mdi-navigation-expand-less"></i>
+            </a>
+        </div><!-- /title -->
 
-                @if (Model.Comments.Count == 0)
-                {
-                    <div class="col-lg-12" id="comment_list" style="height:25px; overflow:auto;">
+        <div class="content">
 
-                        @foreach (var item in Model.Comments.OrderByDescending(c => c.Created))
-                        {
+            @if (Model.Comments.Count == 0)
+            {
+                <div class="col-lg-12" id="comment_list" style="height:25px; overflow:auto;">
 
-                            <div class="card-panel z-depth-2">
+                    @foreach (var item in Model.Comments.OrderByDescending(c => c.Created))
+                    {
 
-                                <div class="mail-subject">
-                                    <h4><img src="~/images/user10-30x30.jpg" class="pull-left" style="padding-right:3px;" /> @Html.DisplayFor(modelItem => item.Author.DisplayName) <small class="mail-date">@Html.DisplayFor(modelItem => item.Created.LocalDateTime)</small></h4>
+                        <div class="card-panel z-depth-2">
 
-                                </div> <!-- /user name|created -->
+                            <div class="mail-subject">
+                                <h4><img src="~/images/user10-30x30.jpg" class="pull-left" style="padding-right:3px;" /> @Html.DisplayFor(modelItem => item.Author.DisplayName) <small class="mail-date">@Html.DisplayFor(modelItem => item.Created.LocalDateTime)</small></h4>
 
-                                <hr />
+                            </div> <!-- /user name|created -->
 
-                                <div class="mail-text">
-                                    <p>@Html.Raw(item.Body)</p>
-                                </div>
+                            <hr />
 
-                            </div><!-- /card-panel -->
+                            <div class="mail-text">
+                                <p>@Html.Raw(item.Body)</p>
+                            </div>
 
-                        }
+                        </div><!-- /card-panel -->
 
-                        <br />
+                    }
 
-                    </div><!-- /comment list column -->
-                }
-                else if (Model.Comments.Count == 1)
-                {
-                    <div class="col-lg-12" id="comment_list" style="height:165px; overflow:auto;">
+                    <br />
 
-                        @foreach (var item in Model.Comments.OrderByDescending(c => c.Created))
-                        {
+                </div><!-- /comment list column -->
+            }
+            else if (Model.Comments.Count == 1)
+            {
+                <div class="col-lg-12" style="height:165px; overflow:auto;">
 
-                            <div class="card-panel z-depth-2">
+                    @foreach (var item in Model.Comments.OrderByDescending(c => c.Created))
+                    {
 
-                                <div class="mail-subject">
-                                    <h4><img src="~/images/user10-30x30.jpg" class="pull-left" style="padding-right:3px;" /> @Html.DisplayFor(modelItem => item.Author.DisplayName) <small class="mail-date">@Html.DisplayFor(modelItem => item.Created.LocalDateTime)</small></h4>
+                        <div class="card-panel z-depth-2">
 
-                                </div> <!-- /user name|created -->
+                            <div class="mail-subject">
+                                <h4> @Html.DisplayFor(modelItem => item.Author.DisplayName) <small class="mail-date">@Html.DisplayFor(modelItem => item.Created.LocalDateTime)</small></h4>
 
-                                <hr />
+                            </div> <!-- /user name|created -->
 
-                                <div class="mail-text">
-                                    <p>@Html.Raw(item.Body)</p>
-                                </div>
+                            <hr />
 
-                            </div><!-- /card-panel -->
+                            <div class="mail-text">
+                                <p>@Html.Raw(item.Body)</p>
+                            </div>
 
-                        }
+                        </div><!-- /card-panel -->
 
-                        <br />
+                    }
 
-                    </div><!-- /comment list column -->
-                }
-                else
-                {
-                    <div class="col-lg-12" id="comment_list" style="height:400px; overflow:auto;">
+                    <br />
 
-                        @foreach (var item in Model.Comments.OrderByDescending(c => c.Created))
-                        {
+                </div><!-- /comment list column -->
+            }
+            else
+            {
+                <div class="col-lg-12" id="comment_list" style="height:400px; overflow:auto;">
 
-                            <div class="card-panel z-depth-2">
+                    @foreach (var item in Model.Comments.OrderByDescending(c => c.Created))
+                    {
 
-                                <div class="mail-subject">
-                                    <h4><img src="~/images/user10-30x30.jpg" class="pull-left" style="padding-right:3px;" /> @Html.DisplayFor(modelItem => item.Author.DisplayName) <small class="mail-date">@Html.DisplayFor(modelItem => item.Created.LocalDateTime)</small></h4>
+                        <div class="card-panel z-depth-2">
 
-                                </div> <!-- /user name|created -->
+                            <div class="mail-subject">
+                                <h4><img src="~/images/user10-30x30.jpg" class="pull-left" style="padding-right:3px;" /> @Html.DisplayFor(modelItem => item.Author.DisplayName) <small class="mail-date">@Html.DisplayFor(modelItem => item.Created.LocalDateTime)</small></h4>
 
-                                <hr />
+                            </div> <!-- /user name|created -->
 
-                                <div class="mail-text">
-                                    <p>@Html.Raw(item.Body)</p>
-                                </div>
+                            <hr />
 
-                            </div><!-- /card-panel -->
+                            <div class="mail-text">
+                                <p>@Html.Raw(item.Body)</p>
+                            </div>
 
-                        }
+                        </div><!-- /card-panel -->
 
-                        <br />
+                    }
 
-                    </div><!-- /comment list column -->
-                }
+                    <br />
 
-
-                
-
-                <hr />
-                <br />
-
-                @if (Model.TicketStatus.Name == "Resolved")
-                {
-                    <div class="col-lg-12">
-                        <p>This ticket has been Resolved, comments are closed.</p>
-                    </div>
-                }
-                else if (User.IsInRole("Admin") || User.IsInRole("ProjectManager") || User.IsInRole("Developer") || User.Identity.GetUserId() == Model.OwnedById)
-                {
-                    <div class="col-lg-12" id="comment_form">
-
-                        <form method="post" action="@Url.Action("CreateComment", "Tickets",new { projectId = Model.ProjectId, ticketId = Model.Id })">
-                            @Html.AntiForgeryToken()
-                            <h3>Leave A Comment</h3>
-
-                            <div class="form-group">
-                                <div>
-                                    <textarea name="Body" class="materialize-textarea" rows="6"></textarea>
-                                </div>
-                            </div><!-- End Comment Box -->
-
-                            <input type="submit" value="Submit" class="btn btn-default" /><br />
-
-                        </form><!--/comment form -->
+                </div><!-- /comment list column -->
+            }
 
 
 
 
-                        <br />
+            <hr />
+            <br />
 
-                    </div><!-- /comment form column -->
-                }
+            @if (Model.TicketStatus.Name == "Resolved")
+            {
+                <div class="col-lg-12">
+                    <p>This ticket has been Resolved, comments are closed.</p>
+                </div>
+            }
+            else if (User.IsInRole("Admin") || User.IsInRole("ProjectManager") || User.IsInRole("Developer") || User.Identity.GetUserId() == Model.OwnedById)
+            {
+                <div class="col-lg-12" id="comment_form">
 
-                else
-                {
-                    <div class="col-lg-12">
-                        <p>Only Admins, Project Managers, Developers, or the original creator of the ticket may make a comment.</p>
-                    </div>
-                }
+                    <form method="post" action="@Url.Action("CreateComment", "Tickets",new { projectId = Model.ProjectId, ticketId = Model.Id })">
+                        @Html.AntiForgeryToken()
+                        <h4>Leave A Comment</h4>
 
-                
+                        <div class="form-group">
+                            <div>
+                                <textarea name="Body" class="materialize-textarea" rows="6"></textarea>
+                            </div>
+                        </div><!-- End Comment Box -->
 
-                
+                        <input type="submit" value="Submit" class="btn btn-default" /><br />
 
-            </div><!-- /content (Comments)-->
+                    </form><!--/comment form -->
 
-        </div><!-- /card (Comments)-->
 
-        
-        <div class="card">
 
-            <ul class="collapsible" data-collapsible="accordian">
 
-                <li><!-- begin attachments -->
-                    
-                    <div class="collapsible-header">
-                        <i class="fa fa-paperclip"></i> Attachments<span class="yay-collapse-icon mdi-navigation-expand-more right"></span>
-                    </div>
+                    <br />
 
-                    <div class="collapsible-body">
+                </div><!-- /comment form column -->
+            }
 
+            else
+            {
+                <div class="col-lg-12">
+                    <p>Only Admins, Project Managers, Developers, or the original creator of the ticket may make a comment.</p>
+                </div>
+            }
+
+        </div><!-- /content (Comments)-->
+
+    </div><!-- /card (Comments)-->
+
+    <br />    
+
+    <div class="card" id="attachments">
+        <div class="title">
+            <h5><i class="fa fa-paperclip"></i> Attachments</h5>
+            <a class="minimize" href="#">
+                <i class="mdi-navigation-expand-less"></i>
+            </a>
+        </div>
+        <div class="content">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="title">
+                            <h5>Add Attachment</h5>
+                        </div>
                         <div class="content">
 
-                            <div class="row">
+                            @if (Model.TicketStatus.Name == "Resolved")
+                            {
+                                <div class="col-lg-12">
+                                    <p>This ticket has been Resolved, attachments are closed.</p>
+                                </div>
+                            }
+                            else if (User.IsInRole("Admin") || User.IsInRole("ProjectManager") || User.IsInRole("Developer") || User.Identity.GetUserId() == Model.OwnedById)
+                            {
+                                <div class="form-group">
+                                    <!-- Begin File Attachment -->
 
-                                <div class="col-lg-4">
+                                    <form method="post" action="@Url.Action("AddAttachment", "Tickets", new { projectId = Model.ProjectId, ticketId = Model.Id})" enctype="multipart/form-data">
+                                        @Html.AntiForgeryToken()
 
-                                        <div class="card">
-
-                                            <div class="title">
-                                                <h5>Add Attachment</h5>
-                                            </div>
-
-                                            <div class="content">
-
-                                                @if (Model.TicketStatus.Name == "Resolved")
-                                                {
-                                                    <div class="col-lg-12">
-                                                        <p>This ticket has been Resolved, attachments are closed.</p>
-                                                    </div>
-                                                }
-                                                else if (User.IsInRole("Admin") || User.IsInRole("ProjectManager") || User.IsInRole("Developer") || User.Identity.GetUserId() == Model.OwnedById)
-                                                {
-                                                    <div class="form-group">
-                                                        <!-- Begin File Attachment -->
-
-                                                        <form method="post" action="@Url.Action("AddAttachment", "Tickets", new { projectId = Model.ProjectId, ticketId = Model.Id})" enctype="multipart/form-data">
-                                                            @Html.AntiForgeryToken()
-
-                                                            <div class="input-field">
-                                                                <input name="title" class="validate" type="text">
-                                                                <label for="title">Title<small> Required</small></label>
-                                                            </div>
-
-                                                            <div class="input-field">
-                                                                <input name="description" class="validate" type="text">
-                                                                <label for="description">Description <small> Required</small></label>
-                                                            </div>
-
-                                                            <br />
-
-                                                            <div class="file-field input-field">
-                                                                <input class="file-path validate" type="text" />
-                                                                <div class="btn">
-                                                                    <span>File</span>
-                                                                    <input name="file" type="file" id="fileUpload" />
-                                                                </div>
-                                                                <p>@Html.ValidationMessage("file", new { @class = "text-danger" })</p>
-
-                                                            </div>
-
-                                                            <br />
-
-                                                            <input type="submit" value="Submit" class="btn btn-default" />
-
-                                                        </form>
-
-                                                        <br />
-
-                                                    </div><!-- /attachment file -->
-                                                }
-                                                else
-                                                {
-                                                    <div class="col-lg-12">
-                                                        <p>Only Admins, Project Managers, Developers, or the original creator of the ticket may add an attachment.</p>
-                                                    </div>
-                                                }
-
-
-
-
-                                            </div><!-- /content -->
-
-                                        </div><!-- /card -->
-                                
-                                </div><!-- /attachment form  column -->
-
-                                <br />
-
-                                <div class="col-lg-8">
-
-                                    <div class="card">
-
-                                        <div class="title">
-                                            <h5>Attachment List</h5>
+                                        <div class="input-field">
+                                            <input name="title" class="validate" type="text">
+                                            <label for="title">Title<small> Required</small></label>
                                         </div>
 
-                                        <div class="content">
+                                        <div class="input-field">
+                                            <input name="description" class="validate" type="text">
+                                            <label for="description">Description <small> Required</small></label>
+                                        </div>
 
-                                            <table class="display table table-hover">
+                                        <br />
 
-                                                <thead>
-                                                    <tr>
-                                                        <th>Posted By</th>
-                                                        <th>Title</th>
-                                                        <th>Type</th>
-                                                        <th>Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach (var item in Model.Attachments.OrderByDescending(a => a.Created))
-                                                    {
-                                                        <tr>
-                                                            <td>@Html.DisplayFor(modelItem => item.Author.DisplayName)</td>
-                                                            <td>
-                                                                @if (Model.Title == null)
-                                                                {
-                                                                    <strong class="grey-text text-darken-2">(No Title)</strong>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <strong class="grey-text text-darken-2">@Html.DisplayFor(modelItem => item.Title)</strong>
-                                                                }
+                                        <div class="file-field input-field">
+                                            <input class="file-path validate" type="text" />
+                                            <div class="btn">
+                                                <span>File</span>
+                                                <input name="file" type="file" id="fileUpload" />
+                                            </div>
+                                            <p>@Html.ValidationMessage("file", new { @class = "text-danger" })</p>
 
-                                                                <br />
-                                                                @if (Model.Description == null)
-                                                                {
-                                                                    <span class="grey-text">(No Description)</span>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <span class="grey-text">@Html.DisplayFor(modelItem => item.Description)</span>
-                                                                }
+                                        </div>
 
-                                                            </td>
+                                        <br />
 
-                                                            <td>
-                                                                @if (item.Type == ".png" || item.Type == ".jpg" || item.Type == ".jpeg" || item.Type == ".gif")
-                                                                {
-                                                                    <i class="fa fa-file-image-o"></i>
-                                                                }
-                                                                else if (item.Type == ".pdf") 
-                                                                {
-                                                                    <i class="fa fa-file-pdf-o"></i>
-                                                                }
-                                                                else if (item.Type == ".doc" || item.Type == ".docx")
-                                                                {
-                                                                    <i class="fa fa-file-word-o"></i>
-                                                                }
-                                                                else if (item.Type == ".ppt")
-                                                                {
-                                                                    <i class="fa fa-file-powerpoint-o"></i>
-                                                                }
-                                                                else if (item.Type == ".xls" || item.Type == ".xlsx")
-                                                                {
-                                                                    <i class="fa fa-file-excel-o"></i>
-                                                                }
-                                                                else if (item.Type == ".zip")
-                                                                {
-                                                                    <i class="fa fa-file-archive-o"></i>
-                                                                }
-                                                                else if (item.Type == ".txt")
-                                                                {
-                                                                    <i class="fa fa-file-text"></i>
-                                                                }
+                                        <input type="submit" value="Submit" class="btn btn-default" />
 
-                                                                <strong class="text-uppercase">@Html.DisplayFor(modelItem => item.Type)</strong>
-                                                            </td>
-                                                            <td>
-                                                                <a href="@item.MediaURL" class="btn btn-small"><i class="fa fa-download"></i></a>
-                                                            </td>
-                                                        </tr>
-                                                    }
-                                                </tbody>
+                                    </form>
 
-                                            </table><!-- /table -->
+                                    <br />
 
-                                        </div><!-- /content -->
+                                </div><!-- /attachment file -->
+                            }
+                            else
+                            {
+                                <div class="col-lg-12">
+                                    <p>Only Admins, Project Managers, Developers, or the original creator of the ticket may add an attachment.</p>
+                                </div>
+                            }
 
-                                    </div><!-- /card -->
-
-                                    
-
-                                </div><!-- /attachment list column -->
-
-                            </div><!-- /row -->
-
-
-
-                            
-
-                        </div><!-- /content (attachment form)-->
-
-                        <br />
-
-                        
-
+                        </div><!-- /content -->
                     </div>
+                </div><!-- /attachment form column -->
 
-                </li><!-- /attachments -->
+                <br />
 
-                <li><!-- begin history-->
+                <div class="col-lg-8">
 
-                    <div class="collapsible-header">
-                        <i class="fa fa-history"></i>Ticket History<span class="yay-collapse-icon mdi-navigation-expand-more right"></span>
-                    </div>
+                    <div class="card">
 
-                    <div class="collapsible-body">
+                        <div class="title">
+                            <h5>Attachment List</h5>
+                        </div>
 
                         <div class="content">
 
-                            <table class="table table-striped" id="historyTable">
+                            <table class="display table table-hover">
+
                                 <thead>
                                     <tr>
-                                        <th>Edited By</th>
-                                        <th>Changed</th>
-                                        <th>From</th>
-                                        <th>To</th>
-                                        <th>Changed On</th>
+                                        <th>Posted By</th>
+                                        <th>Title</th>
+                                        <th>Type</th>
+                                        <th>Download</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var history in Model.History.OrderByDescending(c => c.Changed))
+                                    @foreach (var item in Model.Attachments.OrderByDescending(a => a.Created))
                                     {
                                         <tr>
-                                            <td>@history.User.DisplayName</td>
-                                            <td>@history.Property</td>
-                                            <td>@Html.Raw(history.OldValue)</td>
-                                            <td>@Html.Raw(history.NewValue)</td>
-                                            <td>@Html.DisplayFor(historyItem => history.Changed)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Author.DisplayName)</td>
+                                            <td>
+                                                @if (Model.Title == null)
+                                                {
+                                                    <strong class="grey-text text-darken-2">(No Title)</strong>
+                                                }
+                                                else
+                                                {
+                                                    <strong class="grey-text text-darken-2">@Html.DisplayFor(modelItem => item.Title)</strong>
+                                                }
+
+                                                <br />
+                                                @if (Model.Description == null)
+                                                {
+                                                    <span class="grey-text">(No Description)</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="grey-text">@Html.DisplayFor(modelItem => item.Description)</span>
+                                                }
+
+                                            </td>
+
+                                            <td>
+                                                @if (item.Type == ".png" || item.Type == ".jpg" || item.Type == ".jpeg" || item.Type == ".gif")
+                                                {
+                                                    <i class="fa fa-file-image-o"></i>
+                                                }
+                                                else if (item.Type == ".pdf")
+                                                {
+                                                    <i class="fa fa-file-pdf-o"></i>
+                                                }
+                                                else if (item.Type == ".doc" || item.Type == ".docx")
+                                                {
+                                                    <i class="fa fa-file-word-o"></i>
+                                                }
+                                                else if (item.Type == ".ppt")
+                                                {
+                                                    <i class="fa fa-file-powerpoint-o"></i>
+                                                }
+                                                else if (item.Type == ".xls" || item.Type == ".xlsx")
+                                                {
+                                                    <i class="fa fa-file-excel-o"></i>
+                                                }
+                                                else if (item.Type == ".zip")
+                                                {
+                                                    <i class="fa fa-file-archive-o"></i>
+                                                }
+                                                else if (item.Type == ".txt")
+                                                {
+                                                    <i class="fa fa-file-text"></i>
+                                                }
+
+                                                <strong class="text-uppercase">@Html.DisplayFor(modelItem => item.Type)</strong>
+                                            </td>
+                                            <td>
+                                                <a href="@item.MediaURL" class="btn btn-small"><i class="fa fa-download"></i></a>
+                                            </td>
                                         </tr>
                                     }
                                 </tbody>
+
                             </table><!-- /table -->
 
                         </div><!-- /content -->
 
-                    </div><!-- /collapsible body -->
+                    </div><!-- /card -->
 
+                </div><!-- /attachment list column -->
 
-                </li><!-- / history -->
+            </div><!-- /row -->
+        </div>
 
-            </ul><!-- /attachments | history -->
+        <br />
 
-        </div><!-- /card (Attachments | History)-->
+    </div><!-- /card (Attachments) -->
 
-        
+    <br />
+
+    <ul class="collapsible" data-collapsible="accordian">
+        <li>
+            <div class="collapsible-header">
+                <i class="fa fa-clock-o"></i> History<span class="yay-collapse-icon mdi-navigation-expand-more right"></span>
+            </div>
+            <div class="collapsible-body">
+                <div class="card">
+                    <div class="content">
+
+                        <table class="table table-striped" id="historyTable">
+                            <thead>
+                                <tr>
+                                    <th>Edited By</th>
+                                    <th>Changed</th>
+                                    <th>From</th>
+                                    <th>To</th>
+                                    <th>Changed On</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var history in Model.History.OrderByDescending(c => c.Changed))
+                                {
+                                    <tr>
+                                        <td>@history.User.DisplayName</td>
+                                        <td>@history.Property</td>
+                                        <td>
+                                            @if (history.Property == "Description")
+                                            {
+                                                <div class="shorter">
+                                                    @Html.Raw(history.OldValue)
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                @Html.Raw(history.OldValue)
+                                            }
+                                           
+                                        </td>
+                                        <td>
+                                            @if (history.Property == "Description")
+                                            {
+                                                <div class="shorter">
+                                                    @Html.Raw(history.NewValue)
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                @Html.Raw(history.NewValue)
+                                            }
+                                        </td>
+                                        <td>@Html.DisplayFor(historyItem => history.Changed)</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table><!-- /table -->
+
+                    </div><!-- /content -->
+                </div>
+            </div>
+        </li>
+    </ul><!-- /card (Histories) -->
 
 </section>
 

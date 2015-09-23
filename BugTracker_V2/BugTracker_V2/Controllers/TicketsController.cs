@@ -58,7 +58,8 @@ namespace BugTracker_V2.Controllers
             ViewBag.ProjectId = projectId;
             
             var devId = db.Roles.First(r => r.Name == "Developer").Id;
-            ViewBag.AssignedToId = new SelectList(db.Users.Where(u => u.Roles.Any(r => r.RoleId == devId)), "Id", "UserName");
+            
+            ViewBag.AssignedToId = new SelectList(db.Users.Where(u => u.Roles.Any(r => r.RoleId == devId)), "Id", "DisplayName");
                        
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Title");
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriority, "Id", "Name");
@@ -80,23 +81,16 @@ namespace BugTracker_V2.Controllers
             {
                 if (ticket.TicketPriorityId == 0)
                 {
-                    ticket.TicketPriorityId = 1;
+                    ticket.TicketPriorityId = db.TicketPriority.First(tp => tp.Name == "Essential").Id;
                 }
 
                 if (ticket.TicketStatusId == 0)
                 {
-                    ticket.TicketStatusId = 1;
+                    ticket.TicketStatusId = db.TicketStatus.First(ts => ts.Name == "New").Id;
                 }
 
 
                 var newUser = db.Users.Find(ticket.AssignedToId);
-                var mailer = new EmailService();
-                var Notification = newUser != null ? new IdentityMessage()
-                {
-                    Subject = "You have a new Notification",
-                    Destination = newUser.Email,
-                    Body = "You have been assigned the ticket:  " + ticket.Title + "!" 
-                } : null;
 
                 ticket.OwnedById = User.Identity.GetUserId();
                 ticket.Created = DateTimeOffset.Now;
@@ -104,9 +98,20 @@ namespace BugTracker_V2.Controllers
                 db.Tickets.Add(ticket);
                 await db.SaveChangesAsync();
 
-                if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                if (newUser != null)
                 {
-                    await mailer.SendAsync(Notification);
+                    var mailer = new EmailService();
+                    var Notification = newUser != null ? new IdentityMessage()
+                    {
+                        Subject = "You have a new Notification",
+                        Destination = newUser.Email,
+                        Body = "You have been assigned the ticket:  " + ticket.Title + "!"
+                    } : null;
+
+                    if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                    {
+                        await mailer.SendAsync(Notification);
+                    }
                 }
 
                 
@@ -175,16 +180,16 @@ namespace BugTracker_V2.Controllers
                 {
                  
                     //Change TicketStatus from New to Assigned Automagically
-                    if (ticket.TicketStatusId == 1 && ticket.AssignedToId != null)
+                    if (ticket.TicketStatusId == (db.TicketStatus.First(ts=> ts.Name == "New").Id) && ticket.AssignedToId == null)
                     {
-                        ticket.TicketStatusId = 2;
+                        ticket.TicketStatusId = db.TicketStatus.First(ts=> ts.Name == "Open").Id;
                     }
 
                     //Check TicketPriority
                     if (oldTicket.TicketPriorityId != ticket.TicketPriorityId)
                     {
                         var newUser = db.Users.Find(ticket.AssignedToId);
-                        
+
                         properties.Add("TicketPriorityId");
 
                         var ChangedPriority = new TicketHistory
@@ -199,25 +204,27 @@ namespace BugTracker_V2.Controllers
 
                         db.TicketHistories.Add(ChangedPriority);
 
-                        var mailer = new EmailService();
-                        var Notification = newUser != null ? new IdentityMessage()
+                        if (newUser != null)
                         {
-                            Subject = "You have a new Notification",
-                            Destination = newUser.Email,
-                            Body = "The priority for your assigned ticket: " + ticket.Title + " has been changed.\n" + Environment.NewLine + 
-                                   " The new priority is: " + db.TicketPriority.FirstOrDefault(p=> p.Id == ticket.TicketPriorityId).Name
-                        } : null;
+                            var mailer = new EmailService();
+                            var Notification = newUser != null ? new IdentityMessage()
+                            {
+                                Subject = "You have a new Notification",
+                                Destination = newUser.Email,
+                                Body = "The priority for your assigned ticket: " + ticket.Title + " has been changed.\n" + Environment.NewLine +
+                                       " The new priority is: " + db.TicketPriority.FirstOrDefault(p => p.Id == ticket.TicketPriorityId).Name
+                            } : null;
 
-                        await mailer.SendAsync(Notification);
+                            await mailer.SendAsync(Notification);
+                        }
                     }
 
                     //Check if AssignedToId has changed
                     if (oldTicket.AssignedToId != ticket.AssignedToId)
                     {
-                        var newUser = db.Users.Find(ticket.AssignedToId);
                         
                         properties.Add("AssignedToId");
-                        
+                        var newUser = db.Users.FirstOrDefault(u => u.Id == ticket.AssignedToId) ?? null;
                         var AssignedHistory = new TicketHistory
                         
                         {
@@ -225,21 +232,26 @@ namespace BugTracker_V2.Controllers
                             UserId = UserId,
                             Property = "Assigned To",
                             OldValue = (oldTicket.AssignedToId == null ? "Not Yet Assigned" : db.Users.FirstOrDefault(u => u.Id == oldTicket.AssignedToId).DisplayName),
-                            NewValue = (db.Users.FirstOrDefault(u => u.Id == ticket.AssignedToId).DisplayName),
+                            NewValue = newUser != null ? newUser.DisplayName : "Unassigned",
                             Changed = System.DateTimeOffset.Now,
                         };
 
-                       
-                        var mailer = new EmailService();
-                        var Notification = newUser != null ? new IdentityMessage()
-                        {
-                            Subject = "You have a new Notification",
-                            Destination = newUser.Email,
-                            Body = "You have been assigned the ticket:  " +  ticket.Title + "!" 
-                        } : null;
-
                         db.TicketHistories.Add(AssignedHistory);
-                        await mailer.SendAsync(Notification);
+                        
+                        if (newUser != null)
+                        {
+                            var mailer = new EmailService();
+                            var Notification = newUser != null ? new IdentityMessage()
+                            {
+                                Subject = "You have a new Notification",
+                                Destination = newUser.Email,
+                                Body = "You have been assigned the ticket:  " + ticket.Title + "!"
+                            } : null;
+
+                            
+                            await mailer.SendAsync(Notification);
+                        }
+
                     }
 
                     properties.AddRange(new string[] { "TicketPriorityId", "AssignedToId" });
@@ -262,16 +274,22 @@ namespace BugTracker_V2.Controllers
                         Changed = System.DateTimeOffset.Now,
                     };
 
-                    var mailer = new EmailService();
-                    var Notification = newUser != null ? new IdentityMessage()
-                    {
-                        Subject = "You have a new Notification",
-                        Destination = newUser.Email,
-                        Body = "The description for your assigned ticket: " + ticket.Title + " has been changed.  The new description is: " + ticket.Description
-                    } : null;
-
                     db.TicketHistories.Add(ChangedDescription);
-                    await mailer.SendAsync(Notification);
+
+                    if (newUser != null)
+                    {
+                        var mailer = new EmailService();
+                        var Notification = newUser != null ? new IdentityMessage()
+                        {
+                            Subject = "You have a new Notification",
+                            Destination = newUser.Email,
+                            Body = "The description for your assigned ticket: " + ticket.Title + " has been changed.  The new description is: " + ticket.Description
+                        } : null;
+
+                        
+                        await mailer.SendAsync(Notification);
+                    }
+
                 }
 
                 //Check TicketType
@@ -308,30 +326,32 @@ namespace BugTracker_V2.Controllers
                         Changed = System.DateTimeOffset.Now,
                     };
 
-                    var mailer = new EmailService();
-                    var Notification = newUser != null ? new IdentityMessage()
-                    {
-                        Subject = "You have a new Notification",
-                        Destination = newUser.Email,
-                        Body = "The priority for your assigned ticket: " + ticket.Title + " has been changed.\n" + Environment.NewLine +
-                               " The new priority is: " + db.TicketStatus.FirstOrDefault(p => p.Id == ticket.TicketStatusId).Name
-                    } : null;
-
                     db.TicketHistories.Add(ChangedStatus);
-                    await mailer.SendAsync(Notification);
+
+                    if (newUser != null)
+                    {
+                        var mailer = new EmailService();
+                        var Notification = newUser != null ? new IdentityMessage()
+                        {
+                            Subject = "You have a new Notification",
+                            Destination = newUser.Email,
+                            Body = "The priority for your assigned ticket: " + ticket.Title + " has been changed.\n" + Environment.NewLine +
+                                   " The new priority is: " + db.TicketStatus.FirstOrDefault(p => p.Id == ticket.TicketStatusId).Name
+                        } : null;
+
+
+                        await mailer.SendAsync(Notification);
+                    }
+
                 }
 
-                                
                 ticket.Updated = DateTimeOffset.Now;
                 ticket.OwnedById = ticket.OwnedById;
-
 
                 db.Update(ticket, properties.ToArray());
                 await db.SaveChangesAsync();
                 return RedirectToAction("Details", new { projectId = ticket.ProjectId, id = ticket.Id });
             }
-
-           
 
             var devId = db.Roles.First(r => r.Name == "Developer").Id;
 
@@ -393,7 +413,9 @@ namespace BugTracker_V2.Controllers
 
             ViewBag.AuthorId = new SelectList(db.Users, "Id", "FirstName", ticketComment.AuthorId);
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", ticketComment.TicketId);
-            return RedirectToAction("Details", new { projectId, id = ticketId });
+            
+            //return RedirectToAction("Details", new { projectId, id = ticketId });
+            return Redirect(Url.Action("Details", new { projectId, id = ticketId }) + "#comments");
         }
 
         // ==============================================
@@ -455,11 +477,12 @@ namespace BugTracker_V2.Controllers
                 db.TicketAttchment.Add(ticketAttachment);
                 await db.SaveChangesAsync();
 
-                return RedirectToAction("Details", new { projectId, id = ticketId });
-
+                //return RedirectToAction("Details", new { projectId, id = ticketId });
+                return Redirect(Url.Action("Details", new { projectId, id = ticketId }) + "#attachments");
             }
 
-            return RedirectToAction("Details", new {projectId, id = ticketId});
+            //return RedirectToAction("Details", new {projectId, id = ticketId});
+            return Redirect(Url.Action("Details", new { projectId, id = ticketId }) + "#attachments");
         }
 
 

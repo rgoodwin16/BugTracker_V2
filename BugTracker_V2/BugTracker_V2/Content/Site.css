@@ -18,3 +18,10 @@
     cursor: pointer;
     text-decoration: none;
 }
+
+.shorter {
+    height: 80px;
+    overflow: auto;
+
+}
+

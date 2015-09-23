@@ -77,6 +77,9 @@ namespace BugTracker_V2.Controllers
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
             };
+
+            ViewBag.ErrorMessage = TempData["GuestError"];
+
             return View(model);
         }
 
@@ -238,11 +241,18 @@ namespace BugTracker_V2.Controllers
             }
 
             var user = db.Users.Find(User.Identity.GetUserId());
-            
-            user.DisplayName = model.NewDisplayName;
-            
-            db.Entry(user).State = EntityState.Modified;
-            db.SaveChanges();
+
+            if (user.FirstName == "GuestAdmin" || user.FirstName == "GuestPM" || user.FirstName == "GuestDev" || user.FirstName == "GuestSub")
+            {
+                TempData["GuestError"] = "Guest Account Display Names can not be edited.";
+            }
+
+            else
+            {
+                user.DisplayName = model.NewDisplayName;
+                db.Entry(user).State = EntityState.Modified;
+                db.SaveChanges();
+            }
 
             return RedirectToAction("Index", "Manage");
 

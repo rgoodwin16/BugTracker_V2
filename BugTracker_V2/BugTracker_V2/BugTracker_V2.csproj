@@ -290,6 +290,7 @@
     <Content Include="images\paypal.png" />
     <Content Include="images\timeline-img-1.jpg" />
     <Content Include="images\timeline-img-2.jpg" />
+    <Content Include="images\user-30.jpg" />
     <Content Include="images\user-30x30.jpg" />
     <Content Include="images\user.jpg" />
     <Content Include="images\user10-30x30.jpg" />
@@ -495,6 +496,7 @@
     <Content Include="Scripts\jquery-jvectormap\gdp-data.js" />
     <Content Include="Scripts\jquery-jvectormap\jquery-jvectormap-world-mill-en.js" />
     <Content Include="Scripts\jquery-jvectormap\jquery-jvectormap.min.js" />
+    <Content Include="Scripts\jquery.dotdotdot.js" />
     <Content Include="Scripts\jquery.multi-select.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />

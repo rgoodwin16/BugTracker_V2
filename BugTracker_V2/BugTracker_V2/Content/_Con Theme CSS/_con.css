@@ -7980,7 +7980,9 @@ table.dataTable.no-footer {
   #sign-in .logo, #sign-up .logo, #forgot-password .logo, #lock .logo {
     margin-top: -10px; }
   #sign-in .logo img, #sign-up .logo img, #forgot-password .logo img, #lock .logo img {
-    max-width: 150px; }
+    max-width: 150px;
+    margin-top:25px;
+  }
   #sign-in .links, #sign-up .links, #forgot-password .links, #lock .links {
     padding-bottom: 0.5rem;
     margin-bottom: 0;
