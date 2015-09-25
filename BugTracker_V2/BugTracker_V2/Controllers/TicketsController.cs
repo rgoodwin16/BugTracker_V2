@@ -180,10 +180,10 @@ namespace BugTracker_V2.Controllers
                 {
                  
                     //Change TicketStatus from New to Assigned Automagically
-                    if (ticket.TicketStatusId == (db.TicketStatus.First(ts=> ts.Name == "New").Id) && ticket.AssignedToId == null)
-                    {
-                        ticket.TicketStatusId = db.TicketStatus.First(ts=> ts.Name == "Open").Id;
-                    }
+                    //if (ticket.TicketStatusId == (db.TicketStatus.First(ts=> ts.Name == "New").Id) && ticket.AssignedToId == null)
+                    //{
+                    //    ticket.TicketStatusId = db.TicketStatus.FirstOrDefault(ts=> ts.Name == "Open").Id;
+                    //}
 
                     //Check TicketPriority
                     if (oldTicket.TicketPriorityId != ticket.TicketPriorityId)
